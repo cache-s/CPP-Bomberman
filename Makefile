@@ -1,43 +1,60 @@
 ##
-## Makefile for  in /home/bourma_m/Projet/C++/cpp_bomberman
+## Makefile for bomber in /home/cache-_s/rendu/cpp_bomberman
 ## 
-## Made by Mathieu Bourmaud
-## Login   <bourma_m@epitech.net>
+## Made by Sebastien Cache-Delanos
+## Login   <cache-_s@epitech.net>
 ## 
-## Started on  Wed Apr 29 10:53:42 2015 Mathieu Bourmaud
-## Last update Wed Apr 29 11:01:11 2015 Mathieu Bourmaud
+## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
+## Last update Wed May 13 11:16:53 2015 Sebastien Cache-Delanos
 ##
 
-SRC		=	./sources/Main.cpp		\
-			./sources/tools/Lexer.cpp	\
-			./sources/tools/Parser.cpp	\
-			./sources/tools/LexerExceptions.cpp \
-			./sources/tools/ParserExceptions.cpp \
+NAME	= bomberman
 
-OBJ		=	$(SRC:.cpp=.o)
+SRCS	= ./sources/main.cpp			\
 
-CC		=	g++
+OBJS	= $(SRCS:.cpp=.o)
 
-INC		=	./includes
+CXXFLAGS= -W -Wall -Wextra -Werror -O3 -I ./includes
 
-CPPFLAGS	=	-I $(INC)
-CPPFLAGS	+=	-W -Wall -Werror -Wextra
+CXX	= g++
 
-LDFLAGS		=	-lpthread
+RM	= rm -f
 
-NAME		=	bomberman
+GREEN	= "\\033[1;32m"
 
-RM		=	rm -f
+NORMAL	= "\\033[0;39m"
 
-$(NAME)		:	$(OBJ)
-			$(CC) $(OBJ) -o $(NAME) $(LDFLAGS)
+YELLOW	= "\\033[1;33m"
 
-all		:	$(NAME)
+all: $(NAME)
 
-clean		:
-			$(RM) $(OBJ)
+$(NAME): $(OBJS)
+	@echo ' '
+	@echo 'Building target: $@'
+	@echo 'Invoking: GCC C++ Linker'
+	$(CXX) -o $@ $^
+	@echo -n 'Finished building target:'
+	@echo -e $(GREEN) '$@'
+	@echo -e $(NORMAL) ' '
 
-fclean		:	clean
-			$(RM) $(NAME)
+%.o: %.cpp
+	@echo ' '
+	@echo 'Building file: $<'
+	@echo 'Invoking: GCC C++ Compiler'
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	@echo -n 'Finished building: '
+	@echo -e $(YELLOW) '$<'
+	@echo -e $(NORMAL) ' '
 
-re		:	fclean all
+clean:
+	$(RM) $(OBJS)
+	@find ./ -name '*~' -exec rm '{}' \;
+	@find ./ -name '*#' -exec rm '{}' \;
+
+fclean: clean
+	$(RM) $(NAME)
+
+dbg: CXXFLAGS += -g
+dbg: re
+
+re: fclean all

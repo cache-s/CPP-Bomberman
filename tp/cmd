@@ -1,1 +1,0 @@
-g++ *.cpp -ILibBomberman_linux_x64/includes/ -LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread
