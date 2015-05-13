@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Mon May 11 11:53:34 2015 Jordan Chazottes
+// Last update Wed May 13 11:32:02 2015 Sebastien Cache-Delanos
 //
 
 #include	"Character.hh"
@@ -31,7 +31,7 @@ bool	Character::initialize()
   if (_model.load("./LibBomberman_linux_x64/assets/marvin.fbx") == false)
     {
       std::cerr << "Cannot load the character texture" << std::endl;
-      return false;      
+      return false;
     }
   return true;
 }
@@ -48,8 +48,8 @@ void	Character::update(gdl::Clock const& clock, gdl::Input& input)
     translate(glm::vec3(1, 0, 0) * static_cast<float>(clock.getElapsed()) * (_speed*4));
   if (input.getKey(SDLK_s))
     {
-    translate(glm::vec3(0, -1, 0) * static_cast<float>(clock.getElapsed()) * (_speed*4));
-    _model.setCurrentAnim(0, false);
+      translate(glm::vec3(0, -1, 0) * static_cast<float>(clock.getElapsed()) * (_speed*4));
+      _model.setCurrentAnim(0, false);
     }
   if (input.getKey(SDLK_z))
     translate(glm::vec3(0, 1, 0) * static_cast<float>(clock.getElapsed()) * (_speed*4));
