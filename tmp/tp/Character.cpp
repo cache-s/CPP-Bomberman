@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Wed May 13 11:32:02 2015 Sebastien Cache-Delanos
+// Last update Thu May 14 16:47:07 2015 Jordan Chazottes
 //
 
 #include	"Character.hh"
@@ -28,7 +28,7 @@ Character::~Character()
 bool	Character::initialize()
 {
   _speed = 10.0f;
-  if (_model.load("./LibBomberman_linux_x64/assets/marvin.fbx") == false)
+  if (_model.load("./ironMan/obj/ARC170.obj") == false)
     {
       std::cerr << "Cannot load the character texture" << std::endl;
       return false;

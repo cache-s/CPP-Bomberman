@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri May 15 15:42:19 2015 Sebastien Cache-Delanos
+## Last update Fri May 15 15:59:21 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
@@ -14,7 +14,9 @@ SRCS	= ./sources/scripts/host.cpp			\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-CXXFLAGS= -L./lua/lua-5.3.0/install/lib/liblua.a -lm -llua -ldl -W -Wall -Wextra -Werror -O3 -I./includes -I./lua/lua-5.3.0/install/include
+CXXFLAGS	+=  -W -Wall -Wextra -Werror -I ./includes 
+
+LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/ -ldl
 
 CXX	= g++
 
@@ -32,7 +34,7 @@ $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ $(LUAFLAGS)
 	@echo -n 'Finished building target:'
 	@echo -e $(GREEN) '$@'
 	@echo -e $(NORMAL) ' '
@@ -41,7 +43,7 @@ $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) -c -o $@ $< $(LUAFLAGS)
 	@echo -n 'Finished building: '
 	@echo -e $(YELLOW) '$<'
 	@echo -e $(NORMAL) ' '
