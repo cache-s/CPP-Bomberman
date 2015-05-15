@@ -5,16 +5,16 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Wed May 13 11:16:53 2015 Sebastien Cache-Delanos
+## Last update Fri May 15 15:42:19 2015 Sebastien Cache-Delanos
 ##
 
 NAME	= bomberman
 
-SRCS	= ./sources/main.cpp			\
+SRCS	= ./sources/scripts/host.cpp			\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-CXXFLAGS= -W -Wall -Wextra -Werror -O3 -I ./includes
+CXXFLAGS= -L./lua/lua-5.3.0/install/lib/liblua.a -lm -llua -ldl -W -Wall -Wextra -Werror -O3 -I./includes -I./lua/lua-5.3.0/install/include
 
 CXX	= g++
 
