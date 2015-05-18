@@ -12,7 +12,7 @@ int			main()
   lua_State*		L = luaL_newstate();
 
   luaL_openlibs(L);
-  if (luaL_loadfile(L, "hello.lua") || lua_pcall(L, 0, 0, 0))
+  if (luaL_loadfile(L, "./sources/scripts/hello.lua") || lua_pcall(L, 0, 0, 0))
     {
       std::cerr << "Error: " << lua_tostring(L, -1) << std::endl;
       return (-1);
