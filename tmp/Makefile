@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Wed Apr 29 10:53:42 2015 Mathieu Bourmaud
-## Last update Wed Apr 29 11:01:11 2015 Mathieu Bourmaud
+## Last update Fri May 15 17:14:12 2015 Jordan Chazottes
 ##
 
 SRC		=	./sources/Main.cpp		\
