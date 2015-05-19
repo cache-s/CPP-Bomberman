@@ -5,18 +5,19 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Tue May 19 15:25:31 2015 Jordan Chazottes
+## Last update Tue May 19 16:01:55 2015 Sebastien Cache-Delanos
 ##
 
 NAME	= bomberman
 
 SRCS	= ./sources/main.cpp				\
-	  ./sources/AI/AI.cpp				\
-	  ./sources/GUI/GDLGUI.cpp
+	  ./sources/GUI/GDLGUI.cpp			\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-CXXFLAGS	+=  -W -Wall -Wextra -Werror -I ./includes -I ./includes/GUI
+INCS		+= -I ./includes -I ./includes/GUI -I ./includes/AI -I ./includes/Audio -I ./includes/Entity
+
+CXXFLAGS	+= -W -Wall -Wextra -Werror $(INCS)
 
 LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/ -ldl
 
