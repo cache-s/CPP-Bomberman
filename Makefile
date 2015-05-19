@@ -5,16 +5,17 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri May 15 15:59:21 2015 Jordan Chazottes
+## Last update Tue May 19 15:15:51 2015 Sebastien Cache-Delanos
 ##
 
 NAME	= bomberman
 
-SRCS	= ./sources/scripts/host.cpp			\
+SRCS	= ./sources/main.cpp				\
+	  ./sources/AI/AI.cpp				\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-CXXFLAGS	+=  -W -Wall -Wextra -Werror -I ./includes 
+CXXFLAGS	+=  -W -Wall -Wextra -Werror -I ./includes
 
 LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/ -ldl
 
@@ -43,7 +44,7 @@ $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	$(CXX) -c -o $@ $< $(LUAFLAGS)
+	$(CXX) $(CXXFLAGS) -c -o $@ $< $(LUAFLAGS)
 	@echo -n 'Finished building: '
 	@echo -e $(YELLOW) '$<'
 	@echo -e $(NORMAL) ' '
