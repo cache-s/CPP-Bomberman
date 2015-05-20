@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Wed May 20 12:21:27 2015 Jordan Chazottes
+## Last update Wed May 20 18:07:18 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
@@ -34,8 +34,6 @@ NORMAL	= "\\033[0;39m"
 YELLOW	= "\\033[1;33m"
 
 all:	$(NAME)
-	set -e;
-	./.define_my_variable.sh;
 
 $(NAME): $(OBJS)
 	@echo ' '
