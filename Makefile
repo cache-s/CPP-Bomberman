@@ -5,18 +5,23 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri May 15 15:59:21 2015 Jordan Chazottes
+## Last update Wed May 20 12:21:27 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
 
-SRCS	= ./sources/scripts/host.cpp			\
+SRCS	= ./sources/main.cpp				\
+	  ./sources/GUI/GDLGUI.cpp			\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-CXXFLAGS	+=  -W -Wall -Wextra -Werror -I ./includes 
+INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman_linux_x64/includes -Lincludes/LibBomberman_linux_x64/libs
+
+CXXFLAGS	+= -W -Wall -Wextra -Werror $(INCS)
 
 LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/ -ldl
+
+GDLFLAGS	+= -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread
 
 CXX	= g++
 
@@ -28,13 +33,15 @@ NORMAL	= "\\033[0;39m"
 
 YELLOW	= "\\033[1;33m"
 
-all: $(NAME)
+all:	$(NAME)
+	set -e;
+	./.define_my_variable.sh;
 
 $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	$(CXX) -o $@ $^ $(LUAFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $^  $(GDLFLAGS) $(LUAFLAGS)
 	@echo -n 'Finished building target:'
 	@echo -e $(GREEN) '$@'
 	@echo -e $(NORMAL) ' '
@@ -43,7 +50,7 @@ $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	$(CXX) -c -o $@ $< $(LUAFLAGS)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<  $(GDLFLAGS) $(LUAFLAGS)
 	@echo -n 'Finished building: '
 	@echo -e $(YELLOW) '$<'
 	@echo -e $(NORMAL) ' '
