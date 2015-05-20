@@ -5,27 +5,35 @@
 -- 1 = mur destructible
 -- 0 = sol
 
-function generate (width, height)
+
+function generateMap(width, height)
 
 w = {}
 h = {}
 
-	 for x = 0, width do
-	     for y = 0, height do
-	     	 if (x == 0 or y == 0) then
-		    w[x + 1] = 0
+	 for x = 1, width do
+	     for y = 1, height do
+	     	 if (x == 1 or y == 1 or (x == width) or (y == height)) then
+		    w[y] = 3
 		 else
-		   if (x == 1 or y == 1) then
-		      w[x + 1] = math.floor(rand()*2) --nb entre 0 et 1
+		   if (x == 2 or y == 2 or (x == width - 1) or (y == height - 1)) then
+		      w[y] = math.floor(rand()*2) --nb entre 0 et 1
 		   else
-			w[x + 1] = math.floor(rand()*3) --nb entre 0 et 2
+			w[y] = math.floor(rand()*3) --nb entre 0 et 2
 		   end
 		 end
+	     print("x = "..x.." y = "..y.." val = "..w[y])
 	     end
-	     h[y + 1] = w
+	     print("\n")
+	     h[x] = w
 	 end
 	 print("Map1 ready")
-
+	 print("   "..#h)
+	 for b, n in pairs(h) do
+	     print("b = "..b)
+	     for k, v in pairs(h[b]) do print(k, v) end
+	     print("\n")
+	 end
 end
 
 
@@ -40,3 +48,5 @@ function rand()
     X2 = V - X1*D20
     return V/D40
 end
+
+generateMap(10,10)
