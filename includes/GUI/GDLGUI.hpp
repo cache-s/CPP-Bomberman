@@ -1,6 +1,7 @@
 #ifndef		GDLGUI_HPP_
 # define	GDLGUI_HPP_
 
+# include	<vector>
 # include	<iostream>
 # include	<Game.hh>
 # include       <glm/glm.hpp>
@@ -8,6 +9,7 @@
 # include	<BasicShader.hh>
 # include	<SdlContext.hh>
 # include	"IGUI.hpp"
+# include	"IEntity.hpp"
 
 class GDLGUI : public IGUI
 {
@@ -17,7 +19,7 @@ public:
   void windowInit();
   void cameraInit();
   void shaderInit();
-  void soundInit();
+  void soundInit();       
   bool update();
   void draw();
   void pollEvent();

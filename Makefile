@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Wed May 20 18:07:18 2015 Jordan Chazottes
+## Last update Thu May 21 10:54:40 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
@@ -15,7 +15,7 @@ SRCS	= ./sources/main.cpp				\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman_linux_x64/includes -Lincludes/LibBomberman_linux_x64/libs
+INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Lincludes/LibBomberman/libs
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror $(INCS)
 

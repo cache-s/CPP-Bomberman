@@ -47,7 +47,6 @@ bool	GDLGUI::update()
 
 void	GDLGUI::draw()
 {
-
 }
 
 void	GDLGUI::pollEvent()
