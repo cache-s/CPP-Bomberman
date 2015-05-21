@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Thu May 21 16:53:37 2015 Mathieu Bourmaud
+## Last update Thu May 21 16:56:27 2015 Mathieu Bourmaud
 ##
 
 NAME	= bomberman
@@ -15,7 +15,7 @@ SRCS	= ./sources/main.cpp				\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Lincludes/LibBomberman/libs
+INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Lincludes/LibBomberman/libs -Wl,-rpath=./includes/LibBomberman/libs/
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror $(INCS)
 
@@ -43,7 +43,6 @@ $(NAME): $(OBJS)
 	@echo -n 'Finished building target:'
 	@echo -e $(GREEN) '$@'
 	@echo -e $(NORMAL) ' '
-	LD_LIBRARY_PATH=./includes/LibBomberman/libs/
 
 %.o: %.cpp
 	@echo ' '
