@@ -6,7 +6,7 @@
 class				ICharacter : public IEntity
 {
 public:
-
+  virtual eEntityType		getType() const = 0;
 };
 
 #endif				//ICHARACTER_HPP_

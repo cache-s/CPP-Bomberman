@@ -8,6 +8,7 @@ class				Bomb : public IBomb
 public:
   Bomb();
   ~Bomb();
+  eEntityType			getType() const;
 private:
 };
 

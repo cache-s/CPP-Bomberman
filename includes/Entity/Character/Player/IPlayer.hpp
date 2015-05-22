@@ -6,7 +6,7 @@
 class				IPlayer : public ICharacter
 {
 public:
-
+  virtual eEntityType		getType() const = 0;
 };
 
 #endif				//IPLAYER_HPP_

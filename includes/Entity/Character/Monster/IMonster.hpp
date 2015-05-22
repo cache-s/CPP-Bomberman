@@ -6,6 +6,7 @@
 class				IMonster : public ICharacter
 {
 public:
+  virtual eEntityType		getType() const = 0;
 };
 
 #endif				//IMONSTER_HPP_

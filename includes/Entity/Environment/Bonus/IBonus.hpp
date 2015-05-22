@@ -5,6 +5,8 @@
 
 class				IBonus : public IEnvironment
 {
+public:
+  virtual eEntityType		getType() const = 0;
 };
 
 #endif				/* IBONUS_HPP_ */

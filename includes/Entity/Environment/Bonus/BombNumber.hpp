@@ -8,7 +8,7 @@ class				BombNumber : public IBonus
 public:
   BombNumber();
   ~BombNumber();
-
+  eEntityType			getType() const;
 private:
 };
 

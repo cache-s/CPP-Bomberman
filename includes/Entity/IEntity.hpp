@@ -16,7 +16,7 @@ class			IEntity : public IObs
 public:
   virtual int		getPosX() const = 0;
   virtual int		getPosY() const = 0;
-  virtual eEntityType	geType() const = 0;
+  virtual eEntityType	getType() const = 0;
 private:
 };
 

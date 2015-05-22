@@ -8,7 +8,7 @@ class				AI : public IAI
 public:
   AI();
   ~AI();
-
+  eEntityType			getType() const;
 private:
 
 };

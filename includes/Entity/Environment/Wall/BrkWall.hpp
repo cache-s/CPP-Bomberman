@@ -8,6 +8,7 @@ class					BrkWall : public IWall
 public:
   BrkWall();
   ~BrkWall();
+  eEntityType				getType() const;
 private:
 };
 

@@ -8,7 +8,7 @@ class				Flame : public IFlame
 public:
   Flame();
   ~Flame();
-
+  eEntityType		getType() const;
 private:
 };
 

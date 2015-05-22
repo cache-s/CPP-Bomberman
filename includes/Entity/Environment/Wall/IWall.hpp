@@ -5,6 +5,8 @@
 
 class				IWall : public  IEnvironment
 {
+public:
+  virtual eEntityType   getType() const = 0;
 };
 
 #endif				/* IWALL_HPP_ */

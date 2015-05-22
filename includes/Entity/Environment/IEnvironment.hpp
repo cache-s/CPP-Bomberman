@@ -5,6 +5,8 @@
 
 class				IEnvironment : public AEntity
 {
+public:
+  virtual eEntityType		getType() const = 0;
 };
 
 #endif				/* IENVIRONMENT_HPP_ */
