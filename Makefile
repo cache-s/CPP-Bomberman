@@ -5,13 +5,14 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Thu May 21 16:56:27 2015 Mathieu Bourmaud
+## Last update Fri May 22 17:18:17 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
 
 SRCS	= ./sources/main.cpp				\
 	  ./sources/GUI/GDLGUI.cpp			\
+	  ./sources/GUI/AssetsManager.cpp		\
 
 OBJS	= $(SRCS:.cpp=.o)
 
