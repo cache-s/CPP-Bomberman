@@ -3,6 +3,10 @@
 GDLGUI::GDLGUI()
 {
   std::cout << "Starting GUI" << std::endl;
+  _drawFct[BOMB] = &GDLGUI::drawBomb;
+  _drawFct[PLAYER] = &GDLGUI::drawPlayer;
+  _drawFct[AI] = &GDLGUI::drawAI;
+  _drawFct[MONSTER] = &GDLGUI::drawMonster;
 }
 
 void	GDLGUI::windowInit()
@@ -45,8 +49,30 @@ bool	GDLGUI::update()
   return true;
 }
 
-void	GDLGUI::draw()
+void	GDLGUI::drawBomb() const
 {
+  std::cout << "draw bomb" << std::endl;
+}
+
+void	GDLGUI::drawPlayer() const
+{
+  std::cout << "draw Player" << std::endl;
+}
+
+void	GDLGUI::drawMonster() const
+{
+  std::cout << "draw Monster" << std::endl;
+}
+
+void	GDLGUI::drawAI() const
+{
+  std::cout << "draw AI" << std::endl;
+}
+
+void	GDLGUI::draw(std::vector<IEntity *> _ent)
+{
+  for (size_t i = 0; i < _ent.size(); i++)
+    (this->*_drawFct[_ent[i]->getType()])();
 }
 
 void	GDLGUI::pollEvent()
