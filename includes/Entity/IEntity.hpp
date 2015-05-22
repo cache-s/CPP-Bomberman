@@ -1,7 +1,7 @@
 #ifndef			IENTITY_HPP_
 # define		IENTITY_HPP_
 
-#include		"IObs.hh"
+#include		"IObs.hpp"
 
 class			IEntity : public IObs
 {

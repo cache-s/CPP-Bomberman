@@ -8,18 +8,18 @@
 // Last update Tue May 19 14:22:52 2015 delphine poupon
 //
 
-#ifndef				AENTITY_HH_
-# define			AENTITY_HH_
+#ifndef				AENTITY_HHP_
+# define			AENTITY_HHP_
 
-#include			"IEntity.hh"
+#include			"IEntity.hpp"
 
 template<typename T>
 template<typename U>
 class				AEntity : public IEntity
 {
 public:  
-  virtual int				getPosX() const;
-  virtual int				getPosY() const;
+  virtual int			getPosX() const;
+  virtual int			getPosY() const;
 
 private:
   int				_x;
@@ -33,4 +33,4 @@ private:
   U(glm::vec3)			_scale;
 };
 
-#endif				/* AENTITY_HH_ */
+#endif				/* AENTITY_HPP_ */
