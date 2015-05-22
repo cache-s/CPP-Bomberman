@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:24:29 2015 Jordan Chazottes
-// Last update Mon May 11 11:07:59 2015 Jordan Chazottes
+// Last update Thu May 21 17:40:24 2015 Jordan Chazottes
 //
 
 #include "GameEngine.hh"
@@ -76,7 +76,7 @@ bool	GameEngine::update()
   return true;
 }
 
-void	GameEngine::draw()
+void	GameEngine::draw(std::vector<IEntity*> ent)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _shader.bind();

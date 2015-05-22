@@ -5,6 +5,8 @@
 
 class				IBomb : public IEnvironment
 {
+public:
+  virtual eEntityType		getType() const = 0;
 };
 
 #endif				/* IBOMB_HPP_ */

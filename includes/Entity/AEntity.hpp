@@ -5,7 +5,7 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Tue May 19 14:22:52 2015 delphine poupon
-// Last update Tue May 19 14:22:52 2015 delphine poupon
+// Last update Fri May 22 15:23:11 2015 Jordan Chazottes
 //
 
 #ifndef				AENTITY_HH_
@@ -20,6 +20,7 @@ class				AEntity : public IEntity
 public:  
   virtual int				getPosX() const;
   virtual int				getPosY() const;
+  virtual eEntityType			getType() const;
 
 private:
   int				_x;

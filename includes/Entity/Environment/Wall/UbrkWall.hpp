@@ -8,7 +8,7 @@ class				UbrkWall : public IWall
 public:
   UbrkWall();
   ~UbrkWall();
-
+  eEntityType			getType() const;
 private:
 };
 

@@ -8,7 +8,7 @@ class				Speed : public IBonus
 public:
   Speed();
   ~Speed();
-
+  eEntityType			getType() const;
 private:
 };
 

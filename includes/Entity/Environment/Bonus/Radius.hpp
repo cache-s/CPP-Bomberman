@@ -8,7 +8,7 @@ class				Radius : public IBonus
 public:
   Radius();
   ~Radius();
-
+  eEntityType			getType() const;
 private:
 };
 
