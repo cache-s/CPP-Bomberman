@@ -5,12 +5,12 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Thu Apr 23 10:21:10 2015 Martin Porrès
-// Last update Sun May 24 17:12:42 2015 Martin Porrès
+// Last update Sun May 24 18:20:52 2015 Martin Porrès
 //
 
 #include	"Task.hpp"
 
-Task::Task(SafeQueue<Mutex */* Replace type*/> *_queue, Mutex *_mutexPool, CondVar *_condVar, int _id) :
+Task::Task(SafeQueue<Mutex */* Replace type*/> &_queue, Mutex &_mutexPool, CondVar &_condVar, int _id) :
   queue(_queue),
   mutexPool(_mutexPool),
   condVar(_condVar),
@@ -30,21 +30,21 @@ void		Task::threadLoop(void)
   bool		end;
 
   end = false;
-  while (!end || !queue->isEmpty())
+  while (!end || !queue.isEmpty())
     {
-      if (!(end = queue->isFinished()))
+      if (!(end = queue.isFinished()))
 	{
-	  mutexPool->lock();
-	  if (!queue->tryPop(&task))
+	  mutexPool.lock();
+	  if (!queue.tryPop(&task))
 	    {
-	      condVar->wait();
-	      mutexPool->unlock();
+	      condVar.wait();
+	      mutexPool.unlock();
 	    }
 	  else
 	    {
-	      mutexPool->unlock();
-	      if (!queue->isEmpty())
-		condVar->signal();
+	      mutexPool.unlock();
+	      if (!queue.isEmpty())
+		condVar.signal();
 	      std::cout << "id : " << id << " Task" << std::endl;;
 	      delete task;
 	    }

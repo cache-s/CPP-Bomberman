@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Thu Apr 23 10:12:47 2015 Martin Porrès
-// Last update Sun May 24 17:43:53 2015 Martin Porrès
+// Last update Sun May 24 18:19:58 2015 Martin Porrès
 //
 
 #ifndef		_TASK_HPP_
@@ -20,13 +20,13 @@
 class		Task : public ITask
 {
 public:
-  Task(SafeQueue<Mutex */*Replace type*/> *_queue, Mutex *_mutexPool, CondVar *_condVar, int id);
+  Task(SafeQueue<Mutex */*Replace type*/> &_queue, Mutex &_mutexPool, CondVar &_condVar, int id);
   ~Task(void);
   void		threadLoop(void);
 private:
-  SafeQueue<Mutex */*Replace type*/>	*queue;
-  Mutex			*mutexPool;
-  CondVar		*condVar;
+  SafeQueue<Mutex */*Replace type*/>	&queue;
+  Mutex			&mutexPool;
+  CondVar		&condVar;
   int			id;
 };
 
