@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri May 22 17:18:17 2015 Jordan Chazottes
+## Last update Sun May 24 17:57:33 2015 Martin Porrès
 ##
 
 NAME	= bomberman
@@ -13,10 +13,15 @@ NAME	= bomberman
 SRCS	= ./sources/main.cpp				\
 	  ./sources/GUI/GDLGUI.cpp			\
 	  ./sources/GUI/AssetsManager.cpp		\
+	  ./sources/Thread/CondVar.cpp			\
+	  ./sources/Thread/Mutex.cpp			\
+	  ./sources/Thread/ScopedLock.cpp		\
+	  ./sources/Thread/Task.cpp			\
+	  ./sources/Thread/Thread.cpp			\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Lincludes/LibBomberman/libs -Wl,-rpath=./includes/LibBomberman/libs/
+INCS		+= -Iincludes -Iincludes/GUI -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Wl,-rpath=./includes/LibBomberman/libs/
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror $(INCS)
 
