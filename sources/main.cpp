@@ -4,12 +4,12 @@
 int			main(int ac, char** av)
 {
   (void)ac, (void)av;
-  // GDLGUI tmp;
+  IGUI			*tmp = new GDLGUI;
 
-  // tmp.windowInit();
-  // tmp.cameraInit();
-  // tmp.shaderInit();
-  // tmp.soundInit();
+  tmp->windowInit();
+  tmp->cameraInit();
+  tmp->shaderInit();
+  tmp->soundInit();
   // while (tmp.update() == true)
   //   tmp.draw();
   return (0);

@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Sun May 24 17:57:33 2015 Martin Porrès
+## Last update Mon May 25 11:25:38 2015 Mathieu Bourmaud
 ##
 
 NAME	= bomberman

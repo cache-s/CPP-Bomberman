@@ -19,8 +19,6 @@ public:
   virtual void drawPlayer() const = 0;
   virtual void drawMonster() const = 0;
   virtual void drawAI() const = 0;
-  virtual void getType() const = 0;
-private:
 };
 
 #endif		/* IGUI_HPP_ */
