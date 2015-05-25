@@ -21,30 +21,28 @@ function generateMap(width, height)
 	 if (x == 1 or y == 1 or (x == width) or (y == height)) then
 	    w[y] = 3
 	 end
-	 print("x = "..x.." y = "..y.." val = "..w[y])
+	 if res == nil then
+	    res = w[y]
+	 else
+            res = res..w[y]
+         end
       end
-      print("line "..x.. " added")
-      h[x] = w
-      print("test : "..h[x][3].."\n")
+
    end
+      -- if res == nil then
+      -- 	 res = w[1].." "
+      -- else
+      -- 	 for i = 1, width do
+      -- 	    res = res..w[i].." "
+      -- 	 end
+      -- end
+     --end
    print("Map1 ready")
-   print("   "..#h)
-   for b = 1, height do
-      for k,v in pairs(h[b]) do print(k,v) end
-   end
+   print(res)
+   -- for b = 1, height do
+   --    for k,v in pairs(h[b]) do print(k,v) end
+--    end
 end
 
-
-local A1, A2 = 727595, 798405  -- 5^17=D20*A1+A2
-local D20, D40 = 1048576, 1099511627776  -- 2^20, 2^40
-local X1, X2 = 0, 1
-function rand()
-   local U = X2*A2
-   local V = (X1*A2 + X2*A1) % D20
-   V = (V*D20 + U) % D40
-   X1 = math.floor(V/D20)
-   X2 = V - X1*D20
-   return V/D40
-end
 
 generateMap(10,10)
