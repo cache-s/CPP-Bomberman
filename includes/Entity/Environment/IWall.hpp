@@ -1,9 +1,10 @@
 #ifndef				IWALL_HPP_
-# define			IWALL_HPP__
+# define			IWALL_HPP_
 
 #include			"IEnvironment.hpp"
 
-class				IWall : public  IEnvironment
+template <class T, class U, class V>
+class				IWall : public  IEnvironment<T, U, V>
 {
 public:
   virtual eEntityType   getType() const = 0;

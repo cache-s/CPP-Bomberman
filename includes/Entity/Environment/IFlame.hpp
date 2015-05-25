@@ -1,9 +1,10 @@
 #ifndef				IFLAME_HPP_
-# define			IFLAME_HPP__
+# define			IFLAME_HPP_
 
 #include			"IEnvironment.hpp"
 
-class				IFlame : public IEnvironment
+template <class T, class U, class V>
+class				IFlame : public IEnvironment<T, U, V>
 {
 public:
   virtual eEntityType   getType() const = 0;

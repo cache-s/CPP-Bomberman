@@ -1,7 +1,9 @@
 #ifndef				IAI_HPP_
 # define			IAI_HPP_
 
-class				IAI
+# include			"ICharacter.hpp"
+
+class				IAI : public ICharacter
 {
 public:
   virtual eEntityType		getType() const = 0;

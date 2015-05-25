@@ -5,7 +5,7 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Fri May 22 15:39:00 2015 delphine poupon
-// Last update Fri May 22 15:39:00 2015 delphine poupon
+// Last update Mon May 25 16:04:53 2015 Mathieu Bourmaud
 //
 
 #include			"UbrkWall.hpp"
@@ -14,7 +14,7 @@ UbrkWall::UbrkWall()
 {
 }
 
-eEntityType			UbrkWall::getType()
+eEntityType			UbrkWall::getType() const
 {
   return (UBRKWALL);
 }

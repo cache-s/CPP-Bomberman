@@ -5,20 +5,23 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Fri May 22 15:22:25 2015 delphine poupon
-// Last update Fri May 22 15:22:25 2015 delphine poupon
+// Last update Mon May 25 17:58:00 2015 Mathieu Bourmaud
 //
 
 #include			"Bomb.hpp"
 
-Bomb::Bomb()
+template <class T, class U, class V>
+Bomb<T, U, V>::Bomb()
 {
 }
 
-eEntityType			Bomb::getType() const
+template <class T, class U, class V>
+eEntityType			Bomb<T, U, V>::getType() const
 {
   return (BOMB);
 }
 
-Bomb::~Bomb()
+template <class T, class U, class V>
+Bomb<T, U, V>::~Bomb()
 {
 }

@@ -1,9 +1,10 @@
 #ifndef				IBONUS_HPP_
-# define			IBONUS_HPP__
+# define			IBONUS_HPP_
 
 #include			"IEnvironment.hpp"
 
-class				IBonus : public IEnvironment
+template <class T, class U, class V>
+class				IBonus : public IEnvironment<T, U, V>
 {
 public:
   virtual eEntityType		getType() const = 0;

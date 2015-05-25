@@ -3,7 +3,8 @@
 
 # include			"IBonus.hpp"
 
-class				Speed : public IBonus
+template <class T, class U, class V>
+class				Speed : public IBonus<T, U, V>
 {
 public:
   Speed();

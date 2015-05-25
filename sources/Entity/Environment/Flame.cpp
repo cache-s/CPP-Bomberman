@@ -5,7 +5,7 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Fri May 22 15:32:28 2015 delphine poupon
-// Last update Fri May 22 15:32:28 2015 delphine poupon
+// Last update Mon May 25 16:04:08 2015 Mathieu Bourmaud
 //
 
 #include			"Flame.hpp"
@@ -14,7 +14,7 @@ Flame::Flame()
 {
 }
 
-eEntityType			Flame::getType()
+eEntityType			Flame::getType() const
 {
   return (FLAME);
 }

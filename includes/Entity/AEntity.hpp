@@ -1,37 +1,26 @@
-//
-// AEntity.hpp for  in /home/poupon_d/rendu/cpp_bomberman/sources/Entity
-// 
-// Made by delphine poupon
-// Login   <poupon_d@epitech.net>
-// 
-// Started on  Tue May 19 14:22:52 2015 delphine poupon
-// Last update Fri May 22 15:23:11 2015 Jordan Chazottes
-//
+#ifndef				AENTITY_HPP_
+# define			AENTITY_HPP_
 
-#ifndef				AENTITY_HHP_
-# define			AENTITY_HHP_
+# include			<Texture.hh>
+# include			"IEntity.hpp"
 
-#include			"IEntity.hpp"
-
-template<typename T>
-template<typename U>
+template<class T, class U, class V>
 class				AEntity : public IEntity
 {
-public:  
-  virtual int				getPosX() const;
-  virtual int				getPosY() const;
-  virtual eEntityType			getType() const;
-
+public:
+  virtual int			getPosX() const { return (_x); } 
+  virtual int			getPosY() const { return (_y); }
+  virtual eEntityType		getType() const = 0;
 private:
   int				_x;
   int				_y;
   int				_hitboxSize;
   bool				_isBreakable;
-  gdl:texture			_texture;
+  V				_texture;
   T				_model;
-  U(glm::vec3)			_position;
-  U(glm::vec3)			_rotation;
-  U(glm::vec3)			_scale;
+  U				_position;
+  U				_rotation;
+  U				_scale;
 };
 
 #endif				/* AENTITY_HPP_ */
