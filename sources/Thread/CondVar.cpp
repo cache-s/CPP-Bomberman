@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Mon Apr 20 17:35:03 2015 Martin Porrès
-// Last update Sun May 24 17:12:16 2015 Martin Porrès
+// Last update Mon May 25 15:40:53 2015 Martin Porrès
 //
 
 #include	"CondVar.hpp"
@@ -28,7 +28,7 @@ void		CondVar::wait(void)
     throw std::runtime_error("Conditional variable wait has failed");
 }
 
-void		CondVar::timedwait(double time)
+void		CondVar::timedwait(long time)
 {
   struct timespec	ts;
 

@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Thu Apr 23 10:12:47 2015 Martin Porrès
-// Last update Sun May 24 18:19:58 2015 Martin Porrès
+// Last update Mon May 25 15:12:58 2015 Martin Porrès
 //
 
 #ifndef		_TASK_HPP_
@@ -30,6 +30,6 @@ private:
   int			id;
 };
 
-void	*thread_loop(void * c);
+void	*thread_loop(void *c);
 
 #endif

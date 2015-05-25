@@ -5,11 +5,13 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sun May 24 18:52:56 2015 Martin Porrès
+// Last update Mon May 25 18:28:39 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
 # define	_EVENTMANAGER_HPP_
+
+typedef void (EventManger::*Func)(IEntity *);
 
 class		EventManger
 {
@@ -29,15 +31,25 @@ public:
   EventManger(ISafeQueue<IEntity *> &drawQueue);
   ~EventManger(void);
   void		update(void);
-  void		wait(void);
-  void		manageEvent(void);
-  void		pollEvent(void)
+  void		pollEvent(void);
+  void		wallDestruction(IEntity *);
+  void		bombCreation(IEntity *);
+  void		bombDestruction(IEntity *);
+  void		moveUp(IEntity *);
+  void		moveDown(IEntity *);
+  void		moveLeft(IEntity *);
+  void		moveRight(IEntity *);
+  void		flameDestruction(IEntity *);
+  void		itemDrop(IEntity *);
 private:
   ISafeQueue<IEntity *>						&_drawQueue;
   ISafeQueue<std::make_pair<EventManger::eEvent, IEntity*> >	_enventQueue;
   ICondVar							_eventCondVar;
   IThread							_pollEventThread;
   std::vector<int>						_enventTime;
-}
+  std::map<EventManager::eEvent, Func>				_eventPtr;
+};
+
+void	*poll_event(void *c);
 
 #endif

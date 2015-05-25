@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Mon Apr 20 17:29:51 2015 Martin Porrès
-// Last update Sun May 24 17:14:00 2015 Martin Porrès
+// Last update Mon May 25 15:40:26 2015 Martin Porrès
 //
 
 #ifndef			_CONDVAR_HPP_
@@ -22,7 +22,7 @@ public:
   CondVar(Mutex &_mutex);
   ~CondVar(void);
   void			wait(void);
-  void			timedwait(double time);
+  void			timedwait(long time);
   void			signal(void);
   void			broadcast(void);
 private:
