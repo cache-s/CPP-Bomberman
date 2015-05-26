@@ -5,7 +5,7 @@ GDLGUI::GDLGUI()
   std::cout << "Starting GUI" << std::endl;
   _drawFct[BOMB] = &GDLGUI::drawBomb;
   _drawFct[PLAYER] = &GDLGUI::drawPlayer;
-  _drawFct[AI] = &GDLGUI::drawAI;
+  _drawFct[ARTINT] = &GDLGUI::drawAI;
   _drawFct[MONSTER] = &GDLGUI::drawMonster;
 }
 
@@ -69,7 +69,7 @@ void	GDLGUI::drawAI() const
   std::cout << "draw AI" << std::endl;
 }
 
-void	GDLGUI::draw(std::vector<IEntity *> _ent)
+void	GDLGUI::draw(std::vector<IEntity<glm::vec3> *> _ent)
 {
   for (size_t i = 0; i < _ent.size(); i++)
     (this->*_drawFct[_ent[i]->getType()])();

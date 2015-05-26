@@ -3,8 +3,8 @@
 
 # include			"IWall.hpp"
 
-template <class T, class U, class V>
-class				UbrkWall : public IWall<T, U, V>
+template <class T>
+class				UbrkWall : public IWall<T>
 {
 public:
   UbrkWall();

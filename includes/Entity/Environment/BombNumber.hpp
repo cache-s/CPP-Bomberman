@@ -3,8 +3,8 @@
 
 # include			"IBonus.hpp"
 
-template <class T, class U, class V>
-class				BombNumber : public IBonus<T, U, V>
+template <class T>
+class				BombNumber : public IBonus<T>
 {
 public:
   BombNumber();

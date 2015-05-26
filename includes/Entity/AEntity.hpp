@@ -4,8 +4,8 @@
 # include			<Texture.hh>
 # include			"IEntity.hpp"
 
-template<class T, class U, class V>
-class				AEntity : public IEntity
+template<class T>
+class				AEntity : public IEntity<T>
 {
 public:
   virtual int			getPosX() const { return (_x); } 
@@ -16,11 +16,11 @@ private:
   int				_y;
   int				_hitboxSize;
   bool				_isBreakable;
-  V				_texture;
-  T				_model;
-  U				_position;
-  U				_rotation;
-  U				_scale;
+  // V				_texture;
+  // T				_model;
+  T				_position;
+  T				_rotation;
+  T				_scale;
 };
 
 #endif				/* AENTITY_HPP_ */

@@ -3,8 +3,8 @@
 
 #include			"IBomb.hpp"
 
-template <class T, class U, class V>
-class				Bomb : public IBomb<T, U, V>
+template <class T>
+class				Bomb : public IBomb<T>
 {
 public:
   Bomb();

@@ -3,7 +3,8 @@
 
 # include			"IPlayer.hpp"
 
-class				Player : public IPlayer
+template <class T>
+class				Player : public IPlayer<T>
 {
 public:
   Player();

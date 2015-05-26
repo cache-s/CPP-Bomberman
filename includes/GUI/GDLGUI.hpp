@@ -25,7 +25,7 @@ public:
   void shaderInit();
   void soundInit();       
   bool update();
-  void draw(std::vector<IEntity *> _ent);
+  void draw(std::vector<IEntity<glm::vec3> *> _ent);
   void drawBomb() const;
   void drawPlayer() const;
   void drawMonster() const;

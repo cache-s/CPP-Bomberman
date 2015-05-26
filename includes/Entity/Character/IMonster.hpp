@@ -3,7 +3,8 @@
 
 # include			"ICharacter.hpp"
 
-class				IMonster : public ICharacter
+template <class T>
+class				IMonster : public ICharacter<T>
 {
 public:
   virtual eEntityType		getType() const = 0;

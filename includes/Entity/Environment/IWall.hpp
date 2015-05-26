@@ -3,8 +3,8 @@
 
 #include			"IEnvironment.hpp"
 
-template <class T, class U, class V>
-class				IWall : public  IEnvironment<T, U, V>
+template <class T>
+class				IWall : public  IEnvironment<T>
 {
 public:
   virtual eEntityType   getType() const = 0;

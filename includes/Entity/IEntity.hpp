@@ -16,7 +16,7 @@ enum			eEntityType
   {
     BOMB,
     MONSTER,
-    AI,
+    ARTINT,
     BOMBNUMBER,
     RADIUS,
     FLAME,
@@ -26,6 +26,7 @@ enum			eEntityType
     PLAYER,
   };
 
+template <class T>
 class			IEntity
 {
 public:

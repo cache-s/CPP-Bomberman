@@ -12,7 +12,7 @@ public:
   virtual void shaderInit() = 0;
   virtual void soundInit() = 0;
   virtual bool update() = 0;
-  virtual void draw(std::vector<IEntity *> _ent) = 0;
+  virtual void draw(std::vector<IEntity<glm::vec3> *> _ent) = 0;
   virtual void pollEvent() = 0;
   virtual void pause() = 0;
   virtual void drawBomb() const = 0;

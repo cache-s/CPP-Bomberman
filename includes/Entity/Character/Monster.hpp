@@ -3,7 +3,8 @@
 
 # include			"IMonster.hpp"
 
-class				Monster : public IMonster
+template <class T>
+class				Monster : public IMonster<T>
 {
 public:
   Monster();

@@ -3,8 +3,8 @@
 
 # include			"AEntity.hpp"
 
-template <class T, class U, class V>
-class				IEnvironment : public AEntity<T, U, V>
+template <class T>
+class				IEnvironment : public AEntity<T>
 {
 public:
   virtual eEntityType		getType() const = 0;

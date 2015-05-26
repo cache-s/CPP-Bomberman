@@ -3,8 +3,8 @@
 
 #include			"IFlame.hpp"
 
-template <class T, class U, class V>
-class				Flame : public IFlame<T, U, V>
+template <class T>
+class				Flame : public IFlame<T>
 {
 public:
   Flame();

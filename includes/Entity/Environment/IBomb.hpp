@@ -3,8 +3,8 @@
 
 #include			"IEnvironment.hpp"
 
-template <class T, class U, class V>
-class				IBomb : public IEnvironment<T, U, V>
+template <class T>
+class				IBomb : public IEnvironment<T>
 {
 public:
   virtual eEntityType		getType() const = 0;

@@ -5,20 +5,21 @@
 // Login   <bourma_m@epitech.net>
 // 
 // Started on  Mon May 25 11:56:05 2015 Mathieu Bourmaud
-// Last update Mon May 25 19:03:42 2015 Mathieu Bourmaud
+// Last update Tue May 26 11:47:47 2015 Mathieu Bourmaud
 //
 
 #include		"Factory.hpp"
 
-Factory::Factory()
+template <class T>
+Factory<T>::Factory()
 {
-  // IEntity		*toto = new Bomb<int, int, int>();
-
+  // IEntity<int>	*toto;
+  
+  // (void)toto;
   // toto->getType();
   // toto++;
-  //  _ents[BOMB] = new Bomb<int, int, int>();
-  // _ents[BOMB] = new Bomb<int, char, std::string>;
-  // _ents[AI] = new AI;
+  _ents[BOMB] = new Bomb<glm::vec3>;
+  // _ents[ARTINT] = new AI<glm::vec3>;
   // _ents[MONSTER] = new Monster;
   // _ents[BOMBNUMBER] = new BombNumber;
   // _ents[RADIUS] = new Radius;
@@ -29,7 +30,8 @@ Factory::Factory()
   // _ents[PLAYER] = new Player;
 }
 
-IEntity		*Factory::createEntity(eEntityType type)
+template <class T>
+IEntity<T>	*Factory<T>::createEntity(eEntityType type)
 {
   return (_ents[type]);
 }

@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 // 
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Mon May 25 12:27:21 2015 Mathieu Bourmaud
+// Last update Tue May 26 11:42:03 2015 Mathieu Bourmaud
 //
 
 #ifndef			_FACTORY_HPP_
@@ -22,14 +22,15 @@
 # include		"BrkWall.hpp"
 # include		"Player.hpp"
 
+template <class T>
 class			Factory
 {
 public:
   Factory();
   ~Factory();
-  IEntity		*createEntity(eEntityType type);
+  IEntity<T>		*createEntity(eEntityType type);
 private:
-  std::map<eEntityType, IEntity *>	_ents;
+  std::map<eEntityType, IEntity<T> *>	_ents;
 };
 
 #endif

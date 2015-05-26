@@ -3,7 +3,8 @@
 
 # include			"IAI.hpp"
 
-class				AI : public IAI
+template <class T>
+class				AI : public IAI<T>
 {
 public:
   AI();

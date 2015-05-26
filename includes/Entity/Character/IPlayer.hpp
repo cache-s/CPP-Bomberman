@@ -3,7 +3,8 @@
 
 # include			"ICharacter.hpp"
 
-class				IPlayer : public ICharacter
+template <class T>
+class				IPlayer : public ICharacter<T>
 {
 public:
   virtual eEntityType		getType() const = 0;
