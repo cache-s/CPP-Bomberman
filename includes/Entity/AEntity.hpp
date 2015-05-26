@@ -10,6 +10,9 @@ class				AEntity : public IEntity<T>
 public:
   virtual int			getPosX() const { return (_x); } 
   virtual int			getPosY() const { return (_y); }
+  virtual void			setPosX(int x) { _x = x; }
+  virtual void			setPosY(int y) { _y = y; }
+  virtual IEntity<T>		*clone() { return (new IEntity<T>(*this)); }
   virtual eEntityType		getType() const = 0;
 private:
   int				_x;

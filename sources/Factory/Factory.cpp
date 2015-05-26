@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 // 
 // Started on  Mon May 25 11:56:05 2015 Mathieu Bourmaud
-// Last update Tue May 26 11:47:47 2015 Mathieu Bourmaud
+// Last update Tue May 26 12:00:39 2015 Mathieu Bourmaud
 //
 
 #include		"Factory.hpp"
@@ -33,5 +33,5 @@ Factory<T>::Factory()
 template <class T>
 IEntity<T>	*Factory<T>::createEntity(eEntityType type)
 {
-  return (_ents[type]);
+  return (_ents[type]->clone());
 }
