@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:13:31 2015 Martin Porrès
-// Last update Mon May 25 18:28:32 2015 Martin Porrès
+// Last update Tue May 26 11:48:08 2015 Martin Porrès
 //
 
 #include	"EventManager.hpp"
@@ -49,47 +49,48 @@ void		*poll_event(void *c)
   return (NULL);
 }
 
-void		EventManager::wallDestruction(IEntity *)
-{
-
+void		EventManager::wallDestruction(IEntity *wall)
+{ //useless ???
+  delete wall;
 }
 
-void		EventManager::bombCreation(IEntity *)
+void		EventManager::bombCreation(IEntity *player)
 {
-
+  // new bomb with properties of entity (Player)
 }
 
-void		EventManager::bombDestruction(IEntity *)
+void		EventManager::bombDestruction(IEntity *bomb)
 {
-
+  delete bomb;
 }
 
-void		EventManager::moveUp(IEntity *)
+void		EventManager::moveUp(IEntity *player)
 {
-
+  //player.setpos(...);
 }
 
-void		EventManager::moveDown(IEntity *)
+void		EventManager::moveDown(IEntity *player)
 {
-
+  //player.setpos(...);
 }
 
-void		EventManager::moveLeft(IEntity *)
+void		EventManager::moveLeft(IEntity *player)
 {
-
+  //player.setpos(...);
 }
 
-void		EventManager::moveRight(IEntity *)
+void		EventManager::moveRight(IEntity *player)
 {
-
+  //player.setpos(...);
 }
 
-void		EventManager::flameDestruction(IEntity *)
+void		EventManager::flameDestruction(IEntity *flame)
 {
-
+  delete flame;
 }
 
-void		EventManager::itemDrop(IEntity *)
+void		EventManager::itemDrop(IEntity *item)
 {
-
+  //add properties of item to player
+  delete item;
 }

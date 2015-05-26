@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Mon May 25 18:28:39 2015 Martin Porrès
+// Last update Tue May 26 11:47:57 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -32,15 +32,15 @@ public:
   ~EventManger(void);
   void		update(void);
   void		pollEvent(void);
-  void		wallDestruction(IEntity *);
-  void		bombCreation(IEntity *);
-  void		bombDestruction(IEntity *);
-  void		moveUp(IEntity *);
-  void		moveDown(IEntity *);
-  void		moveLeft(IEntity *);
-  void		moveRight(IEntity *);
-  void		flameDestruction(IEntity *);
-  void		itemDrop(IEntity *);
+  void		wallDestruction(IEntity *wall);
+  void		bombCreation(IEntity *player);
+  void		bombDestruction(IEntity *bomb);
+  void		moveUp(IEntity *player);
+  void		moveDown(IEntity *player);
+  void		moveLeft(IEntity *player);
+  void		moveRight(IEntity *player);
+  void		flameDestruction(IEntity *flame);
+  void		itemDrop(IEntity *item);
 private:
   ISafeQueue<IEntity *>						&_drawQueue;
   ISafeQueue<std::make_pair<EventManger::eEvent, IEntity*> >	_enventQueue;
