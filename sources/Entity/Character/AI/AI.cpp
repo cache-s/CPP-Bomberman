@@ -1,14 +1,17 @@
 #include			"AI.hpp"
 
-AI::AI()
+template <class T>
+AI<T>::AI()
 {
 }
 
-eEntityType			AI::getType() const
+template <class T>
+eEntityType			AI<T>::getType() const
 {
-  return (AI);
+  return (ARTINT);
 }
 
-AI::~AI()
+template <class T>
+AI<T>::~AI()
 {
 }

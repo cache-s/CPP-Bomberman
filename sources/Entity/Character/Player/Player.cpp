@@ -1,16 +1,19 @@
 #include				"Player.hpp"
 
-Player::Player()
+template <class T>
+Player<T>::Player()
 {
 
 }
 
-eEntityType				Player::getType() const
+template <class T>
+eEntityType				Player<T>::getType() const
 {
   return (PLAYER);
 }
 
-Player::~Player()
+template <class T>
+Player<T>::~Player()
 {
 
 }

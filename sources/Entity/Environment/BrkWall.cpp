@@ -5,20 +5,23 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Fri May 22 15:34:09 2015 delphine poupon
-// Last update Mon May 25 16:03:40 2015 Mathieu Bourmaud
+// Last update Wed May 27 10:43:45 2015 Mathieu Bourmaud
 //
 
 #include			"BrkWall.hpp"
 
-BrkWall::BrkWall()
+template <class T>
+BrkWall<T>::BrkWall()
 {
 }
 
-eEntityType			BrkWall::getType() const
+template <class T>
+eEntityType			BrkWall<T>::getType() const
 {
   return (BRKWALL);
 }
 
-BrkWall::~BrkWall()
+template <class T>
+BrkWall<T>::~BrkWall()
 {
 }

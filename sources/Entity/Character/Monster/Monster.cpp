@@ -1,14 +1,17 @@
 #include			"Monster.hpp"
 
-Monster::Monster()
+template <class T>
+Monster<T>::Monster()
 {
 }
 
-eEntityType			Monster::getType() const
+template <class T>
+eEntityType			Monster<T>::getType() const
 {
   return (MONSTER);
 }
 
-Monster::~Monster()
+template <class T>
+Monster<T>::~Monster()
 {
 }
