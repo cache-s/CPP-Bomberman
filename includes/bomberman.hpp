@@ -4,9 +4,7 @@
 /* INCLUDES */
 
 # include			<iostream>
+# include			<stdexcept>
 
-/* PROTOTYPES */
-
-int				main(int ac, char **av);
 
 #endif				//BOMBERMAN_HPP_
