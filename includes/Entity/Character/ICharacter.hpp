@@ -8,6 +8,8 @@ class				ICharacter : public AEntity<T>
 {
 public:
   virtual eEntityType		getType() const = 0;
+  virtual IEntity<T>		*clone() = 0;
+  virtual ~ICharacter() {};
 };
 
 #endif				//ICHARACTER_HPP_

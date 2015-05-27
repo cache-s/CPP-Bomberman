@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Wed May 27 11:38:22 2015 Mathieu Bourmaud
+## Last update Wed May 27 17:42:30 2015 Mathieu Bourmaud
 ##
 
 NAME	= bomberman
@@ -17,18 +17,6 @@ SRCS	= ./sources/main.cpp				 \
 	  ./sources/Thread/Mutex.cpp			 \
 	  ./sources/Thread/ScopedLock.cpp		 \
 	  ./sources/Thread/Task.cpp			 \
-	  ./sources/Thread/Thread.cpp			 \
-	  ./sources/Factory/Factory.cpp			 \
-	  ./sources/Entity/Environment/Bomb.cpp		 \
-	  ./sources/Entity/Environment/BombNumber.cpp	 \
-	  ./sources/Entity/Environment/BrkWall.cpp 	 \
-	  ./sources/Entity/Environment/Flame.cpp	 \
-	  ./sources/Entity/Environment/Radius.cpp	 \
-	  ./sources/Entity/Environment/Speed.cpp	 \
-	  ./sources/Entity/Environment/UbrkWall.cpp	 \
-	  ./sources/Entity/Character/AI/AI.cpp		 \
-	  ./sources/Entity/Character/Monster/Monster.cpp \
-	  ./sources/Entity/Character/Player/Player.cpp  \
 
 OBJS	= $(SRCS:.cpp=.o)
 
