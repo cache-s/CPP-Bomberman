@@ -5,20 +5,23 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Fri May 22 15:25:38 2015 delphine poupon
-// Last update Mon May 25 16:03:14 2015 Mathieu Bourmaud
+// Last update Wed May 27 10:43:06 2015 Mathieu Bourmaud
 //
 
 #include			"BombNumber.hpp"
 
-BombNumber::BombNumber()
+template <class T>
+BombNumber<T>::BombNumber()
 {
 }
 
-eEntityType			BombNumber::getType() const
+template <class T>
+eEntityType			BombNumber<T>::getType() const
 {
   return (BOMBNUMBER);
 }
 
-BombNumber::~BombNumber()
+template <class T>
+BombNumber<T>::~BombNumber()
 {
 }

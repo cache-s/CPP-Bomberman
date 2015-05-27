@@ -5,20 +5,23 @@
 // Login   <poupon_d@epitech.net>
 // 
 // Started on  Fri May 22 15:39:00 2015 delphine poupon
-// Last update Mon May 25 16:04:53 2015 Mathieu Bourmaud
+// Last update Wed May 27 11:06:09 2015 Mathieu Bourmaud
 //
 
 #include			"UbrkWall.hpp"
 
-UbrkWall::UbrkWall()
+template <class T>
+UbrkWall<T>::UbrkWall()
 {
 }
 
-eEntityType			UbrkWall::getType() const
+template <class T>
+eEntityType			UbrkWall<T>::getType() const
 {
   return (UBRKWALL);
 }
 
-UbrkWall::~UbrkWall()
+template <class T>
+UbrkWall<T>::~UbrkWall()
 {
 }

@@ -1,7 +1,7 @@
 #ifndef				ICHARACTER_HPP_
 # define			ICHARACTER_HPP_
 
-# include			"IEntity.hpp"
+# include			"AEntity.hpp"
 
 template <class T>
 class				ICharacter : public AEntity<T>

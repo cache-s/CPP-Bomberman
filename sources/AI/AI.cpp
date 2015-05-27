@@ -1,10 +1,12 @@
 #include			"AI.hpp"
 
-AI::AI()
+template <class T>
+AI<T>::AI()
 {
 
 }
 
-AI::~AI()
+template <class T>
+AI<T>::~AI()
 {
 }
