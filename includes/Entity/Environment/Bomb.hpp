@@ -36,6 +36,7 @@ Bomb<T>::Bomb(Bomb const &other)
 template <class T>
 Bomb<T>::Bomb()
 {
+  std::cout << "i am a bomb lol" << std::endl;
 }
 
 template <class T>

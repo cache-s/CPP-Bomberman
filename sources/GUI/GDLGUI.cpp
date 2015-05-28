@@ -4,9 +4,15 @@ GDLGUI::GDLGUI()
 {
   std::cout << "Starting GUI" << std::endl;
   _drawFct[BOMB] = &GDLGUI::drawBomb;
-  _drawFct[PLAYER] = &GDLGUI::drawPlayer;
-  _drawFct[ARTINT] = &GDLGUI::drawAI;
   _drawFct[MONSTER] = &GDLGUI::drawMonster;
+  _drawFct[ARTINT] = &GDLGUI::drawAI;
+  _drawFct[BOMBNUMBER] = &GDLGUI::drawBombNumber;
+  _drawFct[RADIUS] = &GDLGUI::drawRadius;
+  _drawFct[FLAME] = &GDLGUI::drawFlame;
+  _drawFct[SPEED] = &GDLGUI::drawSpeed;
+  _drawFct[BRKWALL] = &GDLGUI::drawBrkWall;
+  _drawFct[UBRKWALL] = &GDLGUI::drawUbrkWall;
+  _drawFct[PLAYER] = &GDLGUI::drawPlayer;
 }
 
 void	GDLGUI::windowInit()
@@ -54,11 +60,6 @@ void	GDLGUI::drawBomb() const
   std::cout << "draw bomb" << std::endl;
 }
 
-void	GDLGUI::drawPlayer() const
-{
-  std::cout << "draw Player" << std::endl;
-}
-
 void	GDLGUI::drawMonster() const
 {
   std::cout << "draw Monster" << std::endl;
@@ -67,6 +68,41 @@ void	GDLGUI::drawMonster() const
 void	GDLGUI::drawAI() const
 {
   std::cout << "draw AI" << std::endl;
+}
+
+void	GDLGUI::drawBombNumber() const
+{
+  std::cout << "draw bomb number" << std::endl;
+}
+
+void	GDLGUI::drawRadius() const
+{
+  std::cout << "draw Radius" << std::endl;
+}
+
+void	GDLGUI::drawFlame() const
+{
+  std::cout << "draw flame" << std::endl;
+}
+
+void	GDLGUI::drawSpeed() const
+{
+  std::cout << "draw Speed" << std::endl;
+}
+
+void	GDLGUI::drawBrkWall() const
+{
+  std::cout << "draw brk wall" << std::endl;
+}
+
+void	GDLGUI::drawUbrkWall() const
+{
+  std::cout << "draw ubrk wall" << std::endl;
+}
+
+void	GDLGUI::drawPlayer() const
+{
+  std::cout << "draw Player" << std::endl;
 }
 
 void	GDLGUI::draw(std::vector<IEntity<glm::vec3> *> _ent)

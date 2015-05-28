@@ -10,6 +10,10 @@ int			main(int ac, char** av)
   Factory<glm::vec3> 	factory;
 
   _ents.push_back(factory.createEntity(BOMB));
+  _ents.push_back(factory.createEntity(PLAYER));
+  // _ents.push_back(factory.createEntity(ARTINT));
+  _ents.push_back(factory.createEntity(FLAME));
+  _ents.push_back(factory.createEntity(UBRKWALL));
   tmp->windowInit();
   tmp->cameraInit();
   tmp->shaderInit();
