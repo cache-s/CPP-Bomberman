@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Tue May 26 11:47:57 2015 Martin Porrès
+// Last update Wed May 27 16:49:14 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -30,7 +30,8 @@ public:
   }
   EventManger(ISafeQueue<IEntity *> &drawQueue);
   ~EventManger(void);
-  void		update(void);
+  bool		update(void);
+  bool		timeCheck(void);
   void		pollEvent(void);
   void		wallDestruction(IEntity *wall);
   void		bombCreation(IEntity *player);
@@ -42,12 +43,14 @@ public:
   void		flameDestruction(IEntity *flame);
   void		itemDrop(IEntity *item);
 private:
+  IGUI								&_gui;
   ISafeQueue<IEntity *>						&_drawQueue;
   ISafeQueue<std::make_pair<EventManger::eEvent, IEntity*> >	_enventQueue;
   ICondVar							_eventCondVar;
   IThread							_pollEventThread;
   std::vector<int>						_enventTime;
   std::map<EventManager::eEvent, Func>				_eventPtr;
+  bool								_end;
 };
 
 void	*poll_event(void *c);
