@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:54:16 2015 Jordan Chazottes
-// Last update Sun May 10 15:21:01 2015 Jordan Chazottes
+// Last update Thu May 28 14:46:38 2015 Jordan Chazottes
 //
 
 #include	"Cube.hh"
@@ -28,70 +28,70 @@ Cube::~Cube()
 bool	Cube::initialize()
 {
   _speed = 10.0f;
-  if (_texture.load("./textures/test.tga") == false)
+  if (_texture.load("./textures/grass.tga") == false)
     {
       std::cerr << "Cannot load the cube texture" << std::endl;
       return (false);
     }
-  _geometry.setColor(glm::vec4(1, 0, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  // _geometry.setColor(glm::vec4(1, 0, 0, 1)); // rouge
+  // _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  // _geometry.setColor(glm::vec4(1, 1, 0, 1)); // VERT
+  // _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  // _geometry.setColor(glm::vec4(0, 1, 1, 1)); //BLEU CLAIR
+  // _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  // _geometry.setColor(glm::vec4(1, 0, 1, 1));
+  // _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT
+  _geometry.pushVertex(glm::vec3(1, 0.5, 1));
+  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 1, 1, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(1, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+  // _geometry.setColor(glm::vec4(0, 0, 1, 1));
+  // _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  // _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  // _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
   _geometry.build();
   return (true);
 }

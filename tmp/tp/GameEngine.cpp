@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:24:29 2015 Jordan Chazottes
-// Last update Thu May 21 17:40:24 2015 Jordan Chazottes
+// Last update Thu May 28 16:01:01 2015 Jordan Chazottes
 //
 
 #include "GameEngine.hh"
@@ -36,14 +36,14 @@ bool	GameEngine::initialize()
 
   projection = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 2000.0f);
 
-  _transformation = glm::lookAt(glm::vec3(0, 100, -20), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+  _transformation = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
   _shader.bind();
   _shader.setUniform("view", _transformation);
   _shader.setUniform("projection", projection);
 
-  AObject *cube = new Cube(glm::vec3(17, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 10, 10));
+  AObject *cube = new Map(100, 100);
+  // AObject *cube = new Cube(glm::vec3(-17, 0, 50), glm::vec3(0, 0, 0), glm::vec3(10, 10, 10));
   _character = new Character(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.05, 0.05));
-
   if (cube->initialize() == false)
     return (false);
   if (_character->initialize() == false)
@@ -76,7 +76,7 @@ bool	GameEngine::update()
   return true;
 }
 
-void	GameEngine::draw(std::vector<IEntity*> ent)
+void	GameEngine::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _shader.bind();

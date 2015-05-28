@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:16:37 2015 Jordan Chazottes
-// Last update Mon May 11 10:06:53 2015 Jordan Chazottes
+// Last update Thu May 28 15:45:41 2015 Jordan Chazottes
 //
 
 #ifndef		GAMEENGINE_HH_
@@ -20,6 +20,7 @@
 # include	<vector>
 
 # include	"AObject.hh"
+# include	"Map.hh"
 # include	"Cube.hh"
 # include	"Character.hh"
 
