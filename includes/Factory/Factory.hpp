@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 // 
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Wed May 27 17:48:49 2015 Mathieu Bourmaud
+// Last update Thu May 28 16:20:46 2015 Mathieu Bourmaud
 //
 
 #ifndef			_FACTORY_HPP_
@@ -28,7 +28,7 @@ class			Factory
 public:
   Factory();
   ~Factory();
-  IEntity<T>		*createEntity(eEntityType type);
+  IEntity<T>		*createEntity(eEntityType type, int x, int y);
 private:
   std::map<eEntityType, IEntity<T> *>	_ents;
 };
@@ -54,9 +54,9 @@ Factory<T>::~Factory()
 }
 
 template <class T>
-IEntity<T>	*Factory<T>::createEntity(eEntityType type)
+IEntity<T>	*Factory<T>::createEntity(eEntityType type, int x, int y)
 {
-  return (_ents[type]->clone());
+  return (_ents[type]->clone(x, y));
 }
 
 #endif

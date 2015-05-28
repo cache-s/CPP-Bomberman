@@ -8,7 +8,7 @@ class				IBonus : public IEnvironment<T>
 {
 public:
   virtual eEntityType		getType() const = 0;
-  virtual IEntity<T>		*clone() = 0;
+  virtual IEntity<T>		*clone(int x, int y) = 0;
   virtual ~IBonus() {};
 };
 

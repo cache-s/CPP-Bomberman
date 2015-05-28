@@ -7,17 +7,20 @@ template <class T>
 class				UbrkWall : public IWall<T>
 {
 public:
-  UbrkWall();
+  UbrkWall(int x = 0, int y = 0);
   ~UbrkWall();
   UbrkWall(UbrkWall const &other);
-  IEntity<T>			*clone();
+  IEntity<T>			*clone(int x, int y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-UbrkWall<T>::UbrkWall()
+UbrkWall<T>::UbrkWall(int x, int y)
 {
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setIsBreakable(false);
 }
 
 template <class T>
@@ -32,9 +35,12 @@ UbrkWall<T>::~UbrkWall()
 }
 
 template <class T>
-IEntity<T>				*UbrkWall<T>::clone()
+IEntity<T>				*UbrkWall<T>::clone(int x, int y)
 {
-  return (new UbrkWall<T>(*this));
+  UbrkWall<T> *ubrkWall = new UbrkWall<T>(*this);
+  ubrkWall->setPosX(x);
+  ubrkWall->setPosY(y);
+  return (ubrkWall);
 }
 
 template <class T>

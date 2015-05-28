@@ -45,7 +45,7 @@ public:
   virtual void		setScale(T pos) = 0;
 
   virtual eEntityType	getType() const = 0;
-  virtual IEntity<T>	*clone() = 0;
+  virtual IEntity<T>	*clone(int x, int y) = 0;
 };
 
 #endif			/* IENTITY_HPP_ */

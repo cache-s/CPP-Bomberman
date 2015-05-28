@@ -7,18 +7,21 @@ template <class T>
 class					BrkWall : public IWall<T>
 {
 public:
-  BrkWall();
+  BrkWall(int x = 0, int y = 0);
   ~BrkWall();
   BrkWall(BrkWall const &other);
-  IEntity<T>				*clone();
+  IEntity<T>				*clone(int x, int y);
   eEntityType				getType() const;
 private:
 };
 
 template <class T>
-IEntity<T>				*BrkWall<T>::clone()
+IEntity<T>				*BrkWall<T>::clone(int x, int y)
 {
-  return (new BrkWall<T>(*this));
+  BrkWall<T> *brkwall = new BrkWall<T>(*this);
+  brkwall->setPosX(x);
+  brkwall->setPosY(y);
+  return (brkwall);
 }
 
 template <class T>
@@ -34,8 +37,11 @@ BrkWall<T>::BrkWall(BrkWall const &other)
 }
 
 template <class T>
-BrkWall<T>::BrkWall()
+BrkWall<T>::BrkWall(int x, int y)
 {
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setIsBreakable(true);
 }
 
 template <class T>
