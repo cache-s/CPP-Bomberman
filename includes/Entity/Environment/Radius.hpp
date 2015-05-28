@@ -7,17 +7,20 @@ template <class T>
 class				Radius : public IBonus<T>
 {
 public:
-  Radius();
+  Radius(int x = 0, int y = 0);
   ~Radius();
   Radius(Radius const &other);
-  IEntity<T>			*clone();
+  IEntity<T>			*clone(int x, int y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-Radius<T>::Radius()
+Radius<T>::Radius(int x, int y)
 {
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setIsBreakable(true);
 }
 
 template <class T>
@@ -32,9 +35,12 @@ Radius<T>::~Radius()
 }
 
 template <class T>
-IEntity<T>				*Radius<T>::clone()
+IEntity<T>				*Radius<T>::clone(int x, int y)
 {
-  return (new Radius<T>(*this));
+  Radius<T> *radius = new Radius<T>(*this);
+  radius->setPosX(x);
+  radius->setPosY(y);
+  return (radius);
 }
 
 template <class T>

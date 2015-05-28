@@ -7,16 +7,19 @@ template <class T>
 class				Monster : public IMonster<T>
 {
 public:
-  Monster();
+  Monster(int x = 0, int y = 0);
   ~Monster();
   Monster(Monster const &other);
-  IEntity<T>	*clone();
+  IEntity<T>	*clone(int x, int y);
   eEntityType   getType() const;
 };
 
 template <class T>
-Monster<T>::Monster()
+Monster<T>::Monster(int x, int y)
 {
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setIsBreakable(true);
 }
 
 template <class T>
@@ -31,9 +34,12 @@ Monster<T>::~Monster()
 }
 
 template <class T>
-IEntity<T>				*Monster<T>::clone()
+IEntity<T>				*Monster<T>::clone(int x, int y)
 {
-  return (new Monster<T>(*this));
+  Monster<T> *monster = new Monster<T>(*this);
+  monster->setPosX(x);
+  monster->setPosY(y);
+  return (monster);
 }
 
 template <class T>

@@ -7,16 +7,19 @@ template <class T>
 class				AI : public IAI<T>
 {
 public:
-  AI();
+  AI(int x = 0, int y = 0);
   ~AI();
   AI(AI const &other);
-  IEntity<T>			*clone();
+  IEntity<T>			*clone(int x, int y);
   eEntityType			getType() const;
 };
 
 template <class T>
-AI<T>::AI()
+AI<T>::AI(int x, int y)
 {
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setIsBreakable(false);
 }
 
 template <class T>
@@ -26,9 +29,12 @@ eEntityType			AI<T>::getType() const
 }
 
 template <class T>
-IEntity<T>				*AI<T>::clone()
+IEntity<T>				*AI<T>::clone(int x, int y)
 {
-  return (new AI<T>(*this));
+  AI<T> *ai = new AI<T>(*this);
+  ai->setPosX(x);
+  ai->setPosY(y);
+  return (ai);
 }
 
 template <class T>

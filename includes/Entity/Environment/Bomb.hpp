@@ -7,18 +7,21 @@ template <class T>
 class				Bomb : public IBomb<T>
 {
 public:
-  Bomb();
+  Bomb(int x = 0, int y = 0);
   ~Bomb();
   Bomb(Bomb const &other);
-  IEntity<T>			*clone();
+  IEntity<T>			*clone(int x, int y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-IEntity<T>				*Bomb<T>::clone()
+IEntity<T>				*Bomb<T>::clone(int x, int y)
 {
-  return (new Bomb<T>(*this));
+  Bomb<T> *bomb = new Bomb<T>(*this);
+  bomb->setPosX(x);
+  bomb->setPosY(y);
+  return (bomb);
 }
 
 template <class T>
@@ -34,9 +37,11 @@ Bomb<T>::Bomb(Bomb const &other)
 }
 
 template <class T>
-Bomb<T>::Bomb()
+Bomb<T>::Bomb(int x, int y)
 {
-  std::cout << "i am a bomb lol" << std::endl;
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setIsBreakable(true);
 }
 
 template <class T>

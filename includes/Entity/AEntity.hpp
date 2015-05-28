@@ -8,6 +8,7 @@ template<class T>
 class				AEntity : public IEntity<T>
 {
 public:
+  AEntity(int x = 0, int y = 0);
   virtual int			getPosX() const; 
   virtual int			getPosY() const;
   virtual int			getHitboxSize() const;
@@ -23,7 +24,7 @@ public:
   virtual void			setPosition(T pos);
   virtual void			setRotation(T pos);
   virtual void			setScale(T pos);
-  virtual IEntity<T>		*clone() = 0;
+  virtual IEntity<T>		*clone(int x, int y) = 0;
   virtual eEntityType		getType() const = 0;
 private:
   int				_x;
@@ -34,6 +35,13 @@ private:
   T				_rotation;
   T				_scale;
 };
+
+template <class T>
+AEntity<T>::AEntity(int x, int y)
+{
+  this->_x = x;
+  this->_y = y;
+}
 
 template <class T>
 void				AEntity<T>::setHitboxSize(int hitbox)

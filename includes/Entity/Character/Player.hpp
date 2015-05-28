@@ -7,17 +7,19 @@ template <class T>
 class				Player : public IPlayer<T>
 {
 public:
-  Player();
+  Player(int x = 0, int y = 0);
   Player(Player const &other);
   ~Player();
-  IEntity<T>			*clone();
+  IEntity<T>			*clone(int x, int y);
   eEntityType			getType() const;
 };
 
 template <class T>
-Player<T>::Player()
+Player<T>::Player(int x, int y)
 {
-
+  this->setPosX(x);
+  this->setPosX(y);
+  this->setIsBreakable(true);
 }
 
 template <class T>
@@ -33,9 +35,12 @@ Player<T>::~Player()
 }
 
 template <class T>
-IEntity<T>				*Player<T>::clone()
+IEntity<T>				*Player<T>::clone(int x, int y)
 {
-  return (new Player<T>(*this));
+  Player<T> *player = new Player<T>(*this);
+  player->setPosX(x);
+  player->setPosY(y);
+  return (player);
 }
 
 template <class T>

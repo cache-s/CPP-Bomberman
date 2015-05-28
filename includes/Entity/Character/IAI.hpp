@@ -8,7 +8,7 @@ class				IAI : public ICharacter<T>
 {
 public:
   virtual eEntityType		getType() const = 0;
-  virtual IEntity<T>		*clone() = 0;
+  virtual IEntity<T>		*clone(int x, int y) = 0;
   virtual ~IAI() {};
 };
 
