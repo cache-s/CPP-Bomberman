@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:13:31 2015 Martin Porrès
-// Last update Wed May 27 17:51:28 2015 Martin Porrès
+// Last update Thu May 28 17:38:21 2015 Martin Porrès
 //
 
 #include	"EventManager.hpp"
@@ -33,7 +33,7 @@ EventManager::~EventManager(void)
 
 bool		EventManager::update(void)
 { // optimisation : update call a thread pool of manageEvent() that do several update
-  std::make_pair<EventManager::eEvent, IEntity*>	event;
+  std::pair<EventManager::eEvent, IEntity*>		event;
   bool							pollEventUpdate = false;
   bool							timeUpdate;
 

@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Wed May 27 16:47:38 2015 Martin Porrès
+// Last update Thu May 28 11:52:10 2015 Martin Porrès
 //
 
 #ifndef		_CORE_HPP_
