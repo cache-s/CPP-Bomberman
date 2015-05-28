@@ -1,4 +1,4 @@
-#include		"bomberman.hpp"
+#include		"Bomberman.hpp"
 #include		"GDLGUI.hpp"
 #include		"Factory.hpp"
 
