@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Thu May 28 14:06:16 2015 Pierre Charie
+// Last update Thu May 28 15:56:44 2015 Pierre Charie
 //
 
 #ifndef		LUA_HPP_
@@ -13,7 +13,7 @@
 
 
 # include	"Bomberman.hpp"
-# include	"IEntity.hpp"
+# include	"AEntity.hpp"
 
 class Lua
 {
@@ -21,7 +21,7 @@ public:
   Lua();
   ~Lua();
   std::string							luaMapLoad(std::string fileLoad, std::string functionName, int width, int height);
-  std::map<std::make_pair<int x, int y>, IEntity entity>	mapGenerate(int width, int height);
+  std::map<std::pair<int, int>, AEntity<glm::vec3> >	mapGenerate(int width, int height);
 private:
 };
 

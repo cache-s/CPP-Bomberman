@@ -5,6 +5,6 @@
 
 # include			<iostream>
 # include			<stdexcept>
-
+# include                       <map>
 
 #endif				//BOMBERMAN_HPP_
