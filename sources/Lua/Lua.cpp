@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Thu May 28 15:51:18 2015 Pierre Charie
+// Last update Fri May 29 11:35:23 2015 Pierre Charie
 //
 
 #include "Lua.hpp"
@@ -48,12 +48,12 @@ std::string Lua::luaMapLoad(std::string fileLoad, std::string functionName, int 
 }
 
 
-std::map<std::pair<int, int>, IEntity<glm::vec3> > Lua::mapGenerate(int width, int height)
+std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, int height)
 {
   std::string   mapLua;
   int           i = 0;
   int           x, y = 0;
-  std::map<std::pair<int, int>, IEntity<glm::vec3> > gameMap;
+  std::map<std::pair<int, int>, IEntity<glm::vec3> *> gameMap;
 
   //mapLua = generateMap(width, height); TODO linker avec la fonction LUA
 
