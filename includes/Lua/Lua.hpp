@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Fri May 29 11:36:13 2015 Pierre Charie
+// Last update Fri May 29 12:19:13 2015 Pierre Charie
 //
 
 #ifndef		LUA_HPP_
@@ -14,6 +14,8 @@
 
 # include	"Bomberman.hpp"
 # include	"AEntity.hpp"
+# include	"Factory.hpp"
+# include	"IEntity.hpp"
 
 class Lua
 {

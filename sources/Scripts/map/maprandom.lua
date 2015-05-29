@@ -9,7 +9,6 @@ math.randomseed(os.time())
 
 function generateMap(width, height)
    w = {}
-   h = {}
 
    for x = 1, width do
       for y = 1, height do
@@ -44,5 +43,4 @@ function generateMap(width, height)
 --    end
 end
 
-
-generateMap(10,10)
+--generateMap(10,10)

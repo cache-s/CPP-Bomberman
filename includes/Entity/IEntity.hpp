@@ -14,24 +14,26 @@
 
 enum			eEntityType
   {
-    BOMB,
-    MONSTER,
-    ARTINT,
-    BOMBNUMBER,
-    RADIUS,
-    FLAME,
-    SPEED,
-    BRKWALL,
-    UBRKWALL,
-    PLAYER,
+    FLOOR = 0,
+    BRKWALL = 1,
+    UBRKWALL = 2,
+    MAPWALL = 3,
+    RADIUS = 4,
+    FLAME = 5,
+    BOMB = 6,
+    MONSTER = 7,
+    ARTINT = 8,
+    PLAYER = 9,
+    BOMBNUMBER = 11,
+    SPEED = 10,
   };
 
 template <class T>
 class			IEntity
 {
 public:
-  virtual int		getPosX() const = 0;  
-  virtual int		getPosY() const = 0;  
+  virtual int		getPosX() const = 0;
+  virtual int		getPosY() const = 0;
   virtual int		getHitboxSize() const = 0;
   virtual bool		isBreakable() const = 0;
   virtual T		getPosition() const = 0;

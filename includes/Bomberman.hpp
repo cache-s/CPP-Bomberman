@@ -6,5 +6,6 @@
 # include			<iostream>
 # include			<stdexcept>
 # include                       <map>
+# include			<sstream>
 
 #endif				//BOMBERMAN_HPP_

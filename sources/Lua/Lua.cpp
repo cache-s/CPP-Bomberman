@@ -3,12 +3,11 @@
 //
 // Made by Pierre Charie
 // Login   <charie_p@epitech.net>
+
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Fri May 29 11:35:23 2015 Pierre Charie
+// Last update Fri May 29 16:19:43 2015 Pierre Charie
 //
-
-#include "Lua.hpp"
 
 extern "C"
 {
@@ -16,6 +15,9 @@ extern "C"
 #include "lualib.h"
 #include "lauxlib.h"
 }
+
+#include "Lua.hpp"
+
 
 std::string Lua::luaMapLoad(std::string fileLoad, std::string functionName, int width, int height)
 {
@@ -54,31 +56,29 @@ std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, 
   int           i = 0;
   int           x, y = 0;
   std::map<std::pair<int, int>, IEntity<glm::vec3> *> gameMap;
+  Factory	<glm::vec3>fac;
 
-  //mapLua = generateMap(width, height); TODO linker avec la fonction LUA
+  mapLua = luaMapLoad("./sources/Scripts/map/maprandom.lua", "genereateMap", width, height);
 
-  y++; //todo delete
-  while (mapLua[i])
+    while (mapLua[i])
     {
-      switch (mapLua[i])
-        {
-        case 0: //sol
-          break;
-        case 1: //mur destructible
-          //      gameMap[x][y] = ;
-          break;
-        case 2: //mur indestructible
-          //gameMap[x][y] = ;
-          break;
-        case 3: //bord de map
-          //gameMap[x][y] = ;
-          break;
-        }
+
+      std::stringstream ssType;
+      ssType << mapLua[i];
+      int intType;
+      ssType >> intType;
+
+      IEntity<glm::vec3> *item;
+      item = fac.createEntity(static_cast<eEntityType>(intType), x, y);
+
+      gameMap[std::pair<int, int>(x, y)] = item;
+      std::cout << gameMap[std::make_pair(x, y)];
+      i++;
       x++;
       if (x == width)
         {
           x = 0;
-          height++;
+          y++;
         }
     }
   return gameMap;
