@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri May 29 15:36:34 2015 Pierre Charie
+## Last update Sun May 31 12:28:07 2015 Sebastien Cache-Delanos
 ##
 
 NAME	= bomberman
@@ -21,7 +21,7 @@ SRCS	= ./sources/main.cpp				 \
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS		+= -Iincludes -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Wl,-rpath=./includes/LibBomberman/libs/
+INCS	+= -Iincludes -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Wl,-rpath=./includes/LibBomberman/libs/
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror $(INCS)
 
@@ -29,7 +29,7 @@ LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/
 
 GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread
 
-CXX	= clang++
+CXX	= g++
 
 RM	= rm -f
 
