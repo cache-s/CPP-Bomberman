@@ -23,7 +23,7 @@ void	GDLGUI::windowInit()
 
 void	GDLGUI::cameraInit()
 {
-  glEnable(GL_DEPTH_TEST);  
+  glEnable(GL_DEPTH_TEST);
   _camProj = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f);
   _camTransf = glm::lookAt(glm::vec3(0, 100, -20), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 }
@@ -103,6 +103,11 @@ void	GDLGUI::drawUbrkWall() const
 void	GDLGUI::drawPlayer() const
 {
   std::cout << "draw Player" << std::endl;
+}
+
+void	GDLGUI::drawMenu() const
+{
+  std::cout << "draw Menu" << std::endl;
 }
 
 void	GDLGUI::draw(std::vector<IEntity<glm::vec3> *> _ent)

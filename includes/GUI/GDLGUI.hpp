@@ -23,20 +23,21 @@ public:
   void windowInit();
   void cameraInit();
   void shaderInit();
-  void soundInit();       
+  void soundInit();
   bool update();
- 
+
   void draw(std::vector<IEntity<glm::vec3> *> _ent);
   void drawBomb() const;
   void drawMonster() const;
   void drawAI() const;
   void drawBombNumber() const;
-  void drawRadius() const;  
-  void drawFlame() const;  
-  void drawSpeed() const;  
+  void drawRadius() const;
+  void drawFlame() const;
+  void drawSpeed() const;
   void drawBrkWall() const;
   void drawUbrkWall() const;
   void drawPlayer() const;
+  void drawMenu() const;
 
   void pollEvent();
   void pause();
