@@ -18,16 +18,20 @@ enum			eEntityType
     BRKWALL = 1,
     UBRKWALL = 2,
     MAPWALL = 3,
-    DANGERZONE = 4,
-    FLAME = 5,
-    BOMB = 6,
-
-    MONSTER = 7,
-    ARTINT = 8,
-    PLAYER = 9,
-    BBOMBNUMBER = 11,
-    BSPEED = 10,
+    BBOMBNUMBER = 10,
+    BSPEED = 11,
     BRADIUS = 12,
+
+    PLAYER = 20,
+    ARTINT = 21,
+    MONSTER = 22,
+    DANGERZONE = 30,
+    FLAME = 31,
+    BOMB = 32,
+    DANGERBBOMBNUMBER = 33,
+    DANGERBSPEED = 34,
+    DANGERBRADIUS = 35,
+
   };
 
 template <class T>
