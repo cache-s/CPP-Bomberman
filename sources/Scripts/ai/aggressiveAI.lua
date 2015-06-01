@@ -1,6 +1,6 @@
 -- aggressiveAI.lua
 
-function act ()
+function act (map, width)
 
 	 print("Aggressive AI ready")
 
