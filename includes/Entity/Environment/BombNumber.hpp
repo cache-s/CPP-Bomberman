@@ -47,7 +47,7 @@ BombNumber<T>::BombNumber(BombNumber const &other)
 template <class T>
 eEntityType			BombNumber<T>::getType() const
 {
-  return (BOMBNUMBER);
+  return (BBOMBNUMBER);
 }
 
 template <class T>

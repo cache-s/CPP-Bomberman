@@ -62,10 +62,10 @@ GDLGUI<T>::GDLGUI()
   _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
   _drawFct[MONSTER] = &GDLGUI<T>::drawMonster;
   _drawFct[ARTINT] = &GDLGUI<T>::drawAI;
-  _drawFct[BOMBNUMBER] = &GDLGUI<T>::drawBombNumber;
-  _drawFct[RADIUS] = &GDLGUI<T>::drawRadius;
+  _drawFct[BBOMBNUMBER] = &GDLGUI<T>::drawBombNumber;
+  _drawFct[BRADIUS] = &GDLGUI<T>::drawRadius;
   _drawFct[FLAME] = &GDLGUI<T>::drawFlame;
-  _drawFct[SPEED] = &GDLGUI<T>::drawSpeed;
+  _drawFct[BSPEED] = &GDLGUI<T>::drawSpeed;
   _drawFct[BRKWALL] = &GDLGUI<T>::drawBrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;

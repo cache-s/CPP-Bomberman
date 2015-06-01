@@ -26,7 +26,7 @@ Radius<T>::Radius(int x, int y)
 template <class T>
 eEntityType			Radius<T>::getType() const
 {
-  return (RADIUS);
+  return (BRADIUS);
 }
 
 template <class T>

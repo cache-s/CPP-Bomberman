@@ -26,7 +26,7 @@ Speed<T>::Speed(int x, int y)
 template <class T>
 eEntityType			Speed<T>::getType() const
 {
-  return (SPEED);
+  return (BSPEED);
 }
 
 template <class T>
