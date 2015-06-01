@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Sun May 31 12:28:07 2015 Sebastien Cache-Delanos
+## Last update Mon Jun  1 11:37:26 2015 Pierre Charie
 ##
 
 NAME	= bomberman
@@ -74,3 +74,6 @@ nf : CXXFLAGS = $(INCS)
 nf : re
 
 re: fclean all
+
+cl: CXX = clang++
+cl : nf

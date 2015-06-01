@@ -7,7 +7,7 @@
 
 math.randomseed(os.time())
 
-function generateMap(width, height)
+function serializeMap(width, height)
    w = {}
 
    for x = 1, width do

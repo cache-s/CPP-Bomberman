@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Fri May 29 16:19:43 2015 Pierre Charie
+// Last update Mon Jun  1 11:54:04 2015 Pierre Charie
 //
 
 extern "C"
@@ -58,7 +58,7 @@ std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, 
   std::map<std::pair<int, int>, IEntity<glm::vec3> *> gameMap;
   Factory	<glm::vec3>fac;
 
-  mapLua = luaMapLoad("./sources/Scripts/map/maprandom.lua", "genereateMap", width, height);
+  mapLua = luaMapLoad("./sources/Scripts/map/maprandom.lua", "serializeMap", width, height);
 
     while (mapLua[i])
     {
