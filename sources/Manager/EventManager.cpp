@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:13:31 2015 Martin Porrès
-// Last update Thu May 28 17:38:21 2015 Martin Porrès
+// Last update Mon Jun  1 18:06:24 2015 Martin Porrès
 //
 
 #include	"EventManager.hpp"
@@ -14,7 +14,6 @@ EventManager::EventManager(IGUI &gui, ISafeQueue<IEntity *> &drawQueue) : _drawQ
 {
   _end = false;
   _pollEventThread()->create(&poll_event);
-  _eventPtr[WALLDESTRUCTION] = &EventManager::wallDestruction;
   _eventPtr[BOMBCREATION] = &EventManager::bombCreation;
   _eventPtr[BOMBDESTRUCTION] = &EventManager::bombDestruction;
   _eventPtr[UP] = &EventManager::moveUp;
@@ -51,9 +50,9 @@ bool		EventManager::timeCheck(void)
 {
   bool		update = false;
 
-  while (_eventTime[0] <= getElapsedTime())
+  while (std::get<0>(_eventTime[0]) <= getElapsedTime())
     {
-      _eventPtr(_eventTime[0]);
+      _eventPtr[BOMBDESTRUCTION](std::get<1>(_eventTime[0])); // set event in case of entity
       _eventTime.erase(_eventTime[0]);
       update = true;
     }
@@ -75,11 +74,6 @@ void		*poll_event(void *c)
   return (NULL);
 }
 
-void		EventManager::wallDestruction(IEntity *wall)
-{ //useless ???
-  delete wall;
-}
-
 void		EventManager::bombCreation(IEntity *player)
 {
   IEntity	*bomb;
@@ -87,31 +81,36 @@ void		EventManager::bombCreation(IEntity *player)
   // bomb = factory->clone(BOMB);
   // set bomb properties with player
   // push timer in vector
+  // push bomb in container
 }
 
 void		EventManager::bombDestruction(IEntity *bomb)
 {
   delete bomb;
+  // delete brkWall
+  // new flame x9
+  // push timer in vector
+  // push flame in container
 }
 
 void		EventManager::moveUp(IEntity *player)
 {
-  //player.setpos(...);
+  player->setPosX(player->getPosX() + 1);
 }
 
 void		EventManager::moveDown(IEntity *player)
 {
-  //player.setpos(...);
+  player->setPosX(player->getPosX() - 1);
 }
 
 void		EventManager::moveLeft(IEntity *player)
 {
-  //player.setpos(...);
+  player->setPosY(player->getPosY() + 1);
 }
 
 void		EventManager::moveRight(IEntity *player)
 {
-  //player.setpos(...);
+  player->setPosY(player->getPosY() - 1);
 }
 
 void		EventManager::flameDestruction(IEntity *flame)

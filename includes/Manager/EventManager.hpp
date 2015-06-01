@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Thu May 28 14:26:22 2015 Martin Porrès
+// Last update Mon Jun  1 18:06:29 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -16,24 +16,22 @@ typedef void (EventManger::*Func)(IEntity *);
 class		EventManger
 {
 public:
-    enum	eEvent
-  {
-    WALLDESTRUCTION,
-    BOMBCREATION,
-    BOMBDESTRUCTION,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    FLAMEDESTRUCTION,
-    ITEMDROP,
-  }
+  enum	eEvent
+    {
+      BOMBCREATION,
+      BOMBDESTRUCTION,
+      UP,
+      DOWN,
+      LEFT,
+      RIGHT,
+      FLAMEDESTRUCTION,
+      ITEMDROP,
+    };
   EventManger(ISafeQueue<IEntity *> &drawQueue);
   ~EventManger(void);
   bool		update(void);
   bool		timeCheck(void);
   void		pollEvent(void);
-  void		wallDestruction(IEntity *wall);
   void		bombCreation(IEntity *player);
   void		bombDestruction(IEntity *bomb);
   void		moveUp(IEntity *player);
@@ -43,14 +41,14 @@ public:
   void		flameDestruction(IEntity *flame);
   void		itemDrop(IEntity *item);
 private:
-  IGUI								&_gui;
-  ISafeQueue<IEntity *>						&_drawQueue;
+  IGUI							&_gui;
+  ISafeQueue<IEntity *>					&_drawQueue;
   ISafeQueue<std::pair<EventManger::eEvent, IEntity*> >	_enventQueue;
-  ICondVar							_eventCondVar;
-  IThread							_pollEventThread;
-  std::vector<int>						_enventTime;
-  std::map<EventManager::eEvent, Func>				_eventPtr;
-  bool								_end;
+  ICondVar						_eventCondVar;
+  IThread						_pollEventThread;
+  std::vector<std::pair<int, IEntity *> >		_enventTime;
+  std::map<EventManager::eEvent, Func>			_eventPtr;
+  bool							_end;
 };
 
 void	*poll_event(void *c);
