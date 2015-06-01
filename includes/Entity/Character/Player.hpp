@@ -19,7 +19,9 @@ Player<T>::Player(int x, int y)
 {
   this->setPosX(x);
   this->setPosY(y);
+  this->setScale(T(0.05, 0.05, 0.05));
   this->setPosition(T(x, y, 0));
+  this->setRotation(T(0.5, 0.5, 0.5));
   this->setIsBreakable(true);
 }
 

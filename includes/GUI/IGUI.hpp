@@ -30,6 +30,7 @@ public:
   virtual void drawPlayer(const IEntity<T> &ent) const = 0;
 
   virtual ~IGUI() {};
+  virtual glm::mat4 getTransformation(const IEntity<T> &ent) const = 0;
 };
 
 #endif		/* IGUI_HPP_ */

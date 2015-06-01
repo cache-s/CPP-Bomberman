@@ -42,6 +42,9 @@ Bomb<T>::Bomb(int x, int y)
   this->setPosX(x);
   this->setPosY(y);
   this->setIsBreakable(true);
+  this->setScale(glm::vec3(10, 10, 10));
+  this->setPosition(T(x, y, 0));
+
 }
 
 template <class T>

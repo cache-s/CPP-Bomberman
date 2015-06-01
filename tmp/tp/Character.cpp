@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Fri May 29 15:27:40 2015 Jordan Chazottes
+// Last update Mon Jun  1 15:40:13 2015 Jordan Chazottes
 //
 
 #include	"Character.hh"
@@ -64,6 +64,7 @@ void	Character::draw(gdl::AShader& shader, gdl::Clock const& clock)
 {
   _texture.bind();
   _model.draw(shader, getTransformation(), clock.getElapsed());
+  std::cout << "drawing player" << std::endl;
 }
 
 glm::vec3	Character::getPosition() const

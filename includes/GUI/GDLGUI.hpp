@@ -9,6 +9,7 @@
 # include       <glm/gtc/matrix_transform.hpp>
 # include	<BasicShader.hh>
 # include	<SdlContext.hh>
+# include       <Geometry.hh>
 # include	"IGUI.hpp"
 # include	"IEntity.hpp"
 # include	"AssetsManager.hpp"
@@ -38,6 +39,7 @@ public:
   void drawUbrkWall(const IEntity<T> &ent) const;
   void drawPlayer(const IEntity<T> &ent) const;
 
+  glm::mat4 getTransformation(const IEntity<T> &ent) const;
   void pollEvent();
   void pause();
 private:
@@ -79,8 +81,8 @@ void	GDLGUI<T>::windowInit()
 template <class T>
 void	GDLGUI<T>::cameraInit()
 {
-  _camProj = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f);
-  _camTransf = glm::lookAt(T(0, 100, -1), T(0, 0, 0), T(0, 1, 0));
+  _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
+  _camTransf = glm::lookAt(T(0, 150, -20), T(0, 0, 0), T(0, 1, 0));
 }
 
 template <class T>
@@ -122,13 +124,6 @@ bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
   _camTransf = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0),glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
   return true;
-}
-
-template <class T>
-void	GDLGUI<T>::drawBomb(const IEntity<T> &ent) const
-{
-  (void)ent;
-  std::cout << "draw bomb" << std::endl;
 }
 
 template <class T>
@@ -188,19 +183,20 @@ void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
 }
 
 template <class T>
+void	GDLGUI<T>::drawBomb(const IEntity<T> &ent) const
+{
+  (void)ent;
+}
+
+template <class T>
 void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 {
   gdl::Texture texture;
-  glm::mat4    transform(1);
-
-  transform = glm::rotate(transform, ent.getRotation().x, T(1, 0, 0));
-  transform = glm::rotate(transform, ent.getRotation().y, T(0, 1, 0));
-  transform = glm::rotate(transform, ent.getRotation().z, T(0, 0, 1));
-  transform = glm::translate(transform, ent.getPosition());
-  transform = glm::scale(transform, ent.getScale());
+  gdl::Model	model;
 
   _texture.bind();
-  _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, transform, _clock.getElapsed());
+  _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
+  _AM.getModel(PLAYER)->setCurrentAnim(-1, false);
 }
 
 template <class T>
@@ -223,6 +219,19 @@ template <class T>
 void	GDLGUI<T>::pause()
 {
 
+}
+
+template <class T>
+glm::mat4	GDLGUI<T>::getTransformation(const IEntity<T> &ent) const
+{
+  glm::mat4	transform(1);
+
+  transform = glm::rotate(transform, ent.getRotation().x, T(1, 0, 0));
+  transform = glm::rotate(transform, ent.getRotation().y, T(0, 1, 0));
+  transform = glm::rotate(transform, ent.getRotation().z, T(0, 0, 1));
+  transform = glm::translate(transform, ent.getPosition());
+  transform = glm::scale(transform, ent.getScale());
+  return transform;
 }
 
 #endif		/* GDLGUI_HPP_*/

@@ -11,7 +11,7 @@ int			main(int ac, char** av)
 
   _ents.push_back(factory.createEntity(BOMB, 10, 10));
   _ents.push_back(factory.createEntity(PLAYER, 10, 10));
-  _ents.push_back(factory.createEntity(ARTINT, 10, 10));
+  // _ents.push_back(factory.createEntity(ARTINT, 10, 10));
   tmp->windowInit();
   tmp->cameraInit();
   tmp->shaderInit();
