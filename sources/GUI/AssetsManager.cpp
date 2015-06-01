@@ -3,20 +3,21 @@
 
 AssetsManager::AssetsManager()
 {
-  gdl::Model *model = NULL;
 
-  if (model->load("./assets/marvin.fbx") == false)
-    {
-      /* Throw exception */        
-    }
-  _models[PLAYER] = model;
 }
 
 AssetsManager::~AssetsManager()
 {
 }
 
-gdl::Model*	AssetsManager::getModel(eEntityType type)
+void		AssetsManager::init()
+{
+  if (_model.load("./includes/LibBomberman/assets/marvin.fbx") == false)
+    std::cout << "erreur loading model marvin" << std::endl;
+  _models[PLAYER] = &_model;
+}
+
+gdl::Model*	AssetsManager::getModel(eEntityType type) const
 {
   if (_models.find(type) != _models.end())
     return _models.find(type)->second;

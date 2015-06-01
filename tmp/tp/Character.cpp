@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Wed May 27 15:51:17 2015 Jordan Chazottes
+// Last update Fri May 29 15:27:40 2015 Jordan Chazottes
 //
 
 #include	"Character.hh"
@@ -28,7 +28,7 @@ Character::~Character()
 bool	Character::initialize()
 {
   _speed = 10.0f;
-  if (_model.load("./LibBomberman_linux_x64/assets/marvin.fbx") == false)
+  if (_model.load("./assets/marvin.fbx") == false)
     {
       std::cerr << "Cannot load the character texture" << std::endl;
       return false;

@@ -5,7 +5,7 @@
 int			main(int ac, char** av)
 {
   (void)ac, (void)av;
-  IGUI			*tmp = new GDLGUI;
+  IGUI<glm::vec3>			*tmp = new GDLGUI<glm::vec3>;
   std::vector<IEntity<glm::vec3> *> _ents;
   Factory<glm::vec3> 	factory;
 
@@ -15,8 +15,8 @@ int			main(int ac, char** av)
   tmp->windowInit();
   tmp->cameraInit();
   tmp->shaderInit();
-  tmp->soundInit();
-  while (tmp->update() == true)
+  tmp->assetsInit();
+  while (tmp->update(_ents) == true)
     tmp->draw(_ents);
   return (0);
 }

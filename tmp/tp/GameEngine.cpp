@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:24:29 2015 Jordan Chazottes
-// Last update Thu May 28 16:01:01 2015 Jordan Chazottes
+// Last update Fri May 29 18:04:34 2015 Jordan Chazottes
 //
 
 #include "GameEngine.hh"
@@ -41,8 +41,8 @@ bool	GameEngine::initialize()
   _shader.setUniform("view", _transformation);
   _shader.setUniform("projection", projection);
 
-  AObject *cube = new Map(100, 100);
-  // AObject *cube = new Cube(glm::vec3(-17, 0, 50), glm::vec3(0, 0, 0), glm::vec3(10, 10, 10));
+  // AObject *cube = new Map(100, 100);
+  AObject *cube = new Cube(glm::vec3(-17, 0, 50), glm::vec3(0, 0, 0), glm::vec3(10, 10, 10));
   _character = new Character(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.05, 0.05));
   if (cube->initialize() == false)
     return (false);

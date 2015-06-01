@@ -11,11 +11,10 @@
 # include	<SdlContext.hh>
 # include	"IGUI.hpp"
 # include	"IEntity.hpp"
+# include	"AssetsManager.hpp"
 
-class		GDLGUI;
-typedef void	(GDLGUI::*drawFunc)(void) const;
-
-class GDLGUI : public IGUI
+template <class T>
+class GDLGUI : public IGUI<T>
 {
 public:
   GDLGUI();
@@ -23,21 +22,21 @@ public:
   void windowInit();
   void cameraInit();
   void shaderInit();
-  void soundInit();
-  bool update();
-
-  void draw(std::vector<IEntity<glm::vec3> *> _ent);
-  void drawBomb() const;
-  void drawMonster() const;
-  void drawAI() const;
-  void drawBombNumber() const;
-  void drawRadius() const;
-  void drawFlame() const;
-  void drawSpeed() const;
-  void drawBrkWall() const;
-  void drawUbrkWall() const;
-  void drawPlayer() const;
-  void drawMenu() const;
+  void soundInit();       
+  void assetsInit();
+  bool update(std::vector<IEntity<T> *> ent);
+ 
+  void draw(std::vector<IEntity<T> *> ent);
+  void drawBomb(const IEntity<T> &ent) const;
+  void drawMonster(const IEntity<T> &ent) const;
+  void drawAI(const IEntity<T> &ent) const;
+  void drawBombNumber(const IEntity<T> &ent) const;
+  void drawRadius(const IEntity<T> &ent) const;  
+  void drawFlame(const IEntity<T> &ent) const;  
+  void drawSpeed(const IEntity<T> &ent) const;  
+  void drawBrkWall(const IEntity<T> &ent) const;
+  void drawUbrkWall(const IEntity<T> &ent) const;
+  void drawPlayer(const IEntity<T> &ent) const;
 
   void pollEvent();
   void pause();
@@ -47,8 +46,183 @@ private:
   glm::mat4		_camTransf;
   gdl::BasicShader	_shader;
   gdl::Input		_input;
+  gdl::Texture		_texture;
   gdl::Clock		_clock;
+  typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent) const;
   std::map<eEntityType, drawFunc> _drawFct;
+  AssetsManager		_AM;
 };
+
+template <class T>
+GDLGUI<T>::GDLGUI()
+{
+  std::cout << "Starting GUI" << std::endl;
+  _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
+  _drawFct[MONSTER] = &GDLGUI<T>::drawMonster;
+  _drawFct[ARTINT] = &GDLGUI<T>::drawAI;
+  _drawFct[BOMBNUMBER] = &GDLGUI<T>::drawBombNumber;
+  _drawFct[RADIUS] = &GDLGUI<T>::drawRadius;
+  _drawFct[FLAME] = &GDLGUI<T>::drawFlame;
+  _drawFct[SPEED] = &GDLGUI<T>::drawSpeed;
+  _drawFct[BRKWALL] = &GDLGUI<T>::drawBrkWall;
+  _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
+  _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
+}
+
+template <class T>
+void	GDLGUI<T>::windowInit()
+{
+  if (!_context.start(1280, 720, "My bomberman!"))
+    std::cout << "error window init" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::cameraInit()
+{
+  _camProj = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f);
+  _camTransf = glm::lookAt(T(0, 100, -1), T(0, 0, 0), T(0, 1, 0));
+}
+
+template <class T>
+void	GDLGUI<T>::shaderInit()
+{
+  glEnable(GL_DEPTH_TEST);  
+  if (!_shader.load("./includes/LibBomberman/shaders/basic.fp", GL_FRAGMENT_SHADER))
+    throw ("Error basic.fp");
+  if (!_shader.load("./includes/LibBomberman/shaders/basic.vp", GL_VERTEX_SHADER))
+    throw ("Error basic.vp");
+  if (!_shader.build())
+    throw ("Error build");
+  _shader.bind();
+  _shader.setUniform("view", _camTransf);
+  _shader.setUniform("projection", _camProj);
+}
+
+template <class T>
+void	GDLGUI<T>::soundInit()
+{
+
+}
+
+template <class T>
+void	GDLGUI<T>::assetsInit()
+{
+  _AM.init();
+}
+
+template <class T>
+bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
+{
+  if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
+    return false;
+  _context.updateClock(_clock);
+  _context.updateInputs(_input);
+  for (size_t i = 0; i < ent.size(); i++)
+    (this->*_drawFct[ent[i]->getType()])(*ent[i]);
+  _camTransf = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0),glm::vec3(0, 1, 0));
+  _shader.setUniform("view", _camTransf);
+  return true;
+}
+
+template <class T>
+void	GDLGUI<T>::drawBomb(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw bomb" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawMonster(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw Monster" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawAI(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw AI" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawBombNumber(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw bomb number" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawRadius(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw Radius" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawFlame(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw flame" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw Speed" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw brk wall" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw ubrk wall" << std::endl;
+}
+
+template <class T>
+void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
+{
+  gdl::Texture texture;
+  glm::mat4    transform(1);
+
+  transform = glm::rotate(transform, ent.getRotation().x, T(1, 0, 0));
+  transform = glm::rotate(transform, ent.getRotation().y, T(0, 1, 0));
+  transform = glm::rotate(transform, ent.getRotation().z, T(0, 0, 1));
+  transform = glm::translate(transform, ent.getPosition());
+  transform = glm::scale(transform, ent.getScale());
+
+  _texture.bind();
+  _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, transform, _clock.getElapsed());
+}
+
+template <class T>
+void	GDLGUI<T>::draw(std::vector<IEntity<T> *> ent)
+{
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  _shader.bind();
+  for (size_t i = 0; i < ent.size(); i++)
+    (this->*_drawFct[ent[i]->getType()])(*ent[i]);
+  _context.flush();
+}
+
+template <class T>
+void	GDLGUI<T>::pollEvent()
+{
+
+}
+
+template <class T>
+void	GDLGUI<T>::pause()
+{
+
+}
 
 #endif		/* GDLGUI_HPP_*/

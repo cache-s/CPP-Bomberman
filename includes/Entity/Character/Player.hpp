@@ -18,7 +18,8 @@ template <class T>
 Player<T>::Player(int x, int y)
 {
   this->setPosX(x);
-  this->setPosX(y);
+  this->setPosY(y);
+  this->setPosition(T(x, y, 0));
   this->setIsBreakable(true);
 }
 
