@@ -219,8 +219,13 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 template <class T>
 void	GDLGUI<T>::drawMenu(const std::string &image)
 {
-  (void)image;
+  // (void)image;
   //la on met le menu mdr
+  if (_texture.load(image) == false)
+    return;
+  _texture.bind();
+  _context.flush();
+
 }
 
 template <class T>

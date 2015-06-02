@@ -18,8 +18,9 @@ int			main(int ac, char** av)
   tmp->assetsInit();
   while (tmp->update(_ents) == true)
     {
-      tmp->setEntitiesToDraw(_ents);
-      tmp->draw();
+      tmp->drawMenu("../assets/menu/StartMenuDefault.tga");
+      // tmp->setEntitiesToDraw(_ents);
+      // tmp->draw();
     }
   return (0);
 }
