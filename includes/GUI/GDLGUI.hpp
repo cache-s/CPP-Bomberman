@@ -15,7 +15,7 @@
 # include	"AssetsManager.hpp"
 
 template <class T>
-class GDLGUI : public IGUI<T>
+class GDLGUI : public IGUI<T>, public gdl::Game
 {
 public:
   GDLGUI();
@@ -23,11 +23,14 @@ public:
   void windowInit();
   void cameraInit();
   void shaderInit();
-  void soundInit();       
+  void soundInit();      
   void assetsInit();
+  bool initialize();
+  bool update();
+  void draw();
   bool update(std::vector<IEntity<T> *> ent);
  
-  void draw(std::vector<IEntity<T> *> ent);
+  void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawBomb(const IEntity<T> &ent) const;
   void drawMonster(const IEntity<T> &ent) const;
   void drawAI(const IEntity<T> &ent) const;
@@ -43,6 +46,7 @@ public:
   void pollEvent();
   void pause();
 private:
+  std::vector<IEntity<T> *> _ents;
   gdl::SdlContext	_context;
   glm::mat4		_camProj;
   glm::mat4		_camTransf;
@@ -117,12 +121,17 @@ bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
 {
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
+  if (_input.getKey(SDLK_LEFT))
+    std::cout << "left = " << (int)_input << std::endl;
+  if (_input.getKey(SDLK_RIGHT))
+    std::cout << "right = " << (int)_input << std::endl;
   _context.updateClock(_clock);
   _context.updateInputs(_input);
-  for (size_t i = 0; i < ent.size(); i++)
-    (this->*_drawFct[ent[i]->getType()])(*ent[i]);
-  _camTransf = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0),glm::vec3(0, 1, 0));
-  _shader.setUniform("view", _camTransf);
+  (void)ent;
+  // for (size_t i = 0; i < ent.size(); i++)
+  //   (this->*_drawFct[ent[i]->getType()])(*ent[i]);
+  // _camTransf = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0),glm::vec3(0, 1, 0));
+  // _shader.setUniform("view", _camTransf);
   return true;
 }
 
@@ -200,13 +209,9 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 }
 
 template <class T>
-void	GDLGUI<T>::draw(std::vector<IEntity<T> *> ent)
+void	GDLGUI<T>::setEntitiesToDraw(std::vector<IEntity<T> *> ent)
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  _shader.bind();
-  for (size_t i = 0; i < ent.size(); i++)
-    (this->*_drawFct[ent[i]->getType()])(*ent[i]);
-  _context.flush();
+  _ents = ent;
 }
 
 template <class T>
@@ -233,5 +238,28 @@ glm::mat4	GDLGUI<T>::getTransformation(const IEntity<T> &ent) const
   transform = glm::scale(transform, ent.getScale());
   return transform;
 }
+
+template <class T>
+bool GDLGUI<T>::initialize()
+{
+  return true;
+}
+
+template <class T>
+bool GDLGUI<T>::update()
+{
+  return true;
+}
+
+template <class T>
+void GDLGUI<T>::draw()
+{
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  _shader.bind();
+  for (size_t i = 0; i < _ents.size(); i++)
+    (this->*_drawFct[_ents[i]->getType()])(*_ents[i]);
+  _context.flush();
+}
+
 
 #endif		/* GDLGUI_HPP_*/

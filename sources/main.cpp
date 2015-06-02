@@ -5,7 +5,7 @@
 int			main(int ac, char** av)
 {
   (void)ac, (void)av;
-  IGUI<glm::vec3>			*tmp = new GDLGUI<glm::vec3>;
+  GDLGUI<glm::vec3>			*tmp = new GDLGUI<glm::vec3>;
   std::vector<IEntity<glm::vec3> *> _ents;
   Factory<glm::vec3> 	factory;
 
@@ -17,6 +17,9 @@ int			main(int ac, char** av)
   tmp->shaderInit();
   tmp->assetsInit();
   while (tmp->update(_ents) == true)
-    tmp->draw(_ents);
+    {
+      tmp->setEntitiesToDraw(_ents);
+      tmp->draw();
+    }
   return (0);
 }

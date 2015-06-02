@@ -14,7 +14,7 @@ public:
   virtual void soundInit() = 0;
   virtual void assetsInit() = 0;
   virtual bool update(std::vector<IEntity<T> *> _ent) = 0;
-  virtual void draw(std::vector<IEntity<T> *> _ent) = 0;
+  virtual void setEntitiesToDraw(std::vector<IEntity<T> *> _ent) = 0;
   virtual void pollEvent() = 0;
   virtual void pause() = 0;
 
