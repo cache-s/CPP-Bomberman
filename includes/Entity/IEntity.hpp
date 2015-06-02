@@ -25,13 +25,8 @@ enum			eEntityType
     PLAYER = 20,
     ARTINT = 21,
     MONSTER = 22,
-    DANGERZONE = 30,
     FLAME = 31,
     BOMB = 32,
-    DANGERBBOMBNUMBER = 33,
-    DANGERBSPEED = 34,
-    DANGERBRADIUS = 35,
-
   };
 
 template <class T>
