@@ -40,12 +40,14 @@ public:
   virtual T		getPosition() const = 0;
   virtual T		getRotation() const = 0;
   virtual T		getScale() const = 0;
+  virtual float		getSpeed() const = 0;
 
   virtual void		setHitboxSize(int hitbox) = 0;
   virtual void		setIsBreakable(bool breakable) = 0;
   virtual void		setPosition(const T &pos) = 0;
   virtual void		setRotation(const T &pos) = 0;
   virtual void		setScale(const T &pos) = 0;
+  virtual void		setSpeed(float speed) = 0;
 
   virtual eEntityType	getType() const = 0;
   virtual IEntity<T>	*clone(int x, int y) = 0;

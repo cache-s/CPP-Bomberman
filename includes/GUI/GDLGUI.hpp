@@ -56,6 +56,7 @@ private:
   gdl::Input		_input;
   gdl::Texture		_texture;
   gdl::Clock		_clock;
+
   typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent) const;
   std::map<eEntityType, drawFunc> _drawFct;
   AssetsManager		_AM;
@@ -124,14 +125,33 @@ bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   if (_input.getKey(SDLK_LEFT))
-    rotate(glm::vec3(ent[0]->getPosition().x, ent[0]->getPosition().y, ent[0]->getPosition().z) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), 20, *ent[0]);
-  if (_input.getKey(SDLK_UP))
-    translate(glm::vec3(0, 0, -1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
-  if (_input.getKey(SDLK_DOWN))
-    translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+    {
+      // ent[0]->setRotation(glm::rotate(ent[0]->getRotation(), ent[0]->getRotation().y, glm::vec3(0, 90, 0)));
+      ent[0]->setRotation(T(0, 90, 0));
+      ent[0]->setPosition(T((ent[0]->getPosition().x + 1), ent[0]->getPosition().y, ent[0]->getPosition().z));
+      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+    }
   if (_input.getKey(SDLK_RIGHT))
-    translate(glm::vec3(0, 0, -1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
-  std::cout << "Position = " << ent[0]->getPosition().x << " " << ent[0]->getPosition().y << " " << ent[0]->getPosition().z << std::endl;
+    {
+      // ent[0]->setRotation(glm::rotate(ent[0]->getRotation(), ent[0]->getRotation().y, glm::vec3(0, 270, 0)));
+      ent[0]->setRotation(T(0, 270, 0));
+      ent[0]->setPosition(T((ent[0]->getPosition().x - 1), ent[0]->getPosition().y, ent[0]->getPosition().z));
+      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+    }
+  if (_input.getKey(SDLK_UP))
+    {
+      ent[0]->setRotation(T(0, 0, 0));
+      ent[0]->setPosition(T(ent[0]->getPosition().x, ent[0]->getPosition().y, (ent[0]->getPosition().z + 1)));
+      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+    }
+  if (_input.getKey(SDLK_DOWN))
+    {
+      ent[0]->setRotation(T(0, 180, 0));
+      ent[0]->setPosition(T(ent[0]->getPosition().x, ent[0]->getPosition().y, (ent[0]->getPosition().z - 1)));
+      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+    }
+  // if (_input.getKey(SDLK_q))
+  //   rotate(glm::vec3(, 1, 0) * static_cast<float>(_clock.getElapsed()) * (ent[0]->getSpeed()*4), 90, *ent[0]);
   _context.updateClock(_clock);
   _context.updateInputs(_input);
   (void)ent;
@@ -238,10 +258,10 @@ glm::mat4	GDLGUI<T>::getTransformation(const IEntity<T> &ent) const
 {
   glm::mat4	transform(1);
 
+  transform = glm::translate(transform, ent.getPosition());
   transform = glm::rotate(transform, ent.getRotation().x, T(1, 0, 0));
   transform = glm::rotate(transform, ent.getRotation().y, T(0, 1, 0));
   transform = glm::rotate(transform, ent.getRotation().z, T(0, 0, 1));
-  transform = glm::translate(transform, ent.getPosition());
   transform = glm::scale(transform, ent.getScale());
   return transform;
 }
@@ -279,7 +299,6 @@ template <class T>
 void	GDLGUI<T>::rotate(T const &axis, float angle, IEntity<T> &ent) const
 {
   ent.setRotation(ent.getRotation() + (axis * angle));
-  std::cout << "RotationAft = " << ent.getPosition().x << " " << ent.getPosition().y << " " << ent.getPosition().z << std::endl;
 }
 
 #endif		/* GDLGUI_HPP_*/

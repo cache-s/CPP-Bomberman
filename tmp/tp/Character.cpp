@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Tue Jun  2 14:32:39 2015 Jordan Chazottes
+// Last update Tue Jun  2 16:51:58 2015 Jordan Chazottes
 //
 
 #include	"Character.hh"
@@ -54,7 +54,7 @@ void	Character::update(gdl::Clock const& clock, gdl::Input& input)
   if (input.getKey(SDLK_z))
     translate(glm::vec3(0, 1, 0) * static_cast<float>(clock.getElapsed()) * (_speed*4));
   if (input.getKey(SDLK_q))
-    rotate(glm::vec3(_position.x, _position.y, _position.z) * static_cast<float>(clock.getElapsed()) * (_speed*4), 20);
+    rotate(glm::vec3(0, 1, 0) * static_cast<float>(clock.getElapsed()) * (_speed*4), 20);
   if (input.getKey(SDLK_d))
     rotate(glm::vec3(_position.x, _position.y, _position.z) * static_cast<float>(clock.getElapsed()) * (_speed*4), 20);
   // std::cout << "X = " << _position.x << "\nY = " << _position.y << "\nZ = " << _position.z << std::endl;

@@ -16,6 +16,7 @@ public:
   virtual T			getPosition() const;
   virtual T			getRotation() const;
   virtual T			getScale() const;
+  virtual float			getSpeed() const;
 
   virtual void			setPosX(int x);
   virtual void			setPosY(int y);
@@ -24,6 +25,8 @@ public:
   virtual void			setPosition(const T &pos);
   virtual void			setRotation(const T &pos);
   virtual void			setScale(const T &pos);
+  virtual void			setSpeed(float speed);
+
   virtual IEntity<T>		*clone(int x, int y) = 0;
   virtual eEntityType		getType() const = 0;
 private:
@@ -34,6 +37,7 @@ private:
   T				_position;
   T				_rotation;
   T				_scale;
+  float				_speed;
 };
 
 template <class T>
@@ -116,6 +120,12 @@ int				AEntity<T>::getPosY() const
 }
 
 template <class T>
+float				AEntity<T>::getSpeed() const
+{
+  return (_speed);
+}
+
+template <class T>
 void				AEntity<T>::setPosX(int x)
 {
   this->_x = x;
@@ -125,6 +135,12 @@ template <class T>
 void				AEntity<T>::setPosY(int y)
 {
   this->_y = y;
+}
+
+template <class T>
+void				AEntity<T>::setSpeed(float speed)
+{
+  this->_speed = speed;
 }
 
 #endif				/* AENTITY_HPP_ */

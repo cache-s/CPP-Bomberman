@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 18:30:04 2015 Jordan Chazottes
-// Last update Tue Jun  2 12:14:29 2015 Jordan Chazottes
+// Last update Tue Jun  2 16:46:17 2015 Jordan Chazottes
 //
 
 # include	"AObject.hh"

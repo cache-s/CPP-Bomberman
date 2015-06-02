@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:24:29 2015 Jordan Chazottes
-// Last update Fri May 29 18:04:34 2015 Jordan Chazottes
+// Last update Tue Jun  2 16:49:48 2015 Jordan Chazottes
 //
 
 #include "GameEngine.hh"
@@ -36,19 +36,19 @@ bool	GameEngine::initialize()
 
   projection = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 2000.0f);
 
-  _transformation = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+  _transformation = glm::lookAt(glm::vec3(0, 50, -30), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
   _shader.bind();
   _shader.setUniform("view", _transformation);
   _shader.setUniform("projection", projection);
 
   // AObject *cube = new Map(100, 100);
-  AObject *cube = new Cube(glm::vec3(-17, 0, 50), glm::vec3(0, 0, 0), glm::vec3(10, 10, 10));
-  _character = new Character(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.05, 0.05));
-  if (cube->initialize() == false)
-    return (false);
+  // AObject *cube = new Cube(glm::vec3(-17, 0, 50), glm::vec3(0, 0, 0), glm::vec3(10, 10, 10));
+  _character = new Character(glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), glm::vec3(0.05, 0.05, 0.05));
+  // if (cube->initialize() == false)
+  //   return (false);
   if (_character->initialize() == false)
     return (false);
-  _objects.push_back(cube);
+  // _objects.push_back(cube);
   _objects.push_back(_character);
   return true;
 }
@@ -71,8 +71,8 @@ bool	GameEngine::update()
   _context.updateInputs(_input);
   for (size_t i = 0; i < _objects.size(); ++i)
     _objects[i]->update(_clock, _input);
-  _transformation = glm::lookAt(setCamPos(), _character->getPosition(),glm::vec3(0, 1, 0));
-  _shader.setUniform("view", _transformation);
+  // _transformation = glm::lookAt(setCamPos(), _character->getPosition(),glm::vec3(0, 1, 0));
+  // _shader.setUniform("view", _transformation);
   return true;
 }
 
