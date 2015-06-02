@@ -120,9 +120,115 @@ function act (map, width, height, selfx, selfy)
 
 -- movement
 
+delta = 0
+distance = 0
+closestDistance = 0
+closest = -1
+
    for i = 0, (width * height) do
-      if (map[i] > 19 and 
+      if (map[i] > 19 and map[i] < 30) then
+	 delta = math.abs(pos - i)
+	 distance = ((delta / width) - 2 + (delta % width) )
+	 if (closest = -1 or distance < closestDistance) then
+	    closestDistance = distance
+	    closest = i
+	 end
+      end
    end
+   
+   if (pos - closest > 0) then -- au dessus ou a gauche
+      if (pos - closest < width) then -- a gauche!
+	 if (map[pos - 1] == 0) then
+	    --go left
+	 end
+	 if (map[pos - 1] == 1) then
+	    --on bombe le mur!
+	 end
+	 if (map[pos - 1] == 2) then
+	    if (map[pos - width] == 0) then
+	       -- go top pour contourner
+	    end
+	    if (map[pos - width] == 1) then
+	       --on bombe le mur pour contourner l'obstacle indestructible
+	    end
+	    if (map[pos + width] == 0) then
+	       -- go bot pour contourner
+	    end
+	    if (map[pos + width] == 1) then
+	       --on bombe le mur pour contourner l'obstacle indestructible
+	    end
+	 end --end gauche
+      else -- au dessus!
+	 if (map[pos - width] == 0) then
+	    -- go top
+	 end
+	 if (map[pos - width] == 1) then
+	    --on bombe le mur!
+	 end
+	 if (map[pos - width] == 2) then
+	    if (map[pos - 1] == 0) then
+               -- go left pour contourner
+            end
+            if (map[pos - 1] == 1) then
+               --on bombe le mur pour contourner l'obstacle indestructible
+            end
+            if (map[pos + 1] == 0) then
+               -- go right pour contourner
+            end
+            if (map[pos + 1] == 1) then
+               --on bombe le mur pour contourner l'obstacle indestructible
+            end
+	 end
+      end -- end au dessus
+
+   else -- en dessous ou a droite!
+
+      if (closest - pos < width) then -- a droite!
+	 if (map[pos + 1] == 0) then
+	    --go right
+	 end
+	 if (map[pos + 1] == 1) then
+	    --on bombe le mur!
+	 end
+	 if (map[pos + 1] == 2) then
+	    if (map[pos - width] == 0) then
+	       -- go top pour contourner
+	    end
+	    if (map[pos - width] == 1) then
+	       --on bombe le mur pour contourner l'obstacle indestructible
+	    end
+	    if (map[pos + width] == 0) then
+	       -- go bot pour contourner
+	    end
+	    if (map[pos + width] == 1) then
+	       --on bombe le mur pour contourner l'obstacle indestructible
+	    end
+	 end --end gauche
+      else -- en dessous!
+	 if (map[pos + width] == 0) then
+	    -- go bot
+	 end
+	 if (map[pos + width] == 1) then
+	    --on bombe le mur!
+	 end
+	 if (map[pos + width] == 2) then
+	    if (map[pos - 1] == 0) then
+               -- go left pour contourner
+            end
+            if (map[pos - 1] == 1) then
+               --on bombe le mur pour contourner l'obstacle indestructible
+            end
+            if (map[pos + 1] == 0) then
+               -- go right pour contourner
+            end
+            if (map[pos + 1] == 1) then
+               --on bombe le mur pour contourner l'obstacle indestructible
+            end
+	 end
+      end -- end au dessus
+      
+
+   end --end dessous ou droite
 
 --fin mouvement
 
