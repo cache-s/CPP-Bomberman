@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Mon Jun  1 15:40:13 2015 Jordan Chazottes
+// Last update Tue Jun  2 14:32:39 2015 Jordan Chazottes
 //
 
 #include	"Character.hh"

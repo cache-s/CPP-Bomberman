@@ -29,6 +29,8 @@ public:
   bool update();
   void draw();
   bool update(std::vector<IEntity<T> *> ent);
+  void translate(T const &v, IEntity<T> &ent) const;
+  void rotate(T const &axis, float angle, IEntity<T> &ent) const;
  
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawBomb(const IEntity<T> &ent) const;
@@ -86,7 +88,7 @@ template <class T>
 void	GDLGUI<T>::cameraInit()
 {
   _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
-  _camTransf = glm::lookAt(T(0, 150, -20), T(0, 0, 0), T(0, 1, 0));
+  _camTransf = glm::lookAt(T(0, 50, -30), T(0, 0, 0), T(0, 1, 0));
 }
 
 template <class T>
@@ -107,7 +109,7 @@ void	GDLGUI<T>::shaderInit()
 template <class T>
 void	GDLGUI<T>::soundInit()
 {
-
+  
 }
 
 template <class T>
@@ -122,9 +124,14 @@ bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   if (_input.getKey(SDLK_LEFT))
-    std::cout << "left = " << std::endl;
+    rotate(glm::vec3(ent[0]->getPosition().x, ent[0]->getPosition().y, ent[0]->getPosition().z) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), 20, *ent[0]);
+  if (_input.getKey(SDLK_UP))
+    translate(glm::vec3(0, 0, -1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+  if (_input.getKey(SDLK_DOWN))
+    translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
   if (_input.getKey(SDLK_RIGHT))
-    std::cout << "right = " << std::endl;
+    translate(glm::vec3(0, 0, -1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
+  std::cout << "Position = " << ent[0]->getPosition().x << " " << ent[0]->getPosition().y << " " << ent[0]->getPosition().z << std::endl;
   _context.updateClock(_clock);
   _context.updateInputs(_input);
   (void)ent;
@@ -248,6 +255,7 @@ bool GDLGUI<T>::initialize()
 template <class T>
 bool GDLGUI<T>::update()
 {
+  std::cout << "update bool" << std::endl;
   return true;
 }
 
@@ -261,5 +269,17 @@ void GDLGUI<T>::draw()
   _context.flush();
 }
 
+template <class T>
+void	GDLGUI<T>::translate(T const &v, IEntity<T> &ent) const
+{
+  ent.setPosition(ent.getPosition() + v);
+}
+
+template <class T>
+void	GDLGUI<T>::rotate(T const &axis, float angle, IEntity<T> &ent) const
+{
+  ent.setRotation(ent.getRotation() + (axis * angle));
+  std::cout << "RotationAft = " << ent.getPosition().x << " " << ent.getPosition().y << " " << ent.getPosition().z << std::endl;
+}
 
 #endif		/* GDLGUI_HPP_*/

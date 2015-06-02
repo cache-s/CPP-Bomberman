@@ -21,9 +21,9 @@ public:
   virtual void			setPosY(int y);
   virtual void			setHitboxSize(int hitbox);
   virtual void			setIsBreakable(bool breakable);
-  virtual void			setPosition(T pos);
-  virtual void			setRotation(T pos);
-  virtual void			setScale(T pos);
+  virtual void			setPosition(const T &pos);
+  virtual void			setRotation(const T &pos);
+  virtual void			setScale(const T &pos);
   virtual IEntity<T>		*clone(int x, int y) = 0;
   virtual eEntityType		getType() const = 0;
 private:
@@ -56,19 +56,19 @@ void				AEntity<T>::setIsBreakable(bool breakable)
 }
 
 template <class T> 
-void				AEntity<T>::setPosition(T pos)
+void				AEntity<T>::setPosition(const T &pos)
 {
   _position = pos;
 }
 
 template <class T>
-void				AEntity<T>::setRotation(T pos)
+void				AEntity<T>::setRotation(const T &pos)
 {
   _rotation = pos;
 }
 
 template <class T>
-void				AEntity<T>::setScale(T pos)
+void				AEntity<T>::setScale(const T &pos)
 {
   _scale = pos;
 }

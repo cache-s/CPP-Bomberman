@@ -48,9 +48,9 @@ public:
 
   virtual void		setHitboxSize(int hitbox) = 0;
   virtual void		setIsBreakable(bool breakable) = 0;
-  virtual void		setPosition(T pos) = 0;
-  virtual void		setRotation(T pos) = 0;
-  virtual void		setScale(T pos) = 0;
+  virtual void		setPosition(const T &pos) = 0;
+  virtual void		setRotation(const T &pos) = 0;
+  virtual void		setScale(const T &pos) = 0;
 
   virtual eEntityType	getType() const = 0;
   virtual IEntity<T>	*clone(int x, int y) = 0;

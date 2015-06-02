@@ -17,6 +17,8 @@ public:
   virtual void setEntitiesToDraw(std::vector<IEntity<T> *> _ent) = 0;
   virtual void pollEvent() = 0;
   virtual void pause() = 0;
+  virtual void translate(T const &v, IEntity<T> &ent) const = 0;
+  virtual void rotate(T const &axis, float angle, IEntity<T> &ent) const = 0;
 
   virtual void drawBomb(const IEntity<T> &ent) const = 0;
   virtual void drawMonster(const IEntity<T> &ent) const = 0;

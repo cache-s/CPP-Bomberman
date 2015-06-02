@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 18:30:04 2015 Jordan Chazottes
-// Last update Mon May 11 09:54:29 2015 Jordan Chazottes
+// Last update Tue Jun  2 12:14:29 2015 Jordan Chazottes
 //
 
 # include	"AObject.hh"
@@ -50,7 +50,8 @@ void	AObject::scale(glm::vec3 const& scale)
 glm::mat4 AObject::getTransformation()
 {
   glm::mat4 transform(1);
-  transform = glm::rotate(transform, _rotation.x, glm::vec3(1, 0, 0));transform = glm::rotate(transform, _rotation.y, glm::vec3(0, 1, 0));
+  transform = glm::rotate(transform, _rotation.x, glm::vec3(1, 0, 0));
+  transform = glm::rotate(transform, _rotation.y, glm::vec3(0, 1, 0));
   transform = glm::rotate(transform, _rotation.z, glm::vec3(0, 0, 1));
   transform = glm::translate(transform, _position);
   transform = glm::scale(transform, _scale);

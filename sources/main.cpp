@@ -9,8 +9,8 @@ int			main(int ac, char** av)
   std::vector<IEntity<glm::vec3> *> _ents;
   Factory<glm::vec3> 	factory;
 
-  _ents.push_back(factory.createEntity(BOMB, 10, 10));
-  _ents.push_back(factory.createEntity(PLAYER, 10, 10));
+  // _ents.push_back(factory.createEntity(BOMB, 10, 10));
+  _ents.push_back(factory.createEntity(PLAYER, 0, 0));
   // _ents.push_back(factory.createEntity(ARTINT, 10, 10));
   tmp->windowInit();
   tmp->cameraInit();

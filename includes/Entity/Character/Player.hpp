@@ -21,7 +21,7 @@ Player<T>::Player(int x, int y)
   this->setPosY(y);
   this->setScale(T(0.05, 0.05, 0.05));
   this->setPosition(T(x, y, 0));
-  this->setRotation(T(0.5, 0.5, 0.5));
+  this->setRotation(T(0, 0, 0));
   this->setIsBreakable(true);
 }
 
@@ -41,8 +41,13 @@ template <class T>
 IEntity<T>				*Player<T>::clone(int x, int y)
 {
   Player<T> *player = new Player<T>(*this);
+
   player->setPosX(x);
   player->setPosY(y);
+  player->setScale(T(0.05, 0.05, 0.05));
+  player->setPosition(T(x, y, 0));
+  player->setRotation(T(0, 0, 0));
+  player->setIsBreakable(true);
   return (player);
 }
 
