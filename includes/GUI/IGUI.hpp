@@ -24,12 +24,13 @@ public:
   virtual void drawMonster(const IEntity<T> &ent) const = 0;
   virtual void drawAI(const IEntity<T> &ent) const = 0;
   virtual void drawBombNumber(const IEntity<T> &ent) const = 0;
-  virtual void drawRadius(const IEntity<T> &ent) const = 0;  
-  virtual void drawFlame(const IEntity<T> &ent) const = 0;  
-  virtual void drawSpeed(const IEntity<T> &ent) const = 0;  
+  virtual void drawRadius(const IEntity<T> &ent) const = 0;
+  virtual void drawFlame(const IEntity<T> &ent) const = 0;
+  virtual void drawSpeed(const IEntity<T> &ent) const = 0;
   virtual void drawBrkWall(const IEntity<T> &ent) const = 0;
   virtual void drawUbrkWall(const IEntity<T> &ent) const = 0;
   virtual void drawPlayer(const IEntity<T> &ent) const = 0;
+  virtual void drawMenu(const std::string &image) = 0;
 
   virtual ~IGUI() {};
   virtual glm::mat4 getTransformation(const IEntity<T> &ent) const = 0;

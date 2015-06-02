@@ -23,7 +23,7 @@ public:
   void windowInit();
   void cameraInit();
   void shaderInit();
-  void soundInit();      
+  void soundInit();
   void assetsInit();
   bool initialize();
   bool update();
@@ -31,18 +31,19 @@ public:
   bool update(std::vector<IEntity<T> *> ent);
   void translate(T const &v, IEntity<T> &ent) const;
   void rotate(T const &axis, float angle, IEntity<T> &ent) const;
- 
+
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawBomb(const IEntity<T> &ent) const;
   void drawMonster(const IEntity<T> &ent) const;
   void drawAI(const IEntity<T> &ent) const;
   void drawBombNumber(const IEntity<T> &ent) const;
-  void drawRadius(const IEntity<T> &ent) const;  
-  void drawFlame(const IEntity<T> &ent) const;  
-  void drawSpeed(const IEntity<T> &ent) const;  
+  void drawRadius(const IEntity<T> &ent) const;
+  void drawFlame(const IEntity<T> &ent) const;
+  void drawSpeed(const IEntity<T> &ent) const;
   void drawBrkWall(const IEntity<T> &ent) const;
   void drawUbrkWall(const IEntity<T> &ent) const;
   void drawPlayer(const IEntity<T> &ent) const;
+  void drawMenu(const std::string &image);
 
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   void pollEvent();
@@ -94,7 +95,7 @@ void	GDLGUI<T>::cameraInit()
 template <class T>
 void	GDLGUI<T>::shaderInit()
 {
-  glEnable(GL_DEPTH_TEST);  
+  glEnable(GL_DEPTH_TEST);
   if (!_shader.load("./includes/LibBomberman/shaders/basic.fp", GL_FRAGMENT_SHADER))
     throw ("Error basic.fp");
   if (!_shader.load("./includes/LibBomberman/shaders/basic.vp", GL_VERTEX_SHADER))
@@ -109,7 +110,7 @@ void	GDLGUI<T>::shaderInit()
 template <class T>
 void	GDLGUI<T>::soundInit()
 {
-  
+
 }
 
 template <class T>
@@ -213,6 +214,13 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
   _texture.bind();
   _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
   _AM.getModel(PLAYER)->setCurrentAnim(-1, false);
+}
+
+template <class T>
+void	GDLGUI<T>::drawMenu(const std::string &image)
+{
+  (void)image;
+  //la on met le menu mdr
 }
 
 template <class T>
