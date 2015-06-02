@@ -122,9 +122,9 @@ bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   if (_input.getKey(SDLK_LEFT))
-    std::cout << "left = " << (int)_input << std::endl;
+    std::cout << "left = " << std::endl;
   if (_input.getKey(SDLK_RIGHT))
-    std::cout << "right = " << (int)_input << std::endl;
+    std::cout << "right = " << std::endl;
   _context.updateClock(_clock);
   _context.updateInputs(_input);
   (void)ent;
