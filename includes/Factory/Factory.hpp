@@ -1,11 +1,11 @@
 //
 // Factory.hpp for  in /home/bourma_m/Projet/C++/cpp_bomberman
-// 
+//
 // Made by Mathieu Bourmaud
 // Login   <bourma_m@epitech.net>
-// 
+//
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Mon Jun  1 17:09:37 2015 Mathieu Bourmaud
+// Last update Wed Jun  3 15:22:17 2015 Pierre Charie
 //
 
 #ifndef			_FACTORY_HPP_
@@ -37,6 +37,7 @@ template <class T>
 Factory<T>::Factory()
 {
   _ents[BOMB] = new Bomb<T>;
+  _ents[MAPWALL] = new UbrkWall<T>;
   _ents[ARTINT] = new AI<T>;
   _ents[MONSTER] = new Monster<T>;
   _ents[BBOMBNUMBER] = new BombNumber<T>;

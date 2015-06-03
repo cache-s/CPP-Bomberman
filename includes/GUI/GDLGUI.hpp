@@ -243,10 +243,22 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
 }
 
+#include <unistd.h>
+
 template <class T>
 void	GDLGUI<T>::drawMap(const std::map<std::pair<int x, int y>, IEntity *entity> entMap)
 {
+<<<<<<< HEAD
   (void)entMap;
+=======
+  // (void)image;
+  //la on met le menu mdr
+  if (_texture.load(image) == false)
+    exit(0);
+  _texture.bind();
+  _context.flush();
+
+>>>>>>> c688b1ef9235ea115c01043547421c4443ea1e20
 }
 
 template <class T>
