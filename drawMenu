@@ -1,0 +1,28 @@
+template <class T>
+void    GDLGUI<T>::drawMap()
+{
+  (void)entMap;
+
+  gdl::Geometry geometry;
+
+  // (void)image;                                                                                                    
+  //la on met le menu mdr                                                                                            
+  if (_texture.load(image) == false)
+    {
+      std::cerr << "Error loading texture " << image << std::endl;
+      exit(0);
+    }
+  geometry.setColor(glm::vec4(1, 0, 0, 1));
+  geometry.pushVertex(T(0.5, -0.5, 0.5));
+  geometry.pushVertex(T(0.5, 0.5, 0.5));
+  geometry.pushVertex(T(-0.5, 0.5, 0.5));
+  geometry.pushVertex(T(-0.5, -0.5, 0.5));
+  geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  geometry.pushUv(glm::vec2(0.0f, 1.0f));
+  geometry.build();
+  _texture.bind();
+  geometry.draw(shader, getTransformation(), GL_QUADS);
+  _context.flush();
+}
