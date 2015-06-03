@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Wed Jun  3 15:26:35 2015 Pierre Charie
+// Last update Wed Jun  3 15:26:52 2015 Pierre Charie
 //
 
 extern "C"
@@ -56,7 +56,6 @@ std::string Lua::luaMapLoad(std::string fileLoad, std::string functionName, int 
     }
   map = lua_tostring(L, -1);
   lua_pop(L, 1);
-  std::cout << "reçu du lua : " << map << std::endl;
   return map;
 }
 
@@ -73,7 +72,6 @@ std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, 
 
     while (mapLua[i])
     {
-
       std::stringstream ssType;
       IEntity<glm::vec3> *item;
       int intType;
