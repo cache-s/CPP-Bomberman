@@ -44,6 +44,7 @@ public:
   void drawUbrkWall(const IEntity<T> &ent) const;
   void drawPlayer(const IEntity<T> &ent) const;
   void drawFloor(const IEntity<T> &ent) const;
+  void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const;
 
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   void pollEvent();
@@ -244,18 +245,22 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
 }
 
-// template <class T>
-// void	GDLGUI<T>::drawMap(const std::map<std::pair<int x, int y>, IEntity *entity> entMap)
-// {
-//   (void)entMap;
-
-//   // (void)image;
-//   //la on met le menu mdr
-//   if (_texture.load(image) == false)
-//     exit(0);
-//   _texture.bind();
-//   _context.flush();
-// }
+template <class T>
+void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const
+{
+  // IEntity<T> *tmp;
+  (void)entMap;
+  // tmp = entMap[std::make_pair(0, 0)];
+  // if (tmp == NULL)
+  //   std::cout << "toto" << std::endl;
+  // std::cout << tmp->getType() << std::endl;
+  // (void)image;
+  //la on met le menu mdr
+  // if (_texture.load(image) == false)
+  //   exit(0);
+  // _texture.bind();
+  // _context.flush();
+}
 
 template <class T>
 void	GDLGUI<T>::setEntitiesToDraw(std::vector<IEntity<T> *> ent)

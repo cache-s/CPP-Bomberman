@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 //
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Wed Jun  3 15:22:17 2015 Pierre Charie
+// Last update Wed Jun  3 17:23:58 2015 Jordan Chazottes
 //
 
 #ifndef			_FACTORY_HPP_
@@ -38,6 +38,7 @@ Factory<T>::Factory()
 {
   _ents[BOMB] = new Bomb<T>;
   _ents[MAPWALL] = new UbrkWall<T>;
+  _ents[FLOOR] = new UbrkWall<T>;
   _ents[ARTINT] = new AI<T>;
   _ents[MONSTER] = new Monster<T>;
   _ents[BBOMBNUMBER] = new BombNumber<T>;
