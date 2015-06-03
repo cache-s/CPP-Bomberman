@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 //
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Wed Jun  3 15:17:32 2015 Pierre Charie
+// Last update Wed Jun  3 15:22:17 2015 Pierre Charie
 //
 
 #ifndef			_FACTORY_HPP_
@@ -57,7 +57,6 @@ Factory<T>::~Factory()
 template <class T>
 IEntity<T>	*Factory<T>::createEntity(eEntityType type, int x, int y)
 {
-  std::cout << "TYPE FACTO = " << type;
   return (_ents[type]->clone(x, y));
 }
 

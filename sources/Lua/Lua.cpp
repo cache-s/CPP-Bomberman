@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Wed Jun  3 15:17:10 2015 Pierre Charie
+// Last update Wed Jun  3 15:26:35 2015 Pierre Charie
 //
 
 extern "C"
@@ -75,15 +75,18 @@ std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, 
     {
 
       std::stringstream ssType;
-      ssType << mapLua[i];
-      int intType;
-      ssType >> intType;
       IEntity<glm::vec3> *item;
-      std::cout << "int = " << intType << std::endl;
-      item = fac.createEntity(static_cast<eEntityType>(intType), x, y);
+      int intType;
+
+      ssType << mapLua[i];
+      ssType >> intType;
+      if (intType == 0)
+	item = NULL;
+      else
+	item = fac.createEntity(static_cast<eEntityType>(intType), x, y);
       item++;
-      // gameMap[std::pair<int, int>(x, y)] = item;
-      // std::cout << gameMap[std::make_pair(x, y)];
+      gameMap[std::pair<int, int>(x, y)] = item;
+      //      std::cout << gameMap[std::make_pair(x, y)] << std::endl;
       i++;
       x++;
       if (x == width)
