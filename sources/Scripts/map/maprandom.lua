@@ -28,19 +28,6 @@ function serializeMap(width, height)
       end
 
    end
-      -- if res == nil then
-      -- 	 res = w[1].." "
-      -- else
-      -- 	 for i = 1, width do
-      -- 	    res = res..w[i].." "
-      -- 	 end
-      -- end
-     --end
-   print("Map1 ready")
-   print(res)
-   -- for b = 1, height do
-   --    for k,v in pairs(h[b]) do print(k,v) end
---    end
+   --print(res)
+   return(res)
 end
-
---generateMap(10,10)

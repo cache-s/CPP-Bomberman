@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Mon Jun  1 15:03:47 2015 Jordan Chazottes
+## Last update Wed Jun  3 14:48:24 2015 Pierre Charie
 ##
 
 NAME	= bomberman
@@ -16,7 +16,7 @@ SRCS	= ./sources/main.cpp				 \
 	  ./sources/Thread/Mutex.cpp			 \
 	  ./sources/Thread/ScopedLock.cpp		 \
 	  ./sources/Thread/Task.cpp			 \
-	  # ./sources/Lua/Lua.cpp
+	  ./sources/Lua/Lua.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 

@@ -216,13 +216,15 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
   _AM.getModel(PLAYER)->setCurrentAnim(-1, false);
 }
 
+#include <unistd.h>
+
 template <class T>
 void	GDLGUI<T>::drawMenu(const std::string &image)
 {
   // (void)image;
   //la on met le menu mdr
   if (_texture.load(image) == false)
-    return;
+    exit(0);
   _texture.bind();
   _context.flush();
 
