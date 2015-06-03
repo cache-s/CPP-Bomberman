@@ -73,6 +73,7 @@ GDLGUI<T>::GDLGUI()
   _drawFct[BRADIUS] = &GDLGUI<T>::drawRadius;
   _drawFct[FLAME] = &GDLGUI<T>::drawFlame;
   _drawFct[BSPEED] = &GDLGUI<T>::drawSpeed;
+  _drawFct[FLOOR] = &GDLGUI<T>::drawFloor;
   _drawFct[BRKWALL] = &GDLGUI<T>::drawBrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
@@ -205,6 +206,13 @@ void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent) const
 }
 
 template <class T>
+void	GDLGUI<T>::drawFloor(const IEntity<T> &ent) const
+{
+  (void)ent;
+  std::cout << "draw floor" << std::endl;
+}
+
+template <class T>
 void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent) const
 {
   (void)ent;
@@ -232,7 +240,13 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 
   _texture.bind();
   _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
-  _AM.getModel(PLAYER)->setCurrentAnim(-1, false);
+  _AM.getModel(PLAYER)->setCurrentAnim(1, false);
+}
+
+template <class T>
+void	GDLGUI<T>::drawMap(const std::map<std::pair<int x, int y>, IEntity *entity> entMap)
+{
+  (void)entMap;
 }
 
 template <class T>

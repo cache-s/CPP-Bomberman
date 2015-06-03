@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Thu May 28 11:52:10 2015 Martin Porrès
+// Last update Tue Jun  2 18:10:01 2015 Martin Porrès
 //
 
 #ifndef		_CORE_HPP_
@@ -21,10 +21,12 @@ public:
   void		gameLoop(void);
   void		signalDraw(void);
 private:
-  EnventManager		_eventManager;
-  IGUI			&_gui;
-  ISafeQueue<IEntity *>	_drawQueue;
-  ICondVar		_drawCondVar;
+  EnventManager						_eventManager;
+  IGUI							&_gui;
+  ISafeQueue<IEntity *>					_drawQueue;
+  ICondVar						_drawCondVar;
+  std::map<std::pair<int x, int y>, IEntity *entity>	_entityMap;
+  std::map<std::pair<int x, int y>, IEntity *character>	_characterMap;
 };
 
 #endif
