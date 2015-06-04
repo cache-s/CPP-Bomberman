@@ -45,6 +45,7 @@ public:
   void drawPlayer(const IEntity<T> &ent) const;
   void drawFloor(const IEntity<T> &ent) const;
   void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap);
+  void drawMenu(const std::string &image);
 
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   void pollEvent();
@@ -231,7 +232,7 @@ void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
       std::cerr << "Cannot load the cube texture" << std::endl;
       return;
     }
-  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                      
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT
   _geometry.pushVertex(glm::vec3(ent.getPosX(), ent.getPosY(), 1));
   _geometry.pushVertex(glm::vec3(1, 0.5, -1));
   _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
@@ -336,6 +337,43 @@ template <class T>
 void	GDLGUI<T>::rotate(T const &axis, float angle, IEntity<T> &ent) const
 {
   ent.setRotation(ent.getRotation() + (axis * angle));
+}
+
+template <class T>
+void	GDLGUI<T>::drawMenu(const std::string &image)
+{
+  glm::mat4		transformMenu(1);
+  gdl::Geometry		_geometryMenu;
+  gdl::Texture		_textureMenu;
+  glm::mat4		projection;
+  glm::mat4		transformation;
+
+  if (_textureMenu.load(image) == false)
+    exit(0);
+
+  _geometryMenu.pushVertex(glm::vec3(40, 0, 0));
+  _geometryMenu.pushVertex(glm::vec3(0, 0, 0));
+  _geometryMenu.pushVertex(glm::vec3(0, 22, 0));
+  _geometryMenu.pushVertex(glm::vec3(40, 22, 0));
+
+  _geometryMenu.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometryMenu.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometryMenu.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometryMenu.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometryMenu.build();
+  _textureMenu.bind();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  projection = glm::perspective(58.0f, 1280.0f / 720.0f, 0.1f, 100.0f);
+  transformation = glm::lookAt(T(20, 11, -20), T(20, 11, 0), T(0, 1, 0));
+
+  _shader.bind();
+  _shader.setUniform("view", transformation);
+  _shader.setUniform("projection", projection);
+
+  _geometryMenu.draw(_shader, transformMenu, GL_QUADS);
+  _context.flush();
 }
 
 #endif		/* GDLGUI_HPP_*/
