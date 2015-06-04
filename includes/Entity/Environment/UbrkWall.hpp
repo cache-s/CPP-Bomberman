@@ -18,8 +18,12 @@ private:
 template <class T>
 UbrkWall<T>::UbrkWall(int x, int y)
 {
-  this->setPosX(x);
-  this->setPosY(y);
+  (void)x;(void)y;
+  this->setPosX(0);
+  this->setPosY(0);
+  this->setScale(T(10, 10, 10));
+  this->setPosition(T(0, 0, 0));
+  this->setRotation(T(0, 0, 0));
   this->setIsBreakable(false);
 }
 
@@ -38,8 +42,13 @@ template <class T>
 IEntity<T>				*UbrkWall<T>::clone(int x, int y)
 {
   UbrkWall<T> *ubrkWall = new UbrkWall<T>(*this);
-  ubrkWall->setPosX(x);
-  ubrkWall->setPosY(y);
+  (void)x;(void)y;
+  ubrkWall->setPosX(0);
+  ubrkWall->setPosY(0);
+  ubrkWall->setScale(T(10, 10, 10));
+  ubrkWall->setPosition(T(0, 0, 0));
+  ubrkWall->setRotation(T(0, 0, 0));
+  ubrkWall->setIsBreakable(false);
   return (ubrkWall);
 }
 
