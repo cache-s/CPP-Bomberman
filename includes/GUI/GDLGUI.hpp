@@ -248,19 +248,12 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 template <class T>
 void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const
 {
-  IEntity<T> *tmp;
-
-  // (void)entMap;
-  tmp = entMap[std::make_pair(0, 0)];
-  if (tmp == NULL)
-    std::cout << "toto" << std::endl;
-  std::cout << tmp->getPosX() << std::endl;
-  // (void)image;
-  // la on met le menu mdr
-  // if (_texture.load(image) == false)
-  //   exit(0);
-  // _texture.bind();
-  // _context.flush();
+  typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator p;
+  for (p = entMap.begin(); p != entMap.end(); p++)
+    {
+      if (p->second != NULL)
+	std::cout << p->second->getType() << std::endl;
+    }
 }
 
 template <class T>
