@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Thu Jun  4 10:59:19 2015 Pierre Charie
+## Last update Thu Jun  4 11:47:35 2015 Martin Porrès
 ##
 
 NAME	= bomberman
@@ -20,13 +20,13 @@ SRCS	= ./sources/main.cpp				 \
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS		+= -Iincludes -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Wl,-rpath=./includes/LibBomberman/libs/
+INCS		+= -Iincludes -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Iincludes/Core -Iincludes/Manager -Wl,-rpath=./includes/LibBomberman/libs/
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror -Wno-uninitialized $(INCS)
 
 LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/ -ldl
 
-GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread
+GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread -std=c++11
 
 CXX	= g++
 
