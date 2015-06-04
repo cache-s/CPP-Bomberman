@@ -23,7 +23,7 @@ public:
   void windowInit();
   void cameraInit();
   void shaderInit();
-  void soundInit();      
+  void soundInit();
   void assetsInit();
   bool initialize();
   bool update();
@@ -31,15 +31,15 @@ public:
   bool update(std::vector<IEntity<T> *> ent);
   void translate(T const &v, IEntity<T> &ent) const;
   void rotate(T const &axis, float angle, IEntity<T> &ent) const;
- 
+
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawBomb(const IEntity<T> &ent) const;
   void drawMonster(const IEntity<T> &ent) const;
   void drawAI(const IEntity<T> &ent) const;
   void drawBombNumber(const IEntity<T> &ent) const;
-  void drawRadius(const IEntity<T> &ent) const;  
-  void drawFlame(const IEntity<T> &ent) const;  
-  void drawSpeed(const IEntity<T> &ent) const;  
+  void drawRadius(const IEntity<T> &ent) const;
+  void drawFlame(const IEntity<T> &ent) const;
+  void drawSpeed(const IEntity<T> &ent) const;
   void drawBrkWall(const IEntity<T> &ent) const;
   void drawUbrkWall(const IEntity<T> &ent) const;
   void drawPlayer(const IEntity<T> &ent) const;
@@ -98,7 +98,7 @@ void	GDLGUI<T>::cameraInit()
 template <class T>
 void	GDLGUI<T>::shaderInit()
 {
-  glEnable(GL_DEPTH_TEST);  
+  glEnable(GL_DEPTH_TEST);
   if (!_shader.load("./includes/LibBomberman/shaders/basic.fp", GL_FRAGMENT_SHADER))
     throw ("Error basic.fp");
   if (!_shader.load("./includes/LibBomberman/shaders/basic.vp", GL_VERTEX_SHADER))
@@ -113,7 +113,7 @@ void	GDLGUI<T>::shaderInit()
 template <class T>
 void	GDLGUI<T>::soundInit()
 {
-  
+
 }
 
 template <class T>
@@ -248,14 +248,15 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 template <class T>
 void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const
 {
-  // IEntity<T> *tmp;
-  (void)entMap;
-  // tmp = entMap[std::make_pair(0, 0)];
-  // if (tmp == NULL)
-  //   std::cout << "toto" << std::endl;
-  // std::cout << tmp->getType() << std::endl;
+  IEntity<T> *tmp;
+
+  // (void)entMap;
+  tmp = entMap[std::make_pair(0, 0)];
+  if (tmp == NULL)
+    std::cout << "toto" << std::endl;
+  std::cout << tmp->getPosX() << std::endl;
   // (void)image;
-  //la on met le menu mdr
+  // la on met le menu mdr
   // if (_texture.load(image) == false)
   //   exit(0);
   // _texture.bind();
