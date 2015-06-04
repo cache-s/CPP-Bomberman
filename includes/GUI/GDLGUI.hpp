@@ -44,7 +44,7 @@ public:
   void drawUbrkWall(const IEntity<T> &ent) const;
   void drawPlayer(const IEntity<T> &ent) const;
   void drawFloor(const IEntity<T> &ent) const;
-  void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const;
+  void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap);
 
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   void pollEvent();
@@ -218,14 +218,29 @@ template <class T>
 void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent) const
 {
   (void)ent;
-  std::cout << "draw brk wall" << std::endl;
 }
 
 template <class T>
 void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
 {
+  gdl::Texture  _texture;
+  gdl::Geometry _geometry;
   (void)ent;
-  std::cout << "draw ubrk wall" << std::endl;
+  if (_texture.load("./assets/grass.tga") == false)
+    {
+      std::cerr << "Cannot load the cube texture" << std::endl;
+      return;
+    }
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                      
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), ent.getPosY(), 1));
+  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+  _geometry.build();
 }
 
 template <class T>
@@ -246,13 +261,14 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
 }
 
 template <class T>
-void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const
+void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
 {
-  typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator p;
-  for (p = entMap.begin(); p != entMap.end(); p++)
+  typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it;
+
+  for (it = entMap.begin(); it != entMap.end(); it++)
     {
-      if (p->second != NULL)
-	std::cout << p->second->getType() << std::endl;
+      if (it->second != NULL)
+	(this->*_drawFct[it->second->getType()])(*it->second);
     }
 }
 

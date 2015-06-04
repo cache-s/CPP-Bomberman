@@ -31,7 +31,7 @@ public:
   virtual void drawUbrkWall(const IEntity<T> &ent) const = 0;
   virtual void drawPlayer(const IEntity<T> &ent) const = 0;
   virtual void drawFloor(const IEntity<T> &ent) const = 0;
-  virtual void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) const = 0;
+  virtual void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) = 0;
 
   // virtual void drawMenu(const std::string &image) = 0;
 
