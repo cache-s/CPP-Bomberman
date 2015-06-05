@@ -20,6 +20,9 @@ Flame<T>::Flame(int x, int y)
 {
   this->setPosX(x);
   this->setPosY(y);
+  this->setScale(T(10, 10, 10));
+  this->setPosition(T(x, 0, y));
+  this->setRotation(T(0, 0, 0));
   this->setIsBreakable(false);
 }
 
@@ -40,6 +43,10 @@ IEntity<T>				*Flame<T>::clone(int x, int y)
   Flame<T> *flame = new Flame<T>(*this);
   flame->setPosX(x);
   flame->setPosY(y);
+  flame->setScale(T(10, 10, 10));
+  flame->setPosition(T(x, 0, y));
+  flame->setRotation(T(0, 0, 0));
+  flame->setIsBreakable(false);
   return (flame);
 }
 

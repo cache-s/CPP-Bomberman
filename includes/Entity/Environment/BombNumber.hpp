@@ -20,6 +20,9 @@ BombNumber<T>::BombNumber(int x, int y)
 {
   this->setPosX(x);
   this->setPosY(y);
+  this->setScale(T(10, 10, 10));
+  this->setPosition(T(x, 0, y));
+  this->setRotation(T(0, 0, 0));
   this->setIsBreakable(true);
 }
 
@@ -29,6 +32,10 @@ IEntity<T>				*BombNumber<T>::clone(int x, int y)
   BombNumber<T> *bomb = new BombNumber<T>(*this);
   bomb->setPosX(x);
   bomb->setPosY(y);
+  bomb->setScale(T(10, 10, 10));
+  bomb->setPosition(T(x, 0, y));
+  bomb->setRotation(T(0, 0, 0));
+  bomb->setIsBreakable(false);
   return (bomb);
 }
 
