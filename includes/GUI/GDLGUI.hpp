@@ -345,60 +345,60 @@ void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
   // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
   _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
   _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
   _geometry.setColor(glm::vec4(0, 1, 1, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
   _geometry.setColor(glm::vec4(1, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
   _geometry.setColor(glm::vec4(0, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
 
   _geometry.setColor(glm::vec4(0, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
+  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
@@ -443,7 +443,6 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it;
 
   it = entMap.begin();
-  ++it;
   for (it = entMap.begin(); it != entMap.end(); it++)
     {
       if (it->second != NULL)
@@ -466,7 +465,8 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
   // _shader.setUniform("projection", projection);
 
   // _geometry.draw((gdl::AShader&) _shader, getTransformation(*it->second), GL_QUADS);
-  _context.flush();
+  if (it == entMap.end())
+    _context.flush();
 }
 
 template <class T>
