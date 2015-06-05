@@ -40,6 +40,10 @@ IEntity<T>				*Radius<T>::clone(int x, int y)
   Radius<T> *radius = new Radius<T>(*this);
   radius->setPosX(x);
   radius->setPosY(y);
+  radius->setScale(T(10, 10, 10));
+  radius->setPosition(T(x, 0, y));
+  radius->setRotation(T(0, 0, 0));
+  radius->setIsBreakable(false);
   return (radius);
 }
 

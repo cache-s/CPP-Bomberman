@@ -20,7 +20,10 @@ Speed<T>::Speed(int x, int y)
 {
   this->setPosX(x);
   this->setPosY(y);
-  this->setIsBreakable(true);
+  this->setScale(T(10, 10, 10));
+  this->setPosition(T(x, 0, y));
+  this->setRotation(T(0, 0, 0));
+  this->setIsBreakable(false);
 }
 
 template <class T>
@@ -40,6 +43,10 @@ IEntity<T>				*Speed<T>::clone(int x, int y)
   Speed<T> *speed = new Speed<T>(*this);
   speed->setPosX(x);
   speed->setPosY(y);
+  speed->setScale(T(10, 10, 10));
+  speed->setPosition(T(x, 0, y));
+  speed->setRotation(T(0, 0, 0));
+  speed->setIsBreakable(false);
   return (speed);
 }
 
