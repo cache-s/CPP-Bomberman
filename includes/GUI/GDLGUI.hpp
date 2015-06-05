@@ -211,15 +211,110 @@ void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent) const
 template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent) const
 {
-  (void)ent;
   std::cout << "draw floor" << std::endl;
+  gdl::Texture  _texture;
+  gdl::Geometry _geometry;
+  (void)ent;
+
+  if (_texture.load("./assets/grass.tga") == false)
+    {
+      std::cerr << "Cannot load the texture" << std::endl;
+      return;
+    }
+
+  _geometry.setColor(glm::vec4(1, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.build();
+  _texture.bind();
+  _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent) const
 {
+  gdl::Texture  _texture;
+  gdl::Geometry _geometry;
   (void)ent;
+
+  if (_texture.load("./assets/cobble.tga") == false)
+    {
+      std::cerr << "Cannot load the cube texture" << std::endl;
+      return;
+    }
+
+  _geometry.setColor(glm::vec4(1, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(1, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 1, 1, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(1, 0, 1, 1));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 0, 1, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.build();
+  _texture.bind();
+  _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
+
 #include "unistd.h"
 
 template <class T>
@@ -228,21 +323,82 @@ void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
   gdl::Texture  _texture;
   gdl::Geometry _geometry;
   (void)ent;
-  if (_texture.load("./assets/grass.tga") == false)
+  if (_texture.load("./assets/bedrock.tga") == false)
     {
       std::cerr << "Cannot load the cube texture" << std::endl;
       return;
     }
   // std::cout << "pos = " << ent.getPosX() <<  " " << ent.getPosY() << "  scale = " << ent.getScale().x  << " " << ent.getScale().y << " " << ent.getScale().z << std::endl;
-  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                                                  
-  _geometry.pushVertex(glm::vec3(1, 0.5, 1));
-  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
-  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
-  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
+  // _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                                                  
+  // _geometry.pushVertex(glm::vec3(1, 0.5, 1));
+  // _geometry.pushVertex(glm::vec3(1, 0.5, -1));
+  // _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
+  // _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
+  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(1, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(1, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 1, 1, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(1, 0, 1, 1));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 1, 0, 1));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
+  _geometry.setColor(glm::vec4(0, 0, 1, 1));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
+  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+
   _geometry.build();
   _texture.bind();
   _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);

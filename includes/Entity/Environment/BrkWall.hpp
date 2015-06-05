@@ -19,8 +19,13 @@ template <class T>
 IEntity<T>				*BrkWall<T>::clone(int x, int y)
 {
   BrkWall<T> *brkwall = new BrkWall<T>(*this);
-  brkwall->setPosX(x);
-  brkwall->setPosY(y);
+  (void)x;(void)y;
+  brkwall->setPosX(0);
+  brkwall->setPosY(0);
+  brkwall->setScale(T(10, 10, 10));
+  brkwall->setPosition(T(0, 0, 0));
+  brkwall->setRotation(T(0, 0, 0));
+  brkwall->setIsBreakable(false);
   return (brkwall);
 }
 
@@ -39,8 +44,12 @@ BrkWall<T>::BrkWall(BrkWall const &other)
 template <class T>
 BrkWall<T>::BrkWall(int x, int y)
 {
-  this->setPosX(x);
-  this->setPosY(y);
+  (void)x;(void)y;
+  this->setPosX(0);
+  this->setPosY(0);
+  this->setScale(T(10, 10, 10));
+  this->setPosition(T(0, 0, 0));
+  this->setRotation(T(0, 0, 0));
   this->setIsBreakable(true);
 }
 

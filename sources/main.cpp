@@ -16,6 +16,9 @@ int			main(int ac, char** av)
   std::map<std::pair<int, int>, IEntity<glm::vec3> *> entMap =  lua.mapGenerate(10, 10);
   // _ents.push_back(factory.createEntity(BOMB, 10, 10));
   _ents.push_back(factory.createEntity(PLAYER, 0, 0));
+  _ents.push_back(factory.createEntity(FLOOR, 0, 0));
+  // _ents.push_back(factory.createEntity(UBRKWALL, 3, 3));
+  // _ents.push_back(factory.createEntity(BRKWALL, 0, 0));
   // _ents.push_back(factory.createEntity(ARTINT, 10, 10));
   tmp->windowInit();
   tmp->cameraInit();
@@ -24,7 +27,7 @@ int			main(int ac, char** av)
   while (tmp->update(_ents) == true)
     {
       tmp->setEntitiesToDraw(_ents);
-      tmp->drawMap(entMap);
+      // tmp->drawMap(entMap);
       tmp->draw();
     }
   return (0);
