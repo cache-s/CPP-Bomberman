@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Thu Jun  4 11:45:46 2015 Martin Porrès
+// Last update Fri Jun  5 11:51:38 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -78,6 +78,8 @@ private:
   std::map<EventManager<T>::eEvent, Func>			_eventPtr;
   std::map<std::pair<int, int>, IEntity<T> *>			&_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>			&_characterMap;
+  std::map<eEntityType, EventManager<T>::eEvent>		_timeMap;
+  std::map<eKey, EventManager<T>::eEvent>			_keyMap;
   Factory<T>							&_factory;
   bool								_end;
 };
@@ -103,18 +105,18 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _eventPtr[EventManager<T>::LEFT] = &EventManager<T>::moveLeft;
   _eventPtr[EventManager<T>::RIGHT] = &EventManager<T>::moveRight;
   _eventPtr[EventManager<T>::ITEMDROP] = &EventManager<T>::itemDrop;
-  _eventPtr[BOMB] = &EventManager<T>::bombDestruction;
-  _eventPtr[FLAME] = &EventManager<T>::flameDestruction;
-  _eventPtr[UP1] = &EventManager<T>::moveUp;
-  _eventPtr[DOWN1] = &EventManager<T>::moveDown;
-  _eventPtr[LEFT1] = &EventManager<T>::moveLeft;
-  _eventPtr[RIGHT1] = &EventManager<T>::moveRight;
-  _eventPtr[BOMB1] = &EventManager<T>::bombCreation;
-  _eventPtr[UP2] = &EventManager<T>::moveUp;
-  _eventPtr[DOWN2] = &EventManager<T>::moveDown;
-  _eventPtr[LEFT2] = &EventManager<T>::moveLeft;
-  _eventPtr[RIGHT2] = &EventManager<T>::moveRight;
-  _eventPtr[BOMB2] = &EventManager<T>::bombCreation;
+  _timeMap[BOMB] = EventManager<T>::BOMBDESTRUCTION;
+  _timeMap[FLAME] = EventManager<T>::FLAMEDESTRUCTION;
+  _keyMap[UP1] = EventManager<T>::UP;
+  _keyMap[DOWN1] = EventManager<T>::DOWN;
+  _keyMap[LEFT1] = EventManager<T>::LEFT;
+  _keyMap[RIGHT1] = EventManager<T>::RIGHT;
+  _keyMap[BOMB1] = EventManager<T>::BOMBCREATION;
+  _keyMap[UP2] = EventManager<T>::UP;
+  _keyMap[DOWN2] = EventManager<T>::DOWN;
+  _keyMap[LEFT2] = EventManager<T>::LEFT;
+  _keyMap[RIGHT2] = EventManager<T>::RIGHT;
+  _keyMap[BOMB2] = EventManager<T>::BOMBCREATION;
 }
 
 template <class T>
@@ -132,7 +134,7 @@ bool		EventManager<T>::update(void)
   bool							timeUpdate;
 
   _eventCondVar.timedwait(100000000);
-  if ((event = _eventQueue->tryPop()) == true)
+  if ((event = _eventQueue.tryPop()) == true)
     {
       _eventPtr[std::get<0>(event)](std::get<1>(event));
       pollEventUpdate = true;
@@ -147,8 +149,9 @@ bool		EventManager<T>::timeCheck(void)
   bool		update = false;
 
   while (std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
-    { // signal instead of call
-      _eventPtr[(std::get<1>(_eventTime[0]))->getType()](std::get<1>(_eventTime[0]));
+    {
+      _eventQueue.push(std::make_pair<_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])>);
+      _eventCondVar.signal();
       _eventTime.erase(_eventTime[0]);
       update = true;
     }
@@ -170,10 +173,11 @@ void		EventManager<T>::pollEvent(void)
   while (!_end)
     {
       key = _gui.pollEvent();
-      if (key <= BOMB1) // signal instead of call
-	_eventPtr[key](_characterMap[std::make_pair(-1, -1)]);
+      if (key <= BOMB1)
+	_eventQueue.push(std::make_pair<_keyMap[key], _characterMap[std::make_pair(-1, -1)]);
       else
-	_eventPtr[key](_characterMap[std::make_pair(-2, -2)]);
+	_eventQueue.push(std::make_pair<_keyMap[key], _characterMap[std::make_pair(-2, -2)]);
+      _eventCondVar.signal();
     }
 }
 
@@ -212,7 +216,7 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
       _characterMap[std::make_pair(static_cast<int>(newX), static_cast<int>(player->getPosY()))] = NULL;
     }
   player->setPosX(newX);
-  _drawQueue.push_back(player);
+  _drawQueue.push(player);
 }
 
 template <class T>
@@ -227,7 +231,7 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
       _characterMap[std::make_pair(static_cast<int>(newX), static_cast<int>(player->getPosY()))] = NULL;
     }
   player->setPosX(newX);
-  _drawQueue.push_back(player);
+  _drawQueue.push(player);
 }
 
 template <class T>
@@ -242,7 +246,7 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
       _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(newY))] = NULL;
     }
   player->setPosY(newY);
-  _drawQueue.push_back(player);
+  _drawQueue.push(player);
 }
 
 template <class T>
@@ -257,7 +261,7 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
       _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(newY))] = NULL;
     }
   player->setPosY(newY);
-  _drawQueue.push_back(player);
+  _drawQueue.push(player);
 }
 
 template <class T>
