@@ -5,22 +5,27 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Thu Jun  4 11:47:35 2015 Martin Porrès
+## Last update Sat Jun  6 15:44:00 2015 Sebastien Cache-Delanos
 ##
 
 NAME	= bomberman
 
-SRCS	= ./sources/main.cpp				 \
-	  ./sources/GUI/AssetsManager.cpp		 \
-	  ./sources/Thread/CondVar.cpp			 \
-	  ./sources/Thread/Mutex.cpp			 \
-	  ./sources/Thread/ScopedLock.cpp		 \
-	  ./sources/Thread/Task.cpp			 \
-	  ./sources/Lua/Lua.cpp
+SRCS	= ./sources/main.cpp				\
+	  ./sources/GUI/AssetsManager.cpp		\
+	  ./sources/Thread/CondVar.cpp			\
+	  ./sources/Thread/Mutex.cpp			\
+	  ./sources/Thread/ScopedLock.cpp		\
+	  ./sources/Thread/Task.cpp			\
+	  ./sources/Settings.cpp			\
+	  ./sources/Menu/MenuManager.cpp		\
+	  ./sources/Menu/MenuStart.cpp			\
+	  ./sources/Menu/MenuPause.cpp			\
+	  ./sources/Menu/MenuEnd.cpp			\
+	  ./sources/Lua/Lua.cpp				\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS		+= -Iincludes -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Iincludes/Core -Iincludes/Manager -Wl,-rpath=./includes/LibBomberman/libs/
+INCS		+= -Iincludes -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Iincludes/Menu -Iincludes/Core -Iincludes/Manager -Wl,-rpath=./includes/LibBomberman/libs/
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror -Wno-uninitialized $(INCS)
 
