@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Thu Jun  4 19:08:23 2015 Jordan Chazottes
+// Last update Mon Jun  8 11:40:47 2015 Pierre Charie
 //
 
 extern "C"
@@ -16,21 +16,21 @@ extern "C"
 #include "lauxlib.h"
 }
 
-#include "Lua.hpp"
+#include "MapGen.hpp"
 #include "IEntity.hpp"
 
-Lua::Lua()
+MapGen::MapGen()
 {
 }
 
-Lua::~Lua()
+MapGen::~MapGen()
 {
 }
 
 
 
 
-std::string Lua::luaMapLoad(std::string fileLoad, std::string functionName, int width, int height)
+std::string MapGen::luaMapLoad(std::string fileLoad, std::string functionName)
 {
   lua_State*            L = luaL_newstate();
   std::string           map;
@@ -46,8 +46,8 @@ std::string Lua::luaMapLoad(std::string fileLoad, std::string functionName, int 
       error = "Error, function" + functionName + "doesn't exist in" + fileLoad;
       throw std::runtime_error(error);
     }
-  lua_pushinteger(L, width);
-  lua_pushinteger(L, height);
+  lua_pushinteger(L, _width);
+  lua_pushinteger(L, _height);
   if (lua_pcall(L, 2, 1, 0) != 0)
     {
       std::string error;
@@ -60,15 +60,17 @@ std::string Lua::luaMapLoad(std::string fileLoad, std::string functionName, int 
 }
 
 
-std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, int height)
+std::map<std::pair<int, int>, IEntity<glm::vec3> *> MapGen::mapGenerate(int width, int height)
 {
   std::string   mapLua;
   int           i = 0;
   int           x, y = 0;
   std::map<std::pair<int, int>, IEntity<glm::vec3> *> gameMap;
-  Factory	<glm::vec3>fac;
 
-  mapLua = luaMapLoad("./sources/Scripts/map/maprandom.lua", "serializeMap", width, height);
+  _width = width;
+  _height = height;
+
+  mapLua = luaMapLoad("./sources/Scripts/map/maprandom.lua", "serializeMap");
 
     while (mapLua[i])
     {
@@ -81,17 +83,37 @@ std::map<std::pair<int, int>, IEntity<glm::vec3> *> Lua::mapGenerate(int width, 
       if (intType == 0)
 	item = NULL;
       else
-	item = fac.createEntity(static_cast<eEntityType>(intType), x, y);
+	item = _fac.createEntity(static_cast<eEntityType>(intType), x, y);
       gameMap[std::pair<int, int>(x, y)] = item;
      //  std::cout << item->getType() << std::endl;
      //      std::cout << gameMap[std::make_pair(x, y)] << std::endl;
       i++;
       x++;
-      if (x == width)
+      if (x == _width)
         {
           x = 0;
           y++;
         }
     }
-  return gameMap;
+    _map = gameMap;
+    return gameMap;
+}
+
+std::map<std::pair<int, int>, IEntity<glm::vec3> *>	MapGen::playerMapGenerate(int playerNbr)
+{
+  std::map<std::pair<int, int>, IEntity<glm::vec3> *>	playerMap;
+  // int							x = 0, y = 0;
+
+  if (playerNbr > (_width * _height / 9))
+    throw std::range_error("to many player for this size of map");
+
+  return _map; //a retirer
+}
+
+void                                                     MapGen::spawnPlayer(int posX, int posY)
+{
+  _map[std::make_pair(posX, posY)] = _fac.createEntity(PLAYER , posX, posY);
+
+  // if (_map[std::make_pair(posX, posY)])
+  //     _map[std::make_pair(posX, posY)] =
 }
