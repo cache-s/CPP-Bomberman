@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Mon Jun  8 19:06:14 2015 Mathieu Bourmaud
+// Last update Mon Jun  8 19:45:25 2015 Mathieu Bourmaud
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -163,10 +163,13 @@ bool		EventManager<T>::timeCheck(void)
 
   while (!_eventTime.empty() && std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
     {
+      std::cout << "TIMECHECK BEGIN" << std::endl;
       _eventQueue->push(std::make_pair(_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])));
+      std::cout << "TIMECHECK QUEUE PUSH" << std::endl;
       _eventCondVar->signal();
       _eventTime.erase(_eventTime.begin());
       update = true;
+      std::cout << "TIMECHECK END" << std::endl;
     }
   return (update);
 }
@@ -207,7 +210,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
   std::cout << "BOMB CREATION" << std::endl;
   bomb = _factory.createEntity(BOMB, player->getPosX(), player->getPosY());
   // set bomb properties with player
-  _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 300000, bomb));
+  _eventTime.push_back(std::make_pair(_gui.getElapsedTime()/* + 300000*/, bomb));
   std::sort(_eventTime.begin(), _eventTime.end());
   _drawQueue.push(bomb);
 }

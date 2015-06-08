@@ -185,23 +185,22 @@ template <class T>
 bool	GDLGUI<T>::update()
 {
   _lastKeyPressed = NONE;
-  std::cout << _input.getInput(0, false);
-  if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
+  if (_input.getKey(SDLK_ESCAPE, true) || _input.getInput(SDL_QUIT, true))
     _lastKeyPressed = QUIT;
-  if (_input.getKey(SDLK_LEFT))
+  if (_input.getKey(SDLK_LEFT, true))
     _lastKeyPressed = LEFT1;
-  if (_input.getKey(SDLK_RIGHT))
+  if (_input.getKey(SDLK_RIGHT, true))
     _lastKeyPressed = RIGHT1;
-  if (_input.getKey(SDLK_UP))
+  if (_input.getKey(SDLK_UP, true))
     _lastKeyPressed = UP1;
-  if (_input.getKey(SDLK_DOWN))
+  if (_input.getKey(SDLK_DOWN, true))
     _lastKeyPressed = DOWN1;
-  if (_input.getKey(SDLK_SPACE))
+  if (_input.getKey(SDLK_SPACE, true))
     _lastKeyPressed = BOMB1;
-  // if (_input.getInput(0, false) == false)
-  //   return (false);
   _context.updateClock(_clock);
   _context.updateInputs(_input);
+  if (_lastKeyPressed == NONE)
+    return false;
   return true;
 }
 
@@ -356,10 +355,7 @@ void	GDLGUI<T>::setEntitiesToDraw(std::vector<IEntity<T> *> ent)
 template <class T>
 eKey	GDLGUI<T>::pollEvent()
 {
-  if (update() == false)
-    return (NONE);
-  // if (update() != true)
-  //   return (QUIT);
+  while (update() == false);
   return (_lastKeyPressed);
 }
 
