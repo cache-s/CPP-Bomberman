@@ -10,15 +10,23 @@
 # include	<BasicShader.hh>
 # include	<SdlContext.hh>
 # include       <Geometry.hh>
+# include	"IThread.hpp"
+# include	"ISafeQueue.hpp"
+# include	"ICondVar.hpp"
 # include	"IGUI.hpp"
 # include	"IEntity.hpp"
+# include	"EventManager.hpp"
 # include	"AssetsManager.hpp"
+
+template <class T>
+class	EventManager;
 
 template <class T>
 class GDLGUI : public IGUI<T>, public gdl::Game
 {
 public:
-  GDLGUI();
+  GDLGUI(ISafeQueue<IEntity <T> *> &_drawQueue, ICondVar &_drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &_entityMap, std::map<std::pair<int, int>, IEntity<T> *> &_characterMap);
+  ~GDLGUI();
 
   void windowInit();
   void cameraInit();
@@ -47,8 +55,11 @@ public:
   void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap);
   void drawMenu(const std::string &image);
 
+  void drawRoutine();
+  
+  double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
-  void pollEvent();
+  eKey pollEvent();
   void pause();
 private:
   std::vector<IEntity<T> *> _ents;
@@ -59,16 +70,23 @@ private:
   gdl::Input		_input;
   gdl::Texture		_texture;
   gdl::Clock		_clock;
+  ICondVar		&_drawCondVar;
+  ISafeQueue<IEntity<T> *> &_drawQueue;
+  IThread		 *_GUIThread;
 
   typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent) const;
   std::map<eEntityType, drawFunc> _drawFct;
   AssetsManager		_AM;
 };
 
+void		*draw_routine(void *c);
+
 template <class T>
-GDLGUI<T>::GDLGUI()
+GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawCondVar(drawCondVar), _drawQueue(drawQueue)
 {
   std::cout << "Starting GUI" << std::endl;
+  _GUIThread = new Thread();
+  _GUIThread->create(&draw_routine, reinterpret_cast<void *>(this));
   _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
   _drawFct[MONSTER] = &GDLGUI<T>::drawMonster;
   _drawFct[ARTINT] = &GDLGUI<T>::drawAI;
@@ -80,6 +98,48 @@ GDLGUI<T>::GDLGUI()
   _drawFct[BRKWALL] = &GDLGUI<T>::drawBrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
+  windowInit();
+  cameraInit();
+  shaderInit();
+  soundInit();
+  assetsInit();
+  (void)characterMap;
+  drawMap(entityMap);
+  // drawMap(characterMap);
+}
+
+template <class T>
+GDLGUI<T>::~GDLGUI()
+{
+  _GUIThread->exit(NULL);
+}
+
+void		*draw_routine(void *c)
+{
+  reinterpret_cast<GDLGUI<glm::vec3> *>(c)->draw();
+  return (NULL);
+}
+
+template <class T>
+void    GDLGUI<T>::draw(void)
+{
+  std::cout << "toto" << std::endl;
+  IEntity<T> *ent;
+  
+  (void)ent;
+  // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  // _shader.bind();
+  while (true)
+    {
+      std::cout << "msg" << std::endl;
+      _drawCondVar.wait();
+      while ((_drawQueue.tryPop(&ent)) == true)
+        {
+  	  std::cout << ent->getType() << std::endl;
+          (this->*_drawFct[ent->getType()])(*ent);
+          _context.flush();
+        }
+    }
 }
 
 template <class T>
@@ -211,112 +271,15 @@ void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent) const
 template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent) const
 {
-  std::cout << "draw floor" << std::endl;
-  gdl::Texture  _texture;
-  gdl::Geometry _geometry;
   (void)ent;
-
-  if (_texture.load("./assets/grass.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
-
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.build();
-  _texture.bind();
-  _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
+  std::cout << "draw floor" << std::endl;
 }
 
 template <class T>
 void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent) const
 {
-  gdl::Texture  _texture;
-  gdl::Geometry _geometry;
   (void)ent;
-
-  if (_texture.load("./assets/cobble.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return;
-    }
-
-  std::cout << "Draw BRKWALL" << std::endl;
-
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 1, 1, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(1, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
-  _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5));
-  _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.build();
-  _texture.bind();
-  _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
-
 #include "unistd.h"
 
 template <class T>
@@ -325,85 +288,21 @@ void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
   gdl::Texture  _texture;
   gdl::Geometry _geometry;
   (void)ent;
-  if (_texture.load("./assets/bedrock.tga") == false)
+  if (_texture.load("./assets/grass.tga") == false)
     {
       std::cerr << "Cannot load the cube texture" << std::endl;
       return;
     }
-
-  std::cout << "Draw UBRKWall" << std::endl;
   // std::cout << "pos = " << ent.getPosX() <<  " " << ent.getPosY() << "  scale = " << ent.getScale().x  << " " << ent.getScale().y << " " << ent.getScale().z << std::endl;
-
-  // _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT  
-  // _geometry.pushVertex(glm::vec3(1, 0.5, 1));
-  // _geometry.pushVertex(glm::vec3(1, 0.5, -1));
-  // _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
-  // _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
-  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                                                  
+  _geometry.pushVertex(glm::vec3(1, 0.5, 1));
+  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 0.0f));
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 1, 1, 1));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(1, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 1, 0, 1));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometry.setColor(glm::vec4(0, 0, 1, 1));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), 0.5, ent.getPosY()));
-  _geometry.pushVertex(glm::vec3(ent.getPosX(), -0.5, ent.getPosY()));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-
   _geometry.build();
   _texture.bind();
   _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
@@ -443,30 +342,31 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it;
 
   it = entMap.begin();
-  for (it = entMap.begin(); it != entMap.end(); it++)
-    {
-      if (it->second != NULL)
-	(this->*_drawFct[it->second->getType()])(*it->second);
-    }
-  // _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT   
-  // _geometry.pushVertex(glm::vec3(1, 0.5, 1));
-  // _geometry.pushVertex(glm::vec3(1, 0.5, -1));
-  // _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
-  // _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
-  // _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  // _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  // _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  // _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-  // _geometry.build();
-  // _texture.bind();
-  // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  // _shader.bind();
+  ++it;
+  // for (it = entMap.begin(); it != entMap.end(); it++)
+  //   {
+  //     if (it->second != NULL)
+  // 	(this->*_drawFct[it->second->getType()])(*it->second);
+  //   }
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                                                  
+  _geometry.pushVertex(glm::vec3(1, 0.5, 1));
+  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
+  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
+  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
+  _geometry.build();
+  _texture.bind();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  _shader.bind();
   // _shader.setUniform("view", transformation);
   // _shader.setUniform("projection", projection);
 
-  // _geometry.draw((gdl::AShader&) _shader, getTransformation(*it->second), GL_QUADS);
-  if (it == entMap.end())
-    _context.flush();
+  std::cout << "toto" << std::endl;
+  _geometry.draw((gdl::AShader&) _shader, getTransformation(*it->second), GL_QUADS);
+  _context.flush();
 }
 
 template <class T>
@@ -476,9 +376,10 @@ void	GDLGUI<T>::setEntitiesToDraw(std::vector<IEntity<T> *> ent)
 }
 
 template <class T>
-void	GDLGUI<T>::pollEvent()
+eKey	GDLGUI<T>::pollEvent()
 {
-
+  std::cout << "pollEvent" << std::endl;
+  return (UP1);
 }
 
 template <class T>
@@ -513,15 +414,15 @@ bool GDLGUI<T>::update()
   return true;
 }
 
-template <class T>
-void GDLGUI<T>::draw()
-{
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  _shader.bind();
-  for (size_t i = 0; i < _ents.size(); i++)
-    (this->*_drawFct[_ents[i]->getType()])(*_ents[i]);
-  _context.flush();
-}
+// template <class T>
+// void GDLGUI<T>::draw()
+// {
+//   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//   _shader.bind();
+//   for (size_t i = 0; i < _ents.size(); i++)
+//     (this->*_drawFct[_ents[i]->getType()])(*_ents[i]);
+//   _context.flush();
+// }
 
 template <class T>
 void	GDLGUI<T>::translate(T const &v, IEntity<T> &ent) const
@@ -570,6 +471,12 @@ void	GDLGUI<T>::drawMenu(const std::string &image)
 
   _geometryMenu.draw(_shader, transformMenu, GL_QUADS);
   _context.flush();
+}
+
+template <class T>
+double		GDLGUI<T>::getElapsedTime()
+{
+  return (_clock.getElapsed());
 }
 
 #endif		/* GDLGUI_HPP_*/

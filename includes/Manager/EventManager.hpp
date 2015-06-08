@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Fri Jun  5 11:51:38 2015 Martin Porrès
+// Last update Mon Jun  8 15:48:50 2015 Mathieu Bourmaud
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -14,12 +14,17 @@
 #include	<utility>
 #include	<algorithm>
 #include	<iostream>
-#include	"ICondVar.hpp"
-#include	"ISafeQueue.hpp"
+#include	"CondVar.hpp"
+#include	"SafeQueue.hpp"
 #include	"Factory.hpp"
-#include	"IThread.hpp"
-#include	"IGUI.hpp"
+#include	"Mutex.hpp"
+#include	"Thread.hpp"
+#include	"GDLGUI.hpp"
 #include	"IEntity.hpp"
+#include	"IGUI.hpp"
+
+template <class T>
+class IGUI;
 
 enum		eKey
   {
@@ -41,12 +46,14 @@ class		EventManager
 public:
   enum	eEvent
     {
-      BOMBCREATION = 100,
-      UP = 101,
-      DOWN = 102,
-      LEFT = 103,
-      RIGHT = 104,
-      ITEMDROP = 105
+      FLAMEDESTRUCTION = 100,
+      BOMBCREATION = 101,
+      BOMBDESTRUCTION = 102,
+      UP = 103,
+      DOWN = 104,
+      LEFT = 105,
+      RIGHT = 106,
+      ITEMDROP = 107
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
@@ -70,11 +77,12 @@ public:
 private:
   IGUI<T>							&_gui;
   ISafeQueue<IEntity<T> *>					&_drawQueue;
-  ISafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >	_eventQueue;
-  ICondVar							_eventCondVar;
-  IThread							_pollEventThread;
+  ISafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >	*_eventQueue;
+  ICondVar							*_eventCondVar;
+  IThread							*_pollEventThread;
+  Mutex								_eventMutex;
   std::vector<std::pair<int, IEntity<T> *> >			_eventTime;
-  typedef void (EventManager<T>::*Func)();
+  typedef void (EventManager<T>::*Func)(IEntity<T> *);
   std::map<EventManager<T>::eEvent, Func>			_eventPtr;
   std::map<std::pair<int, int>, IEntity<T> *>			&_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>			&_characterMap;
@@ -84,21 +92,21 @@ private:
   bool								_end;
 };
 
+// template <class T>
 void	*poll_event(void *c);
 
 template <class T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 			      std::map<std::pair<int, int>, IEntity<T> *> &entityMap,
 			      std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-			      Factory<T> &factory) :
-  _drawQueue(drawQueue),
-  _gui(gui),
-  _entityMap(entityMap),
-  _characterMap(characterMap),
-  _factory(factory)
+			      Factory<T> &factory) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory)
 {
   _end = false;
-  _pollEventThread().create(&poll_event);
+  _eventCondVar = new CondVar(_eventMutex);
+  _eventQueue = new SafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >();
+  _pollEventThread = new Thread();
+  std::cout << "toto" << std::endl;
+  _pollEventThread->create(&poll_event, reinterpret_cast<void *>(this));
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::UP] = &EventManager<T>::moveUp;
   _eventPtr[EventManager<T>::DOWN] = &EventManager<T>::moveDown;
@@ -123,7 +131,7 @@ template <class T>
 EventManager<T>::~EventManager(void)
 {
   _end = true;
-  _pollEventThread.join();
+  _pollEventThread->join();
 }
 
 template <class T>
@@ -133,10 +141,10 @@ bool		EventManager<T>::update(void)
   bool							pollEventUpdate = false;
   bool							timeUpdate;
 
-  _eventCondVar.timedwait(100000000);
-  if ((event = _eventQueue.tryPop()) == true)
+  _eventCondVar->timedwait(100000000);
+  if ((event = _eventQueue->tryPop()) == true)
     {
-      _eventPtr[std::get<0>(event)](std::get<1>(event));
+      (this->*_eventPtr[std::get<0>(event)])(std::get<1>(event));
       pollEventUpdate = true;
     }
   timeUpdate = timeCheck();
@@ -150,34 +158,34 @@ bool		EventManager<T>::timeCheck(void)
 
   while (std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
     {
-      _eventQueue.push(std::make_pair<_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])>);
-      _eventCondVar.signal();
+      _eventQueue->push(std::make_pair<_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])>);
+      _eventCondVar->signal();
       _eventTime.erase(_eventTime[0]);
       update = true;
     }
   return (update);
 }
 
-template <class T>
+// template <class T>
 void		*poll_event(void *c)
 {
-  reinterpret_cast<EventManager<T> *>(c)->pollEvent();
+  reinterpret_cast<EventManager<glm::vec3> *>(c)->pollEvent();
   return (NULL);
 }
 
 template <class T>
 void		EventManager<T>::pollEvent(void)
 {
-  eKey		key;
-
   while (!_end)
     {
-      key = _gui.pollEvent();
+      std::cout << "pollEvent" << std::endl;
+      const eKey key = _gui.pollEvent();
+      std::cout << key << std::endl;
       if (key <= BOMB1)
-	_eventQueue.push(std::make_pair<_keyMap[key], _characterMap[std::make_pair(-1, -1)]);
+  	_eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-1, -1)]));
       else
-	_eventQueue.push(std::make_pair<_keyMap[key], _characterMap[std::make_pair(-2, -2)]);
-      _eventCondVar.signal();
+  	_eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-2, -2)]));
+      _eventCondVar->signal();
     }
 }
 
@@ -190,7 +198,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
   // set bomb properties with player
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 300000, bomb));
   std::sort(_eventTime.begin(), _eventTime.end());
-  _drawQueue.push_back(bomb);
+  _drawQueue.push(bomb);
 }
 
 template <class T>

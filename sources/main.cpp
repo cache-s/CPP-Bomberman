@@ -1,17 +1,16 @@
 #include		"Bomberman.hpp"
 #include		"GDLGUI.hpp"
 #include		"Factory.hpp"
-#include		"MapGen.hpp"
+#include		"Core.hpp"
 
-int			main(int ac, char** av)
+int			main()
 {
-  std::map<std::pair<int, int>, IEntity<glm::vec3> *> mapped;
-  MapGen					mapGen;
+  Core<glm::vec3>	core;
 
-  (void)ac, (void)av;
   GDLGUI<glm::vec3>			*tmp = new GDLGUI<glm::vec3>;
   std::vector<IEntity<glm::vec3> *>	_ents;
   Factory<glm::vec3>			factory;
+  MapGen				mapGen;
 
   std::map<std::pair<int, int>, IEntity<glm::vec3> *> entMap =  mapGen.mapGenerate(10, 10);
   _ents.push_back(factory.createEntity(BOMB, 10, 10));
