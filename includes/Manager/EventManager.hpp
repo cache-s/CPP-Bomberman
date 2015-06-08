@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Mon Jun  8 15:48:50 2015 Mathieu Bourmaud
+// Last update Mon Jun  8 19:06:14 2015 Mathieu Bourmaud
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -23,6 +23,8 @@
 #include	"IEntity.hpp"
 #include	"IGUI.hpp"
 
+#include	<unistd.h>
+
 template <class T>
 class IGUI;
 
@@ -37,7 +39,9 @@ enum		eKey
     DOWN2 = 206,
     LEFT2 = 207,
     RIGHT2 = 208,
-    BOMB2 = 209
+    BOMB2 = 209,
+    QUIT = 210,
+    NONE = 211,
   };
 
 template <class T>
@@ -74,6 +78,8 @@ public:
   void		burn(int x, int y);
   void		burnEntity(int x, int y);
   void		flameCreation(int x, int y);
+
+  bool		isEnd() const;
 private:
   IGUI<T>							&_gui;
   ISafeQueue<IEntity<T> *>					&_drawQueue;
@@ -92,7 +98,6 @@ private:
   bool								_end;
 };
 
-// template <class T>
 void	*poll_event(void *c);
 
 template <class T>
@@ -105,7 +110,6 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _eventCondVar = new CondVar(_eventMutex);
   _eventQueue = new SafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >();
   _pollEventThread = new Thread();
-  std::cout << "toto" << std::endl;
   _pollEventThread->create(&poll_event, reinterpret_cast<void *>(this));
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::UP] = &EventManager<T>::moveUp;
@@ -137,13 +141,14 @@ EventManager<T>::~EventManager(void)
 template <class T>
 bool		EventManager<T>::update(void)
 { // optimisation : update call a thread pool of manageEvent() that do several update
-  std::pair<EventManager<T>::eEvent, IEntity<T>*>		event;
+  std::pair<EventManager<T>::eEvent, IEntity<T>*>	event;
   bool							pollEventUpdate = false;
   bool							timeUpdate;
 
   _eventCondVar->timedwait(100000000);
-  if ((event = _eventQueue->tryPop()) == true)
+  if (_eventQueue->tryPop(&event) == true)
     {
+      std::cout << "event:" << std::get<0>(event) << "| entity:" << std::get<1>(event)->getType() << "|" << std::endl;
       (this->*_eventPtr[std::get<0>(event)])(std::get<1>(event));
       pollEventUpdate = true;
     }
@@ -156,17 +161,16 @@ bool		EventManager<T>::timeCheck(void)
 {
   bool		update = false;
 
-  while (std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
+  while (!_eventTime.empty() && std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
     {
-      _eventQueue->push(std::make_pair<_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])>);
+      _eventQueue->push(std::make_pair(_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])));
       _eventCondVar->signal();
-      _eventTime.erase(_eventTime[0]);
+      _eventTime.erase(_eventTime.begin());
       update = true;
     }
   return (update);
 }
 
-// template <class T>
 void		*poll_event(void *c)
 {
   reinterpret_cast<EventManager<glm::vec3> *>(c)->pollEvent();
@@ -176,17 +180,23 @@ void		*poll_event(void *c)
 template <class T>
 void		EventManager<T>::pollEvent(void)
 {
+  eKey		key;
+
   while (!_end)
     {
-      std::cout << "pollEvent" << std::endl;
-      const eKey key = _gui.pollEvent();
-      std::cout << key << std::endl;
-      if (key <= BOMB1)
-  	_eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-1, -1)]));
-      else
-  	_eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-2, -2)]));
-      _eventCondVar->signal();
+      key = _gui.pollEvent();
+      if (key != NONE)
+	{	
+	  if (key == QUIT)
+	    _end = true;
+	  else if (key <= BOMB1)
+	    _eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-1, -1)]));
+	  else
+	    _eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-2, -2)]));
+	  _eventCondVar->signal();
+	}
     }
+  _eventCondVar->signal();
 }
 
 template <class T>
@@ -194,6 +204,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
 {
   IEntity<T>	*bomb;
 
+  std::cout << "BOMB CREATION" << std::endl;
   bomb = _factory.createEntity(BOMB, player->getPosX(), player->getPosY());
   // set bomb properties with player
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 300000, bomb));
@@ -204,6 +215,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
 template <class T>
 void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 {
+  std::cout << "BOMB DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(bomb->getPosX(), bomb->getPosY())] = NULL;
   burn(bomb->getPosX() + 1, bomb->getPosY(), bomb->getPosX() + 2, bomb->getPosY());
   burn(bomb->getPosX() - 1, bomb->getPosY(), bomb->getPosX() - 2, bomb->getPosY());
@@ -217,6 +229,7 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
 {
   double	newX;
 
+  std::cout << "MOVE UP" << std::endl;
   newX = player->getPosX() + 0.1;
   if (static_cast<int>(newX) > static_cast<int>(player->getPosX()))
     {
@@ -232,6 +245,7 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
 {
   double	newX;
 
+  std::cout << "MOVE DOWN" << std::endl;
   newX = player->getPosX() - 0.1;
   if (static_cast<int>(newX) < static_cast<int>(player->getPosX()))
     {
@@ -247,6 +261,7 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
 {
   double	newY;
 
+  std::cout << "MOVE LEFT" << std::endl;
   newY = player->getPosY() + 0.1;
   if (static_cast<int>(newY) > static_cast<int>(player->getPosY()))
     {
@@ -262,6 +277,7 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
 {
   double	newY;
 
+  std::cout << "MOVE RIGHT" << std::endl;
   newY = player->getPosY() - 0.1;
   if (static_cast<int>(newY) < static_cast<int>(player->getPosY()))
     {
@@ -275,6 +291,7 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
 template <class T>
 void		EventManager<T>::flameDestruction(IEntity<T> *flame)
 {
+  std::cout << "FLAME DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(flame->getPosX(), flame->getPosY())] = NULL;
   delete flame;
 }
@@ -329,10 +346,17 @@ void		EventManager<T>::flameCreation(int x, int y)
 {
   IEntity<T>	*flame;
 
+  std::cout << "FLAME CREATION" << std::endl;
   flame = _factory.createEntity(FLAME, x, y);
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 100000, flame));
   std::sort(_eventTime.begin(), _eventTime.end());
   _drawQueue.push_back(flame);
+}
+
+template <class T>
+bool		EventManager<T>::isEnd() const
+{
+  return (_end);
 }
 
 #endif

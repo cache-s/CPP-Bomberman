@@ -36,7 +36,6 @@ public:
   bool initialize();
   bool update();
   void draw();
-  bool update(std::vector<IEntity<T> *> ent);
   void translate(T const &v, IEntity<T> &ent) const;
   void rotate(T const &axis, float angle, IEntity<T> &ent) const;
 
@@ -73,6 +72,7 @@ private:
   ICondVar		&_drawCondVar;
   ISafeQueue<IEntity<T> *> &_drawQueue;
   IThread		 *_GUIThread;
+  eKey			 _lastKeyPressed;
 
   typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent) const;
   std::map<eEntityType, drawFunc> _drawFct;
@@ -85,6 +85,7 @@ template <class T>
 GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawCondVar(drawCondVar), _drawQueue(drawQueue)
 {
   std::cout << "Starting GUI" << std::endl;
+  _lastKeyPressed = NONE;
   _GUIThread = new Thread();
   _GUIThread->create(&draw_routine, reinterpret_cast<void *>(this));
   _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
@@ -103,15 +104,14 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, s
   shaderInit();
   soundInit();
   assetsInit();
-  (void)characterMap;
   drawMap(entityMap);
-  // drawMap(characterMap);
+  drawMap(characterMap);
 }
 
 template <class T>
 GDLGUI<T>::~GDLGUI()
 {
-  _GUIThread->exit(NULL);
+  _GUIThread->cancel();
 }
 
 void		*draw_routine(void *c)
@@ -123,7 +123,6 @@ void		*draw_routine(void *c)
 template <class T>
 void    GDLGUI<T>::draw(void)
 {
-  std::cout << "toto" << std::endl;
   IEntity<T> *ent;
   
   (void)ent;
@@ -131,7 +130,6 @@ void    GDLGUI<T>::draw(void)
   // _shader.bind();
   while (true)
     {
-      std::cout << "msg" << std::endl;
       _drawCondVar.wait();
       while ((_drawQueue.tryPop(&ent)) == true)
         {
@@ -184,45 +182,26 @@ void	GDLGUI<T>::assetsInit()
 }
 
 template <class T>
-bool	GDLGUI<T>::update(std::vector<IEntity<T> *> ent)
+bool	GDLGUI<T>::update()
 {
+  _lastKeyPressed = NONE;
+  std::cout << _input.getInput(0, false);
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
-    return false;
+    _lastKeyPressed = QUIT;
   if (_input.getKey(SDLK_LEFT))
-    {
-      // ent[0]->setRotation(glm::rotate(ent[0]->getRotation(), ent[0]->getRotation().y, glm::vec3(0, 90, 0)));
-      ent[0]->setRotation(T(0, 90, 0));
-      ent[0]->setPosition(T((ent[0]->getPosition().x + 1), ent[0]->getPosition().y, ent[0]->getPosition().z));
-      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
-    }
+    _lastKeyPressed = LEFT1;
   if (_input.getKey(SDLK_RIGHT))
-    {
-      // ent[0]->setRotation(glm::rotate(ent[0]->getRotation(), ent[0]->getRotation().y, glm::vec3(0, 270, 0)));
-      ent[0]->setRotation(T(0, 270, 0));
-      ent[0]->setPosition(T((ent[0]->getPosition().x - 1), ent[0]->getPosition().y, ent[0]->getPosition().z));
-      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
-    }
+    _lastKeyPressed = RIGHT1;
   if (_input.getKey(SDLK_UP))
-    {
-      ent[0]->setRotation(T(0, 0, 0));
-      ent[0]->setPosition(T(ent[0]->getPosition().x, ent[0]->getPosition().y, (ent[0]->getPosition().z + 1)));
-      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
-    }
+    _lastKeyPressed = UP1;
   if (_input.getKey(SDLK_DOWN))
-    {
-      ent[0]->setRotation(T(0, 180, 0));
-      ent[0]->setPosition(T(ent[0]->getPosition().x, ent[0]->getPosition().y, (ent[0]->getPosition().z - 1)));
-      // translate(glm::vec3(0, 0, 1) * static_cast<float>(_clock.getElapsed()) * (10.0f*4), *ent[0]);
-    }
-  // if (_input.getKey(SDLK_q))
-  //   rotate(glm::vec3(, 1, 0) * static_cast<float>(_clock.getElapsed()) * (ent[0]->getSpeed()*4), 90, *ent[0]);
+    _lastKeyPressed = DOWN1;
+  if (_input.getKey(SDLK_SPACE))
+    _lastKeyPressed = BOMB1;
+  // if (_input.getInput(0, false) == false)
+  //   return (false);
   _context.updateClock(_clock);
   _context.updateInputs(_input);
-  (void)ent;
-  // for (size_t i = 0; i < ent.size(); i++)
-  //   (this->*_drawFct[ent[i]->getType()])(*ent[i]);
-  // _camTransf = glm::lookAt(glm::vec3(0, 150, -20), glm::vec3(0, 0, 0),glm::vec3(0, 1, 0));
-  // _shader.setUniform("view", _camTransf);
   return true;
 }
 
@@ -364,7 +343,6 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
   // _shader.setUniform("view", transformation);
   // _shader.setUniform("projection", projection);
 
-  std::cout << "toto" << std::endl;
   _geometry.draw((gdl::AShader&) _shader, getTransformation(*it->second), GL_QUADS);
   _context.flush();
 }
@@ -378,8 +356,11 @@ void	GDLGUI<T>::setEntitiesToDraw(std::vector<IEntity<T> *> ent)
 template <class T>
 eKey	GDLGUI<T>::pollEvent()
 {
-  std::cout << "pollEvent" << std::endl;
-  return (UP1);
+  if (update() == false)
+    return (NONE);
+  // if (update() != true)
+  //   return (QUIT);
+  return (_lastKeyPressed);
 }
 
 template <class T>
@@ -407,12 +388,12 @@ bool GDLGUI<T>::initialize()
   return true;
 }
 
-template <class T>
-bool GDLGUI<T>::update()
-{
-  std::cout << "update bool" << std::endl;
-  return true;
-}
+// template <class T>
+// bool GDLGUI<T>::update()
+// {
+//   std::cout << "update bool" << std::endl;
+//   return true;
+// }
 
 // template <class T>
 // void GDLGUI<T>::draw()

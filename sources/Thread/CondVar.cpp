@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Mon Apr 20 17:35:03 2015 Martin Porrès
-// Last update Mon May 25 15:40:53 2015 Martin Porrès
+// Last update Mon Jun  8 17:42:18 2015 Mathieu Bourmaud
 //
 
 #include	"CondVar.hpp"
@@ -34,8 +34,7 @@ void		CondVar::timedwait(long time)
 
   ts.tv_sec = 0;
   ts.tv_nsec = time;
-  if (pthread_cond_timedwait(&cond, mutex.getMutex(), &ts))
-    throw std::runtime_error("Conditional variable timedwait has failed");
+  pthread_cond_timedwait(&cond, mutex.getMutex(), &ts);
 }
 
 void		CondVar::signal(void)

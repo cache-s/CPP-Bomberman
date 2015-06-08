@@ -7,7 +7,8 @@ int			main()
 {
   Core<glm::vec3>	core;
 
-  GDLGUI<glm::vec3>			*tmp = new GDLGUI<glm::vec3>;
+  core.gameLoop();
+  /*GDLGUI<glm::vec3>			*tmp = new GDLGUI<glm::vec3>;
   std::vector<IEntity<glm::vec3> *>	_ents;
   Factory<glm::vec3>			factory;
   MapGen				mapGen;
@@ -29,5 +30,5 @@ int			main()
       tmp->drawMap(entMap);
       tmp->draw();
     }
-  return (0);
+    return (0);*/
 }

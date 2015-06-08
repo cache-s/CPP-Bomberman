@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Mon Jun  8 16:19:14 2015 Mathieu Bourmaud
+// Last update Mon Jun  8 19:22:08 2015 Mathieu Bourmaud
 //
 
 #ifndef		_CORE_HPP_
@@ -42,6 +42,7 @@ Core<T>::Core(void)
 {
   //generate map / load map
   _entityMap = _lua.mapGenerate(10, 10);
+  _characterMap = _lua.playerMapGenerate(5);
   _drawQueue = new SafeQueue<IEntity<T> *>();
   _drawCondVar = new CondVar(_drawMutex);
   _gui = new GDLGUI<T>(*_drawQueue, *_drawCondVar, _entityMap, _characterMap);
@@ -58,12 +59,12 @@ Core<T>::~Core(void)
 template <class T>
 void		Core<T>::gameLoop(void)
 {
-  while(true) // while game is running
+  while(!(_eventManager->isEnd())) // while game is running
     {
       if (_eventManager->update())
 	{
 	  signalDraw();
-	  _gui->draw();
+	  //_gui->draw();
 	}
     }
 }
