@@ -5,12 +5,13 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Mon Jun  8 11:40:21 2015 Pierre Charie
+// Last update Mon Jun  8 18:23:19 2015 Pierre Charie
 //
 
 #ifndef		MAPGEN_HPP_
 #define		MAPGEN_HPP_
 
+# include	<stdlib.h>     /* srand, rand */
 
 # include	"Bomberman.hpp"
 # include	"AEntity.hpp"
@@ -27,10 +28,14 @@ public:
   std::map<std::pair<int, int>, IEntity<glm::vec3> *>		playerMapGenerate(int playerNbr);
 private:
   void								spawnPlayer(int posX, int posY);
+  void								checkPlayerZone(int posX, int posY, int sizeX, int sizeY);
+  void                                                          spawnRandomPlayer(int playerNbr);
 
   int								_width;
   int								_height;
   std::map<std::pair<int, int>, IEntity<glm::vec3> *>		_map;
+  std::map<std::pair<int, int>, IEntity<glm::vec3> *>		_pMap;
+
   Factory							<glm::vec3>_fac;
 };
 

@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Mon Jun  8 11:40:47 2015 Pierre Charie
+// Last update Mon Jun  8 18:24:36 2015 Pierre Charie
 //
 
 extern "C"
@@ -102,18 +102,175 @@ std::map<std::pair<int, int>, IEntity<glm::vec3> *> MapGen::mapGenerate(int widt
 std::map<std::pair<int, int>, IEntity<glm::vec3> *>	MapGen::playerMapGenerate(int playerNbr)
 {
   std::map<std::pair<int, int>, IEntity<glm::vec3> *>	playerMap;
-  // int							x = 0, y = 0;
+int							random = 0;
+  if (playerNbr > (_width * _height / 15))
+    throw std::range_error("to many player for this size of map") ;
 
-  if (playerNbr > (_width * _height / 9))
-    throw std::range_error("to many player for this size of map");
+  srand (time(NULL));
 
-  return _map; //a retirer
+  random = rand() % 4 + 1;
+  switch (playerNbr)
+    {
+    case 2:
+      if (random == 1)
+	{
+	  spawnPlayer(1,1);
+	  spawnPlayer(_width - 1, _height - 1);
+	}
+      if (random == 2)
+	{
+	  spawnPlayer(_width - 1, 1);
+	  spawnPlayer(1, _height - 1);
+	}
+      if (random == 3)
+	{
+	  spawnPlayer(1, _height - 1);
+	  spawnPlayer(_width - 1, 1);
+	}
+      if (random == 4)
+	{
+	  spawnPlayer(_width - 1, _height - 1);
+	  spawnPlayer(1, 1);
+	}
+
+    case 3:
+      if (random == 1)
+	{
+	  spawnPlayer(1,1);
+	  spawnPlayer(_width - 1, _height - 1);
+	}
+      if (random == 2)
+	{
+	  spawnPlayer(_width - 1, 1);
+	  spawnPlayer(1, _height - 1);
+	}
+      if (random == 3)
+	{
+	  spawnPlayer(1, _height - 1);
+	  spawnPlayer(_width - 1, 1);
+	}
+      if (random == 4)
+	{
+	  spawnPlayer(_width - 1, _height - 1);
+	  spawnPlayer(1, 1);
+	}
+      if (random == 1)
+	spawnPlayer(1, _height - 1);
+      if (random == 2)
+	spawnPlayer(1, 1);
+      if (random == 3)
+	spawnPlayer(_width - 1, _height - 1);
+      if (random == 4)
+	spawnPlayer(_width - 1, 1);
+
+    case 4:
+      spawnPlayer(1, _height - 1);
+      spawnPlayer(_width - 1, 1);
+      spawnPlayer(1, 1);
+      spawnPlayer(_width - 1, _height - 1);
+
+    case 5:
+      spawnPlayer(1, _height - 1);
+      spawnPlayer(_width - 1, 1);
+      spawnPlayer(1, 1);
+      spawnPlayer(_width - 1, _height - 1);
+      spawnPlayer(_width / 2, _height / 2);
+    default :
+      spawnPlayer(1, _height - 1);
+      spawnPlayer(_width - 1, 1);
+      spawnPlayer(1, 1);
+      spawnPlayer(_width - 1, _height - 1);
+      spawnPlayer(_width / 2, _height / 2);
+      spawnRandomPlayer(playerNbr - 5);
+    }
+
+  return _pMap;
 }
 
 void                                                     MapGen::spawnPlayer(int posX, int posY)
 {
-  _map[std::make_pair(posX, posY)] = _fac.createEntity(PLAYER , posX, posY);
+  _pMap[std::make_pair(posX, posY)] = _fac.createEntity(PLAYER , posX, posY);
 
-  // if (_map[std::make_pair(posX, posY)])
-  //     _map[std::make_pair(posX, posY)] =
+  if (_map[std::make_pair(posX - 1, posY - 1)]->getType() != MAPWALL)
+    _map[std::make_pair(posX - 1, posY - 1)] = NULL;
+  if (_map[std::make_pair(posX, posY - 1)]->getType() != MAPWALL)
+    _map[std::make_pair(posX, posY - 1)] = NULL;
+  if (_map[std::make_pair(posX + 1, posY - 1)]->getType() != MAPWALL)
+    _map[std::make_pair(posX + 1, posY - 1)] = NULL;
+
+  if (_map[std::make_pair(posX - 1, posY)]->getType() != MAPWALL)
+    _map[std::make_pair(posX - 1, posY)] = NULL;
+  if (_map[std::make_pair(posX + 1, posY)]->getType() != MAPWALL)
+    _map[std::make_pair(posX + 1, posY)] = NULL;
+
+  if (_map[std::make_pair(posX - 1, posY + 1)]->getType() != MAPWALL)
+    _map[std::make_pair(posX - 1, posY + 1)] = NULL;
+  if (_map[std::make_pair(posX, posY + 1)]->getType() != MAPWALL)
+    _map[std::make_pair(posX, posY + 1)] = NULL;
+  if (_map[std::make_pair(posX + 1, posY + 1)]->getType() != MAPWALL)
+    _map[std::make_pair(posX + 1, posY + 1)] = NULL;
+}
+
+void                                                     MapGen::spawnRandomPlayer(int playerNbr)
+{
+  bool	good;
+  int	posX, posY;
+
+
+  while (playerNbr > 0)
+    {
+      good = false;
+      while (good != true)
+	{
+	  good = true;
+	  posX = rand() % (_width - 1)  + 1;
+	  posY = rand() % (_height - 1)  + 1;
+	  try{
+	    checkPlayerZone(posX, posY, _width / playerNbr, _height / playerNbr);
+	  }catch (const std::range_error& e){
+	    good = false;
+	  }
+	}
+    }
+}
+
+void MapGen::checkPlayerZone(int posX, int posY, int sizeX, int sizeY) //TODO verifier le bon fonctionnement
+{
+
+  int	tmpX;
+  int	tmpY = posY;
+  int	tmpSizeX = sizeX;
+
+  while (tmpY > posY - sizeY && tmpY > 0)
+    {
+      tmpX = posX - sizeX;
+      if (tmpX < 0)
+	tmpX = 0;
+      while (tmpX < posX + sizeX && tmpX < _width)
+	{
+	  if (_pMap[std::make_pair(tmpX, tmpY)] != NULL)
+	    throw std::range_error("zone already occupied");
+	  tmpX++;
+	}
+      sizeX--;
+      tmpY--;
+    }
+
+  sizeX = tmpSizeX;
+  tmpY = posY;
+
+  while (tmpY < (posY + sizeY) && tmpY < _height)
+    {
+      tmpX = posX - sizeX;
+      if (tmpX < 0)
+        tmpX = 0;
+      while (tmpX < posX + sizeX && tmpX < _width)
+        {
+          if (_pMap[std::make_pair(tmpX, tmpY)] != NULL)
+            throw std::range_error("zone already occupied");
+          tmpX++;
+        }
+      sizeX--;
+      tmpY++;
+    }
 }
