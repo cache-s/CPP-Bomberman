@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Mon Jun  8 18:24:36 2015 Pierre Charie
+// Last update Mon Jun  8 18:43:33 2015 Pierre Charie
 //
 
 extern "C"
@@ -189,7 +189,15 @@ int							random = 0;
 
 void                                                     MapGen::spawnPlayer(int posX, int posY)
 {
+
+  static int playerNb = 0;
+
   _pMap[std::make_pair(posX, posY)] = _fac.createEntity(PLAYER , posX, posY);
+
+  if (playerNb == 0)
+    _pMap[std::make_pair(-1, -1)] = &_pMap[std::make_pair(posX, posY)];
+  if (playerNb == 1)
+    _pMap[std::make_pair(-2, -2)] = &_pMap[std::make_pair(posX, posY)];
 
   if (_map[std::make_pair(posX - 1, posY - 1)]->getType() != MAPWALL)
     _map[std::make_pair(posX - 1, posY - 1)] = NULL;
@@ -209,6 +217,8 @@ void                                                     MapGen::spawnPlayer(int
     _map[std::make_pair(posX, posY + 1)] = NULL;
   if (_map[std::make_pair(posX + 1, posY + 1)]->getType() != MAPWALL)
     _map[std::make_pair(posX + 1, posY + 1)] = NULL;
+
+  playerNb++;
 }
 
 void                                                     MapGen::spawnRandomPlayer(int playerNbr)
@@ -231,6 +241,8 @@ void                                                     MapGen::spawnRandomPlay
 	    good = false;
 	  }
 	}
+      spawnPlayer(posX, posY);
+      playerNbr--;
     }
 }
 
