@@ -47,10 +47,14 @@ public:
   virtual void		setPosition(const T &pos) = 0;
   virtual void		setRotation(const T &pos) = 0;
   virtual void		setScale(const T &pos) = 0;
+  virtual void		setPosX(int x) = 0;
+  virtual void		setPosY(int y) = 0;
   virtual void		setSpeed(float speed) = 0;
 
   virtual eEntityType	getType() const = 0;
   virtual IEntity<T>	*clone(int x, int y) = 0;
+
+  virtual ~IEntity() {};
 };
 
 #endif			/* IENTITY_HPP_ */
