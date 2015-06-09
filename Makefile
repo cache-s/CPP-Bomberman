@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Tue Jun  9 18:39:12 2015 Martin Porrès
+## Last update Tue Jun  9 20:13:52 2015 Martin Porrès
 ##
 
 NAME	= bomberman
@@ -27,7 +27,7 @@ CXXFLAGS	+= -W -Wall -Wextra -Werror -Wno-uninitialized $(INCS)
 
 LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/ -ldl
 
-GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread -std=c++11
+GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread -std=c++0x
 
 CXX	= g++
 

@@ -8,7 +8,7 @@
 // template <class T>
 // class EventManager;
 
-template <class T>
+template <typename T>
 class IGUI
 {
 public:

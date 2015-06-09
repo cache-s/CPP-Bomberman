@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Mon Jun  8 19:22:08 2015 Mathieu Bourmaud
+// Last update Tue Jun  9 23:04:13 2015 Martin Porrès
 //
 
 #ifndef		_CORE_HPP_
@@ -17,7 +17,7 @@
 #include	"EventManager.hpp"
 #include	"MapGen.hpp"
 
-template <class T>
+template <typename T>
 class		Core
 {
 public:
@@ -37,42 +37,6 @@ private:
   MapGen							_lua;
 };
 
-template <class T>
-Core<T>::Core(void)
-{
-  //generate map / load map
-  _entityMap = _lua.mapGenerate(10, 10);
-  _characterMap = _lua.playerMapGenerate(5);
-  _drawQueue = new SafeQueue<IEntity<T> *>();
-  _drawCondVar = new CondVar(_drawMutex);
-  _gui = new GDLGUI<T>(*_drawQueue, *_drawCondVar, _entityMap, _characterMap);
-  _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory);
-}
-
-template <class T>
-Core<T>::~Core(void)
-{
-  delete _eventManager;
-  delete _gui;
-}
-
-template <class T>
-void		Core<T>::gameLoop(void)
-{
-  while(!(_eventManager->isEnd())) // while game is running
-    {
-      if (_eventManager->update())
-	{
-	  signalDraw();
-	  //_gui->draw();
-	}
-    }
-}
-
-template <class T>
-void		Core<T>::signalDraw(void)
-{
-  _drawCondVar->signal();
-}
+#include	"Core.tpp"
 
 #endif
