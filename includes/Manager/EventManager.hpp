@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Mon Jun  8 19:45:25 2015 Mathieu Bourmaud
+// Last update Tue Jun  9 13:13:52 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_

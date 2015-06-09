@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Mon Jun  8 15:03:32 2015 Mathieu Bourmaud
+## Last update Tue Jun  9 18:39:12 2015 Martin Porrès
 ##
 
 NAME	= bomberman
@@ -29,7 +29,7 @@ LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/
 
 GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread -std=c++11
 
-CXX	= clang++ -Qunused-arguments
+CXX	= g++
 
 RM	= rm -f
 
@@ -69,5 +69,8 @@ fclean: clean
 
 dbg: CXXFLAGS += -g
 dbg: re
+
+cl: CXX = clang++ -Qunused-arguments
+cl: re
 
 re: fclean all
