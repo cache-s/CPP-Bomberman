@@ -5,10 +5,10 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Tue Jun  9 23:13:40 2015 Martin Porrès
+// Last update Wed Jun 10 15:07:20 2015 Martin Porrès
 //
 
-template <typename T>
+template	<typename T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 			      std::map<std::pair<int, int>, IEntity<T> *> &entityMap,
 			      std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
@@ -22,6 +22,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
   _eventPtr[EventManager<T>::FLAMEDESTRUCTION] = &EventManager<T>::flameDestruction;
+  _eventPtr[EventManager<T>::INCREASEBOMBSTOCK] = &EventManager<T>::increaseBombStock;
   _eventPtr[EventManager<T>::UP] = &EventManager<T>::moveUp;
   _eventPtr[EventManager<T>::DOWN] = &EventManager<T>::moveDown;
   _eventPtr[EventManager<T>::LEFT] = &EventManager<T>::moveLeft;
@@ -29,6 +30,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _eventPtr[EventManager<T>::ITEMDROP] = &EventManager<T>::itemDrop;
   _timeMap[BOMB] = EventManager<T>::BOMBDESTRUCTION;
   _timeMap[FLAME] = EventManager<T>::FLAMEDESTRUCTION;
+  _timeMap[PLAYER] = EventManager<T>::INCREASEBOMBSTOCK;
   _keyMap[UP1] = EventManager<T>::UP;
   _keyMap[DOWN1] = EventManager<T>::DOWN;
   _keyMap[LEFT1] = EventManager<T>::LEFT;
@@ -41,16 +43,16 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _keyMap[BOMB2] = EventManager<T>::BOMBCREATION;
 }
 
-template <typename T>
+template	<typename T>
 EventManager<T>::~EventManager(void)
 {
   _end = true;
   _pollEventThread->join();
 }
 
-template <typename T>
+template	<typename T>
 bool		EventManager<T>::update(void)
-{ // optimisation : update call a thread pool of manageEvent() that do several update
+{
   std::pair<EventManager<T>::eEvent, IEntity<T>*>	event;
   bool							pollEventUpdate = false;
   bool							timeUpdate;
@@ -66,7 +68,7 @@ bool		EventManager<T>::update(void)
   return (pollEventUpdate || timeUpdate);
 }
 
-template <typename T>
+template	<typename T>
 bool		EventManager<T>::timeCheck(void)
 {
   bool		update = false;
@@ -88,7 +90,7 @@ void		*poll_event(void *c)
   return (NULL);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::pollEvent(void)
 {
   eKey		key;
@@ -110,19 +112,23 @@ void		EventManager<T>::pollEvent(void)
   _eventCondVar->signal();
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::bombCreation(IEntity<T> *player)
 {
   IEntity<T>	*bomb;
 
+  if (reinterpret_cast<IPlayer<T> *>(player)->getBombStock() == 0)
+    return;
   std::cout << "BOMB CREATION" << std::endl;
+  reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() - 1);
   bomb = _factory.createEntity(BOMB, player->getPosX(), player->getPosY());
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, bomb));
+  _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, player));
   std::sort(_eventTime.begin(), _eventTime.end());
   _drawQueue.push(bomb);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 {
   std::cout << "BOMB DESTRUCTION" << std::endl;
@@ -134,7 +140,7 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
   burn(bomb->getPosX(), bomb->getPosY());
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::moveUp(IEntity<T> *player)
 {
   double	newX;
@@ -150,7 +156,7 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
   _drawQueue.push(player);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::moveDown(IEntity<T> *player)
 {
   double	newX;
@@ -166,7 +172,7 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
   _drawQueue.push(player);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::moveLeft(IEntity<T> *player)
 {
   double	newY;
@@ -182,7 +188,7 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
   _drawQueue.push(player);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::moveRight(IEntity<T> *player)
 {
   double	newY;
@@ -198,7 +204,7 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
   _drawQueue.push(player);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::flameDestruction(IEntity<T> *flame)
 {
   std::cout << "FLAME DESTRUCTION" << std::endl;
@@ -206,7 +212,13 @@ void		EventManager<T>::flameDestruction(IEntity<T> *flame)
   delete flame;
 }
 
-template <typename T>
+template	<typename T>
+void		EventManager<T>::increaseBombStock(IEntity<T> *player)
+{
+  reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() + 1);
+}
+
+template	<typename T>
 void		EventManager<T>::itemDrop(IEntity<T> *item)
 {
   //add properties of item to player
@@ -214,7 +226,7 @@ void		EventManager<T>::itemDrop(IEntity<T> *item)
   delete item;
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::burn(int x1, int y1, int x2, int y2)
 {
   if (_entityMap[std::make_pair(x1, y1)] == NULL ||
@@ -227,7 +239,7 @@ void		EventManager<T>::burn(int x1, int y1, int x2, int y2)
     }
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::burn(int x, int y)
 {
   if (_entityMap[std::make_pair(x, y)] == NULL ||
@@ -235,7 +247,7 @@ void		EventManager<T>::burn(int x, int y)
     burnEntity(x, y);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::burnEntity(int x, int y)
 {
   if (_entityMap[std::make_pair(x, y)] != NULL)
@@ -251,7 +263,7 @@ void		EventManager<T>::burnEntity(int x, int y)
   flameCreation(x, y);
 }
 
-template <typename T>
+template	<typename T>
 void		EventManager<T>::flameCreation(int x, int y)
 {
   IEntity<T>	*flame;
@@ -263,7 +275,7 @@ void		EventManager<T>::flameCreation(int x, int y)
   _drawQueue.push(flame);
 }
 
-template <typename T>
+template	<typename T>
 bool		EventManager<T>::isEnd() const
 {
   return (_end);

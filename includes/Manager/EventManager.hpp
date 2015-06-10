@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Tue Jun  9 23:08:54 2015 Martin Porrès
+// Last update Wed Jun 10 14:56:32 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -51,11 +51,12 @@ public:
       FLAMEDESTRUCTION = 100,
       BOMBCREATION = 101,
       BOMBDESTRUCTION = 102,
-      UP = 103,
-      DOWN = 104,
-      LEFT = 105,
-      RIGHT = 106,
-      ITEMDROP = 107
+      INCREASEBOMBSTOCK = 103,
+      UP = 104,
+      DOWN = 105,
+      LEFT = 106,
+      RIGHT = 107,
+      ITEMDROP = 108
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
@@ -71,6 +72,7 @@ public:
   void		moveLeft(IEntity<T> *player);
   void		moveRight(IEntity<T> *player);
   void		flameDestruction(IEntity<T> *flame);
+  void		increaseBombStock(IEntity<T> *player);
   void		itemDrop(IEntity<T> *item);
   void		burn(int x1, int y1, int x2, int y2);
   void		burn(int x, int y);
