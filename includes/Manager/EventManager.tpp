@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Wed Jun 10 15:07:20 2015 Martin Porrès
+// Last update Wed Jun 10 17:08:03 2015 Martin Porrès
 //
 
 template	<typename T>

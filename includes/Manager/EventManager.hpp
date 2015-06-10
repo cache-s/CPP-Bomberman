@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Wed Jun 10 14:56:32 2015 Martin Porrès
+// Last update Wed Jun 10 17:31:47 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -78,7 +78,6 @@ public:
   void		burn(int x, int y);
   void		burnEntity(int x, int y);
   void		flameCreation(int x, int y);
-
   bool		isEnd() const;
 private:
   IGUI<T>							&_gui;
