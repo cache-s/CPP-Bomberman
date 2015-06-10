@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Tue Jun  9 23:04:13 2015 Martin Porrès
+// Last update Wed Jun 10 19:16:01 2015 Sebastien Cache-Delanos
 //
 
 #ifndef		_CORE_HPP_
@@ -16,6 +16,7 @@
 #include	"Factory.hpp"
 #include	"EventManager.hpp"
 #include	"MapGen.hpp"
+#include	"MenuManager.hpp"
 
 template <typename T>
 class		Core
@@ -23,8 +24,12 @@ class		Core
 public:
   Core<T>(void);
   ~Core<T>(void);
+
   void		gameLoop(void);
   void		signalDraw(void);
+
+  MenuManager<T>	getMenuManager(void) const;
+
 private:
   Factory<T>						_factory;
   IGUI<T>						*_gui;
@@ -34,7 +39,9 @@ private:
   ICondVar						*_drawCondVar;
   std::map<std::pair<int, int>, IEntity<T> *>		_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>		_characterMap;
-  MapGen							_lua;
+  MapGen						_lua;
+  MenuManager<T>					*_menuManager;
+  Settings						_settings;
 };
 
 #include	"Core.tpp"

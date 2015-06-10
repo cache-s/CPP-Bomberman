@@ -1,14 +1,3 @@
-//
-// GDLGUI.tpp for Bomberman in /home/porres_m/Projets/Cpp/Bomberman/cpp_bomberman
-// 
-// Made by Martin Porrès
-// Login   <porres_m@epitech.net>
-// 
-// Started on  Tue Jun  9 23:09:51 2015 Martin Porrès
-// Last update Tue Jun  9 23:10:40 2015 Martin Porrès
-//
-
-
 template <typename T>
 GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawCondVar(drawCondVar), _drawQueue(drawQueue)
 {
@@ -55,7 +44,7 @@ template <typename T>
 void    GDLGUI<T>::draw(void)
 {
   IEntity<T> *ent;
-  
+
   (void)ent;
   // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // _shader.bind();
@@ -111,6 +100,31 @@ void	GDLGUI<T>::assetsInit()
   _AM.init();
 }
 
+template <class T>
+void	GDLGUI<T>::menuInit()
+{
+  glm::mat4		projection;
+  glm::mat4		transformation;
+
+  //CAMERA
+  projection = glm::perspective(58.0f, 1280.0f / 720.0f, 0.1f, 100.0f);
+  transformation = glm::lookAt(T(20, 11, -20), T(20, 11, 0), T(0, 1, 0));
+  _shader.bind();
+  _shader.setUniform("view", transformation);
+  _shader.setUniform("projection", projection);
+
+  //GEOMETRY
+  _geometryMenu.pushVertex(glm::vec3(40, 0, 0));
+  _geometryMenu.pushVertex(glm::vec3(0, 0, 0));
+  _geometryMenu.pushVertex(glm::vec3(0, 22, 0));
+  _geometryMenu.pushVertex(glm::vec3(40, 22, 0));
+  _geometryMenu.pushUv(glm::vec2(0.0f, 0.0f));
+  _geometryMenu.pushUv(glm::vec2(1.0f, 0.0f));
+  _geometryMenu.pushUv(glm::vec2(1.0f, 1.0f));
+  _geometryMenu.pushUv(glm::vec2(0.0f, 1.0f));
+  _geometryMenu.build();
+}
+
 template <typename T>
 bool	GDLGUI<T>::update()
 {
@@ -125,6 +139,27 @@ template <typename T>
 bool	GDLGUI<T>::getKey()
 {
   _updateCondVar->wait();
+  _lastKeyPressed = NONE;
+  if (_input.getKey(SDLK_ESCAPE, true) || _input.getInput(SDL_QUIT, true))
+    _lastKeyPressed = QUIT;
+  if (_input.getKey(SDLK_LEFT, true))
+    _lastKeyPressed = LEFT1;
+  if (_input.getKey(SDLK_RIGHT, true))
+    _lastKeyPressed = RIGHT1;
+  if (_input.getKey(SDLK_UP, true))
+    _lastKeyPressed = UP1;
+  if (_input.getKey(SDLK_DOWN, true))
+    _lastKeyPressed = DOWN1;
+  if (_input.getKey(SDLK_SPACE, true))
+    _lastKeyPressed = BOMB1;
+  if (_lastKeyPressed == NONE)
+    return false;
+  return true;
+}
+
+template <typename T>
+bool	GDLGUI<T>::getMenuKey()
+{
   _lastKeyPressed = NONE;
   if (_input.getKey(SDLK_ESCAPE, true) || _input.getInput(SDL_QUIT, true))
     _lastKeyPressed = QUIT;
@@ -211,7 +246,7 @@ void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
       return;
     }
   // std::cout << "pos = " << ent.getPosX() <<  " " << ent.getPosY() << "  scale = " << ent.getScale().x  << " " << ent.getScale().y << " " << ent.getScale().z << std::endl;
-  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                                                  
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT
   _geometry.pushVertex(glm::vec3(1, 0.5, 1));
   _geometry.pushVertex(glm::vec3(1, 0.5, -1));
   _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
@@ -265,7 +300,7 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
   //     if (it->second != NULL)
   // 	(this->*_drawFct[it->second->getType()])(*it->second);
   //   }
-  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT                                                                  
+  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT
   _geometry.pushVertex(glm::vec3(1, 0.5, 1));
   _geometry.pushVertex(glm::vec3(1, 0.5, -1));
   _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
@@ -295,6 +330,17 @@ template <typename T>
 eKey	GDLGUI<T>::pollEvent()
 {
   while (getKey() == false);
+  return (_lastKeyPressed);
+}
+
+template <typename T>
+eKey	GDLGUI<T>::menuPollEvent()
+{
+  while (getMenuKey() == false)
+    {
+      _context.updateInputs(_input);
+      usleep(1000);
+    }
   return (_lastKeyPressed);
 }
 
@@ -352,42 +398,34 @@ void	GDLGUI<T>::rotate(T const &axis, float angle, IEntity<T> &ent) const
   ent.setRotation(ent.getRotation() + (axis * angle));
 }
 
-template <typename T>
-void	GDLGUI<T>::drawMenu(const std::string &image)
+template <class T>
+void    GDLGUI<T>::menuLoadTexture(const std::vector<std::string> & images)
+{
+  //DELETE OLD VECTOR
+  for (unsigned int i = 0; i < _textureMenu.size(); ++i)
+    delete _textureMenu[i];
+  _textureMenu.clear();
+
+  //LOAD TEXTURE
+  for (unsigned int i = 0; i < images.size(); ++i)
+    {
+      _textureMenu.push_back(new gdl::Texture());
+      if (_textureMenu[i]->load(images[i]) == false)
+        exit(0);//throw
+    }
+}
+
+template <class T>
+void	GDLGUI<T>::drawMenu(int i)
 {
   glm::mat4		transformMenu(1);
-  gdl::Geometry		_geometryMenu;
-  gdl::Texture		_textureMenu;
-  glm::mat4		projection;
-  glm::mat4		transformation;
 
-  if (_textureMenu.load(image) == false)
-    exit(0);
-
-  _geometryMenu.pushVertex(glm::vec3(40, 0, 0));
-  _geometryMenu.pushVertex(glm::vec3(0, 0, 0));
-  _geometryMenu.pushVertex(glm::vec3(0, 22, 0));
-  _geometryMenu.pushVertex(glm::vec3(40, 22, 0));
-
-  _geometryMenu.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometryMenu.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometryMenu.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometryMenu.pushUv(glm::vec2(0.0f, 1.0f));
-
-  _geometryMenu.build();
-  _textureMenu.bind();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  projection = glm::perspective(58.0f, 1280.0f / 720.0f, 0.1f, 100.0f);
-  transformation = glm::lookAt(T(20, 11, -20), T(20, 11, 0), T(0, 1, 0));
-
-  _shader.bind();
-  _shader.setUniform("view", transformation);
-  _shader.setUniform("projection", projection);
-
+  _textureMenu[i]->bind();
   _geometryMenu.draw(_shader, transformMenu, GL_QUADS);
   _context.flush();
 }
+
 
 template <typename T>
 double		GDLGUI<T>::getElapsedTime()

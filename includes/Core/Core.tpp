@@ -1,13 +1,3 @@
-//
-// Core.tpp for Bomber in /home/porres_m/Projets/Cpp/Bomberman/cpp_bomberman/includes/Core
-// 
-// Made by Martin Porrès
-// Login   <porres_m@epitech.net>
-// 
-// Started on  Tue Jun  9 23:03:09 2015 Martin Porrès
-// Last update Tue Jun  9 23:04:05 2015 Martin Porrès
-//
-
 template <typename T>
 Core<T>::Core(void)
 {
@@ -17,6 +7,7 @@ Core<T>::Core(void)
   _drawCondVar = new CondVar(_drawMutex);
   _gui = new GDLGUI<T>(*_drawQueue, *_drawCondVar, _entityMap, _characterMap);
   _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory);
+  _menuManager = new MenuManager<T>(*_gui, _settings);
 }
 
 template <typename T>
@@ -38,4 +29,10 @@ template <typename T>
 void		Core<T>::signalDraw(void)
 {
   _drawCondVar->signal();
+}
+
+template <typename T>
+MenuManager<T>	Core<T>::getMenuManager(void) const
+{
+  return (*_menuManager);
 }

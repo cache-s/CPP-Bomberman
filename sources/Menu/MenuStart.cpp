@@ -2,12 +2,40 @@
 
 MenuStart::MenuStart()
 {
-  _scene.push_back("./assets/menu/StartMenuDefault.tga");
-  _scene.push_back("./assets/menu/StartMenuOptionSelected.tga");
-  _scene.push_back("./assets/menu/StartMenuQuitSelected.tga");
+  _index = 0;
+
+  _scene.push_back("./assets/menu/Start_Play.tga");
+  _scene.push_back("./assets/menu/Start_Load.tga");
+  _scene.push_back("./assets/menu/Start_Settings.tga");
+  _scene.push_back("./assets/menu/Start_Exit.tga");
 }
 
 MenuStart::~MenuStart()
 {
 
+}
+
+void				MenuStart::setIndex(int index)
+{
+  _index = index;
+}
+
+int				MenuStart::getIndex(void) const
+{
+  return (_index);
+}
+
+int				MenuStart::getMaxIndex(void) const
+{
+  return (_scene.size() - 1);
+}
+
+std::string			MenuStart::getCurrentScene(void) const
+{
+  return (_scene[_index]);
+}
+
+std::vector<std::string>		MenuStart::getScene() const
+{
+  return (_scene);
 }

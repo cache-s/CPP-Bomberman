@@ -17,12 +17,15 @@ public:
   virtual void shaderInit() = 0;
   virtual void soundInit() = 0;
   virtual void assetsInit() = 0;
+  virtual void menuInit() = 0;
   virtual bool update() = 0;
   virtual void setEntitiesToDraw(std::vector<IEntity<T> *> _ent) = 0;
   virtual eKey pollEvent() = 0;
+  virtual eKey menuPollEvent() = 0;
   virtual void pause() = 0;
   virtual void translate(T const &v, IEntity<T> &ent) const = 0;
   virtual void rotate(T const &axis, float angle, IEntity<T> &ent) const = 0;
+  virtual void menuLoadTexture(const std::vector<std::string> & images) = 0;
 
   virtual void draw() = 0;
   virtual void drawBomb(const IEntity<T> &ent) const = 0;
@@ -37,7 +40,7 @@ public:
   virtual void drawPlayer(const IEntity<T> &ent) const = 0;
   virtual void drawFloor(const IEntity<T> &ent) const = 0;
   virtual void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) = 0;
-  virtual void drawMenu(const std::string &image) = 0;
+  virtual void drawMenu(int index) = 0;
 
   virtual double getElapsedTime() = 0;
   virtual ~IGUI() {};

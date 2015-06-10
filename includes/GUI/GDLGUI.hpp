@@ -33,12 +33,15 @@ public:
   void shaderInit();
   void soundInit();
   void assetsInit();
+  void menuInit();
   bool initialize();
   bool update();
   bool getKey();
+  bool getMenuKey();
   void draw();
   void translate(T const &v, IEntity<T> &ent) const;
   void rotate(T const &axis, float angle, IEntity<T> &ent) const;
+  void menuLoadTexture(const std::vector<std::string> & image);
 
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawBomb(const IEntity<T> &ent) const;
@@ -53,15 +56,17 @@ public:
   void drawPlayer(const IEntity<T> &ent) const;
   void drawFloor(const IEntity<T> &ent) const;
   void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap);
-  void drawMenu(const std::string &image);
-
+  void drawMenu(int index);
   void drawRoutine();
-  
+
   double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   eKey pollEvent();
+  eKey menuPollEvent();
   void pause();
 private:
+  gdl::Geometry				_geometryMenu;
+  std::vector<gdl::Texture*>		_textureMenu;
   std::vector<IEntity<T> *> _ents;
   gdl::SdlContext	_context;
   glm::mat4		_camProj;
