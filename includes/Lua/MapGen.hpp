@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Mon Jun  8 18:23:19 2015 Pierre Charie
+// Last update Wed Jun 10 15:24:55 2015 Pierre Charie
 //
 
 #ifndef		MAPGEN_HPP_
@@ -30,11 +30,36 @@ private:
   void								spawnPlayer(int posX, int posY);
   void								checkPlayerZone(int posX, int posY, int sizeX, int sizeY);
   void                                                          spawnRandomPlayer(int playerNbr);
+  void								spawnTwoPlayer();
+  void								spawnThreePlayer();
+  void								spawnFourPlayer();
+  void								spawnFivePlayer();
+  void								spawnManyPlayer();
+
+  void								spawnTwoTopLeft();
+  void								spawnTwoTopRight();
+  void								spawnTwoBottomLeft();
+  void								spawnTwoBottomRight();
+
+  void								spawnThreeTopLeft();
+  void								spawnThreeTopRight();
+  void								spawnThreeBottomLeft();
+  void								spawnThreeBottomRight();
 
   int								_width;
   int								_height;
+  int								_playerNbr;
   std::map<std::pair<int, int>, IEntity<glm::vec3> *>		_map;
   std::map<std::pair<int, int>, IEntity<glm::vec3> *>		_pMap;
+  typedef void (MapGen::*spawnP)();
+  std::map<int, spawnP>						_spawnM;
+
+  typedef void (MapGen::*spawnTwoP)();
+  std::map<int, spawnP>                                         _spawnTwoM;
+
+  typedef void (MapGen::*spawnThreeP)();
+  std::map<int, spawnP>                                         _spawnThreeM;
+
 
   Factory							<glm::vec3>_fac;
 };
