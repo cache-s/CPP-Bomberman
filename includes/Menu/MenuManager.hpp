@@ -11,6 +11,17 @@
 # include			"Settings.hpp"
 # include			"EventManager.hpp"
 
+enum				eMenuEvent
+  {
+    LAUNCH = 1,
+    RESUME = 2,
+    SAVE = 3,
+    LOADGAME = 4,
+    MAIN = 5,
+    EXIT = 6,
+    NOTHING = 7
+  };
+
 enum				eMenu
   {
     INTRO = 1,
@@ -18,7 +29,7 @@ enum				eMenu
     SETTINGS = 3,
     LOAD = 4,
     PAUSE = 5,
-    END = 6,
+    END = 6
   };
 
 template <class T>
@@ -28,17 +39,18 @@ public:
   MenuManager(IGUI<T>& gui, Settings& settings);
   ~MenuManager();
 
-  void				callMenu(eMenu menu);
+  eMenuEvent			callMenu(eMenu menu);
 
 private:
-  int				callIntro();
-  int				callStart();
-  int				callLoad();
-  int				callSettings();
-  int				callPause();
-  int				callEnd();
 
-  typedef int (MenuManager<T>::*callMenuFct)();
+  eMenuEvent			callIntro();
+  eMenuEvent			callStart();
+  eMenuEvent			callLoad();
+  eMenuEvent			callSettings();
+  eMenuEvent			callPause();
+  eMenuEvent			callEnd();
+
+  typedef eMenuEvent (MenuManager<T>::*callMenuFct)();
   std::map<eMenu, callMenuFct> _callMenuFct;
 
   IGUI<T>			&_gui;

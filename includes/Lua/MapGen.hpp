@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Thu Jun 11 16:29:51 2015 Mathieu Bourmaud
+// Last update Thu Jun 11 16:48:29 2015 Mathieu Bourmaud
 //
 
 #ifndef		MAPGEN_HPP_
