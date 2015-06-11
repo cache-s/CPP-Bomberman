@@ -1,8 +1,10 @@
 template <typename T>
 Core<T>::Core(void)
 {
-  _entityMap = _lua.mapGenerate(10, 10);
-  _characterMap = _lua.playerMapGenerate(5);
+  _lua.mapGenerate(25, 25);
+  _lua.playerMapGenerate(5);
+  _entityMap = _lua.getMap();
+  _characterMap = _lua.getPMap();
   _drawQueue = new SafeQueue<IEntity<T> *>();
   _drawCondVar = new CondVar(_drawMutex);
   _gui = new GDLGUI<T>(*_drawQueue, *_drawCondVar, _entityMap, _characterMap);
@@ -21,8 +23,10 @@ template <typename T>
 void		Core<T>::gameLoop(void)
 {
   while(!(_eventManager->isEnd()))
-    if (_eventManager->update())
-      signalDraw();
+    {
+      if (_eventManager->update())
+	signalDraw();
+    }
 }
 
 template <typename T>

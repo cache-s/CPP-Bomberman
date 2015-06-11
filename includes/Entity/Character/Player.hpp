@@ -23,8 +23,8 @@ Player<T>::Player(int x, int y) : _bombStock(1)
 {
   this->setPosX(x);
   this->setPosY(y);
-  this->setScale(T(0.05, 0.05, 0.05));
-  this->setPosition(T(x, y, 0));
+  this->setScale(T(0.015, 0.015, 0.015));
+  this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 180, 0));
   this->setIsBreakable(true);
   this->setSpeed(10.0f);
@@ -62,8 +62,8 @@ IEntity<T>				*Player<T>::clone(int x, int y)
 
   player->setPosX(x);
   player->setPosY(y);
-  player->setScale(T(0.05, 0.05, 0.05));
-  player->setPosition(T(x, y, 0));
+  player->setScale(T(0.015, 0.015, 0.015));
+  player->setPosition(T(x, 0, y));
   player->setRotation(T(0, 180, 0));
   player->setIsBreakable(true);
   player->setSpeed(10.0f);

@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Wed Jun 10 19:50:25 2015 Pierre Charie
+// Last update Thu Jun 11 16:43:37 2015 Mathieu Bourmaud
 //
 
 extern "C"
@@ -45,7 +45,15 @@ MapGen::~MapGen()
 }
 
 
+std::map<std::pair<int, int>, IEntity<glm::vec3> *> MapGen::getMap() const
+{
+  return (_map);
+}
 
+std::map<std::pair<int, int>, IEntity<glm::vec3> *> MapGen::getPMap() const
+{
+  return (_pMap);
+}
 
 std::string MapGen::luaMapLoad(std::string fileLoad, std::string functionName)
 {

@@ -1,12 +1,13 @@
 template <typename T>
 GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawCondVar(drawCondVar), _drawQueue(drawQueue)
 {
-  std::cout << "Starting GUI" << std::endl;
+  _floor = new gdl::Geometry();
+  _cube = new gdl::Geometry();
+  _factory = new Factory<T>();
   _lastKeyPressed = NONE;
   _time = 0;
   _updateCondVar = new CondVar(_updateMutex);
   _GUIThread = new Thread();
-  _GUIThread->create(&draw_routine<T>, reinterpret_cast<void *>(this));
   _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
   _drawFct[MONSTER] = &GDLGUI<T>::drawMonster;
   _drawFct[ARTINT] = &GDLGUI<T>::drawAI;
@@ -23,8 +24,89 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, s
   shaderInit();
   soundInit();
   assetsInit();
-  drawMap(entityMap);
-  drawMap(characterMap);
+  objectInit();
+  _GUIThread->create(&draw_routine<T>, reinterpret_cast<void *>(this));
+  drawMap(entityMap, characterMap);
+}
+
+template <class T>
+void	GDLGUI<T>::createCube()
+{
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, 0.5));
+  _cube->pushVertex(glm::vec3(0.5 , 0.5, 0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , 0.5, 0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , -0.5, 0.5));
+  _cube->pushUv(glm::vec2(0.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 1.0f));
+  _cube->pushUv(glm::vec2(0.0f, 1.0f));
+
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));  
+  _cube->pushVertex(glm::vec3(0.5 , 0.5, -0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , 0.5, -0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , -0.5, -0.5));
+  _cube->pushUv(glm::vec2(0.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 1.0f));
+  _cube->pushUv(glm::vec2(0.0f, 1.0f));
+  
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));
+  _cube->pushVertex(glm::vec3(0.5 , 0.5, -0.5));
+  _cube->pushVertex(glm::vec3(0.5 , 0.5, 0.5));
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, 0.5));
+  _cube->pushUv(glm::vec2(0.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 1.0f));
+  _cube->pushUv(glm::vec2(0.0f, 1.0f));
+  
+  _cube->pushVertex(glm::vec3(-0.5 , -0.5, 0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , 0.5, 0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , 0.5, -0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , -0.5, -0.5));
+  _cube->pushUv(glm::vec2(0.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 1.0f));
+  _cube->pushUv(glm::vec2(0.0f, 1.0f));
+  
+  _cube->pushVertex(glm::vec3(0.5 , 0.5, 0.5));
+  _cube->pushVertex(glm::vec3(0.5 , 0.5, -0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , 0.5, -0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , 0.5, 0.5));
+  _cube->pushUv(glm::vec2(0.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 1.0f));
+  _cube->pushUv(glm::vec2(0.0f, 1.0f));
+  
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, 0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , -0.5, 0.5));
+  _cube->pushVertex(glm::vec3(-0.5 , -0.5, -0.5));
+  _cube->pushUv(glm::vec2(0.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 0.0f));
+  _cube->pushUv(glm::vec2(1.0f, 1.0f));
+  _cube->pushUv(glm::vec2(0.0f, 1.0f));
+  _cube->build();
+}
+
+template <class T>
+void	GDLGUI<T>::createFloor()
+{
+  _floor->pushVertex(glm::vec3(0.5 , -0.5, -0.5));
+  _floor->pushVertex(glm::vec3(0.5 , -0.5, 0.5));
+  _floor->pushVertex(glm::vec3(-0.5 , -0.5, 0.5));
+  _floor->pushVertex(glm::vec3(-0.5 , -0.5, -0.5));
+  _floor->pushUv(glm::vec2(0.0f, 0.0f));
+  _floor->pushUv(glm::vec2(1.0f, 0.0f));
+  _floor->pushUv(glm::vec2(1.0f, 1.0f));
+  _floor->pushUv(glm::vec2(0.0f, 1.0f));
+  _floor->build();
+}
+
+template <class T>
+void	GDLGUI<T>::objectInit()
+{
+  createCube();
+  createFloor();
 }
 
 template <typename T>
@@ -45,9 +127,8 @@ void    GDLGUI<T>::draw(void)
 {
   IEntity<T> *ent;
 
-  (void)ent;
-  // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  // _shader.bind();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  _shader.bind();
   while (true)
     {
       _drawCondVar.wait();
@@ -62,15 +143,16 @@ void    GDLGUI<T>::draw(void)
 template <typename T>
 void	GDLGUI<T>::windowInit()
 {
-  if (!_context.start(1280, 720, "My bomberman!"))
+  if (!_context.start(1920, 1080, "My bomberman!"))
     std::cout << "error window init" << std::endl;
 }
 
 template <typename T>
 void	GDLGUI<T>::cameraInit()
 {
-  _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
-  _camTransf = glm::lookAt(T(0, 50, -30), T(0, 0, 0), T(0, 1, 0));
+  _camProj = glm::perspective(60.0f, 1920.0f / 1080.0f, 0.1f, 2000.0f);
+   // _camTransf = glm::lookAt(T(100, 70, -60), T(100, 0, 0), T(0, 1, 0));
+  _camTransf = glm::lookAt(T(100, 200, -60), T(100, 0, 0), T(0, 1, 0));
 }
 
 template <typename T>
@@ -178,145 +260,151 @@ bool	GDLGUI<T>::getMenuKey()
   return true;
 }
 
-template <typename T>
-void	GDLGUI<T>::drawMonster(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawMonster(const IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw Monster" << std::endl;
 }
 
-template <typename T>
-void	GDLGUI<T>::drawAI(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawAI(const IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw AI" << std::endl;
 }
 
-template <typename T>
-void	GDLGUI<T>::drawBombNumber(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawBombNumber(const IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw bomb number" << std::endl;
 }
 
-template <typename T>
-void	GDLGUI<T>::drawRadius(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawRadius(const IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw Radius" << std::endl;
 }
 
-template <typename T>
-void	GDLGUI<T>::drawFlame(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
 {
-  (void)ent;
-  std::cout << "draw flame" << std::endl;
+  std::cout << "draw flame" << std::endl; 
+  gdl::Texture  _texture;
+ 
+  if (_texture.load("./assets/.tga") == false)
+    {
+      std::cerr << "Cannot load the texture" << std::endl;
+      return;
+    }
+  _cube->build();
+  _texture.bind();
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <typename T>
-void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw Speed" << std::endl;
 }
 
-template <typename T>
-void	GDLGUI<T>::drawFloor(const IEntity<T> &ent) const
-{
-  (void)ent;
-  std::cout << "draw floor" << std::endl;
-}
-
-template <typename T>
-void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent) const
-{
-  (void)ent;
-}
-#include "unistd.h"
-
-template <typename T>
-void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
 {
   gdl::Texture  _texture;
-  gdl::Geometry _geometry;
-  (void)ent;
-  if (_texture.load("./assets/grass.tga") == false)
+
+
+  if (_texture.load("./assets/hardened_clay_stained_cyan.tga") == false)
+    {
+      std::cerr << "Cannot load the texture" << std::endl;
+      return;
+    }
+  _floor->build();
+  _texture.bind();
+  _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
+}
+
+template <class T>
+void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent)
+{
+  gdl::Texture  _texture;
+  
+ if (_texture.load("./assets/planksbirch.tga") == false)
     {
       std::cerr << "Cannot load the cube texture" << std::endl;
       return;
     }
-  // std::cout << "pos = " << ent.getPosX() <<  " " << ent.getPosY() << "  scale = " << ent.getScale().x  << " " << ent.getScale().y << " " << ent.getScale().z << std::endl;
-  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT
-  _geometry.pushVertex(glm::vec3(1, 0.5, 1));
-  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
-  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
-  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-  _geometry.build();
+
+  _cube->build();
   _texture.bind();
-  _geometry.draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <typename T>
-void	GDLGUI<T>::drawBomb(const IEntity<T> &ent) const
+template <class T>
+void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent)
 {
-  (void)ent;
+  gdl::Texture  _texture;
+
+  if (_texture.load("./assets/test.tga") == false)
+    {
+      std::cerr << "Cannot load the cube texture" << std::endl;
+      return;
+    }
+
+  _cube->build();
+  _texture.bind();
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
+}
+
+template <class T>
+void	GDLGUI<T>::drawBomb(const IEntity<T> &ent)
+{
+  std::cout << "drawBomb" << std::endl;
+  gdl::Texture  _texture;
+ 
+  if (_texture.load("./assets/TnT.tga") == false)
+    {
+      std::cerr << "Cannot load the texture" << std::endl;
+      return;
+    }
+  _cube->build();
+  _texture.bind();
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <typename T>
-void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent) const
+void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent)
 {
   gdl::Texture texture;
   gdl::Model	model;
 
-  // std::cout << "Player" << std::endl;
-  // std::cout << "pos = " << ent.getPosX() <<  " " << ent.getPosY() << "  scale = " << ent.getScale().x  << " " << ent.getScale().y << " " << ent.getScale().z << std::endl;
   _texture.bind();
   _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
 }
 
 template <typename T>
-void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap)
+void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std::map<std::pair<int, int>, IEntity<T> *> characterMap)
 {
-  (void)entMap;
-  gdl::Texture  _texture;
-  gdl::Geometry _geometry;
-  if (_texture.load("./assets/grass.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return;
-    }
+  typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_e;
+  typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_p;
 
-  typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it;
-
-  it = entMap.begin();
-  ++it;
-  // for (it = entMap.begin(); it != entMap.end(); it++)
-  //   {
-  //     if (it->second != NULL)
-  // 	(this->*_drawFct[it->second->getType()])(*it->second);
-  //   }
-  _geometry.setColor(glm::vec4(0, 1, 0, 1)); // VERT
-  _geometry.pushVertex(glm::vec3(1, 0.5, 1));
-  _geometry.pushVertex(glm::vec3(1, 0.5, -1));
-  _geometry.pushVertex(glm::vec3(-1, 0.5, -1));
-  _geometry.pushVertex(glm::vec3(-1, 0.5, 1));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(1.0f, 1.0f));
-  _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-  _geometry.build();
-  _texture.bind();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  it_e = entMap.begin();
+  for (it_e = entMap.begin(); it_e != entMap.end(); it_e++)
+    {
+      if (it_e->second != NULL)
+	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
+      else
+	(this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));  
+    }
+  it_p = characterMap.begin();
+  for (it_p = characterMap.begin(); it_p != characterMap.end(); it_p++)
+    (this->*_drawFct[it_p->second->getType()])(*it_p->second);
   _shader.bind();
-  // _shader.setUniform("view", transformation);
-  // _shader.setUniform("projection", projection);
-
-  _geometry.draw((gdl::AShader&) _shader, getTransformation(*it->second), GL_QUADS);
   _context.flush();
 }
 
@@ -355,7 +443,10 @@ glm::mat4	GDLGUI<T>::getTransformation(const IEntity<T> &ent) const
 {
   glm::mat4	transform(1);
 
-  transform = glm::translate(transform, ent.getPosition());
+  if (ent.getType() != PLAYER)
+    transform = glm::translate(transform, ent.getPosition() * ent.getScale());
+  else
+    transform = glm::translate(transform, ent.getPosition() * T(10, 10, 10));
   transform = glm::rotate(transform, ent.getRotation().x, T(1, 0, 0));
   transform = glm::rotate(transform, ent.getRotation().y, T(0, 1, 0));
   transform = glm::rotate(transform, ent.getRotation().z, T(0, 0, 1));
@@ -420,6 +511,7 @@ void	GDLGUI<T>::drawMenu(int i)
 {
   glm::mat4		transformMenu(1);
 
+  std::cout << "MENU" << std::endl;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _textureMenu[i]->bind();
   _geometryMenu.draw(_shader, transformMenu, GL_QUADS);

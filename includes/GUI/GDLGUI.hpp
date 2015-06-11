@@ -10,6 +10,7 @@
 # include	<BasicShader.hh>
 # include	<SdlContext.hh>
 # include       <Geometry.hh>
+# include	<unistd.h>
 # include	"IThread.hpp"
 # include	"ISafeQueue.hpp"
 # include	"ICondVar.hpp"
@@ -44,20 +45,24 @@ public:
   void menuLoadTexture(const std::vector<std::string> & image);
 
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
-  void drawBomb(const IEntity<T> &ent) const;
-  void drawMonster(const IEntity<T> &ent) const;
-  void drawAI(const IEntity<T> &ent) const;
-  void drawBombNumber(const IEntity<T> &ent) const;
-  void drawRadius(const IEntity<T> &ent) const;
-  void drawFlame(const IEntity<T> &ent) const;
-  void drawSpeed(const IEntity<T> &ent) const;
-  void drawBrkWall(const IEntity<T> &ent) const;
-  void drawUbrkWall(const IEntity<T> &ent) const;
-  void drawPlayer(const IEntity<T> &ent) const;
-  void drawFloor(const IEntity<T> &ent) const;
-  void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap);
-  void drawMenu(int index);
-  void drawRoutine();
+  void drawInit();
+  void drawBomb(const IEntity<T> &ent);
+  void drawMonster(const IEntity<T> &ent);
+  void drawAI(const IEntity<T> &ent);
+  void drawBombNumber(const IEntity<T> &ent);
+  void drawRadius(const IEntity<T> &ent);
+  void drawFlame(const IEntity<T> &ent);
+  void drawSpeed(const IEntity<T> &ent);
+  void drawBrkWall(const IEntity<T> &ent);
+  void drawUbrkWall(const IEntity<T> &ent);
+  void drawPlayer(const IEntity<T> &ent);
+  void drawFloor(const IEntity<T> &ent);
+  void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std::map<std::pair<int, int>, IEntity<T> *> characterMap);
+  void drawMenu(int i);
+
+  void createCube();
+  void createFloor();
+  void objectInit();
 
   double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
@@ -67,25 +72,28 @@ public:
 private:
   gdl::Geometry				_geometryMenu;
   std::vector<gdl::Texture*>		_textureMenu;
-  std::vector<IEntity<T> *> _ents;
-  gdl::SdlContext	_context;
-  glm::mat4		_camProj;
-  glm::mat4		_camTransf;
-  gdl::BasicShader	_shader;
-  gdl::Input		_input;
-  gdl::Texture		_texture;
-  gdl::Clock		_clock;
-  ICondVar		&_drawCondVar;
-  Mutex			_updateMutex;
-  ICondVar		*_updateCondVar;
-  ISafeQueue<IEntity<T> *> &_drawQueue;
-  IThread		 *_GUIThread;
-  eKey			 _lastKeyPressed;
-  double		_time;
+  std::vector<IEntity<T> *>		_ents;
+  gdl::SdlContext			_context;
+  glm::mat4				_camProj;
+  glm::mat4				_camTransf;
+  gdl::BasicShader			_shader;
+  gdl::Input				_input;
+  gdl::Texture				_texture;
+  gdl::Clock				_clock;
+  Factory<glm::vec3>			*_factory;
+  ICondVar				&_drawCondVar;
+  Mutex					_updateMutex;
+  ICondVar				*_updateCondVar;
+  ISafeQueue<IEntity<T> *>		&_drawQueue;
+  IThread				*_GUIThread;
+  eKey					_lastKeyPressed;
+  double				_time;
+  gdl::Geometry				*_cube;
+  gdl::Geometry				*_floor;
 
-  typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent) const;
-  std::map<eEntityType, drawFunc> _drawFct;
-  AssetsManager		_AM;
+  typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent);
+  std::map<eEntityType, drawFunc>	_drawFct;
+  AssetsManager				_AM;
 };
 
 template	<typename T>

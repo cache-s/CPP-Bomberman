@@ -28,19 +28,19 @@ public:
   virtual void menuLoadTexture(const std::vector<std::string> & images) = 0;
 
   virtual void draw() = 0;
-  virtual void drawBomb(const IEntity<T> &ent) const = 0;
-  virtual void drawMonster(const IEntity<T> &ent) const = 0;
-  virtual void drawAI(const IEntity<T> &ent) const = 0;
-  virtual void drawBombNumber(const IEntity<T> &ent) const = 0;
-  virtual void drawRadius(const IEntity<T> &ent) const = 0;
-  virtual void drawFlame(const IEntity<T> &ent) const = 0;
-  virtual void drawSpeed(const IEntity<T> &ent) const = 0;
-  virtual void drawBrkWall(const IEntity<T> &ent) const = 0;
-  virtual void drawUbrkWall(const IEntity<T> &ent) const = 0;
-  virtual void drawPlayer(const IEntity<T> &ent) const = 0;
-  virtual void drawFloor(const IEntity<T> &ent) const = 0;
-  virtual void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap) = 0;
-  virtual void drawMenu(int index) = 0;
+  virtual void drawBomb(const IEntity<T> &ent) = 0;
+  virtual void drawMonster(const IEntity<T> &ent) = 0;
+  virtual void drawAI(const IEntity<T> &ent) = 0;
+  virtual void drawBombNumber(const IEntity<T> &ent) = 0;
+  virtual void drawRadius(const IEntity<T> &ent) = 0;
+  virtual void drawFlame(const IEntity<T> &ent) = 0;
+  virtual void drawSpeed(const IEntity<T> &ent) = 0;
+  virtual void drawBrkWall(const IEntity<T> &ent) = 0;
+  virtual void drawUbrkWall(const IEntity<T> &ent) = 0;
+  virtual void drawPlayer(const IEntity<T> &ent) = 0;
+  virtual void drawFloor(const IEntity<T> &ent) = 0;
+  virtual void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std::map<std::pair<int, int>, IEntity<T> *> characterMap) = 0;
+  virtual void drawMenu(int i) = 0;
 
   virtual double getElapsedTime() = 0;
   virtual ~IGUI() {};
