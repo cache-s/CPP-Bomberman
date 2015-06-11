@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Thu Jun 11 16:43:37 2015 Mathieu Bourmaud
+// Last update Thu Jun 11 17:36:49 2015 Pierre Charie
 //
 
 extern "C"
@@ -182,6 +182,9 @@ void                                                     MapGen::spawnPlayer(int
       if (_map[std::make_pair(posX - 1, posY)])
 	if (_map[std::make_pair(posX - 1, posY)]->getType() != MAPWALL)
 	  _map[std::make_pair(posX - 1, posY)] = NULL;
+      if (_map[std::make_pair(posX, posY)])
+	if (_map[std::make_pair(posX, posY)]->getType() != MAPWALL)
+	  _map[std::make_pair(posX, posY)] = NULL;
       if (_map[std::make_pair(posX + 1, posY)])
 	if (_map[std::make_pair(posX + 1, posY)]->getType() != MAPWALL)
 	  _map[std::make_pair(posX + 1, posY)] = NULL;
