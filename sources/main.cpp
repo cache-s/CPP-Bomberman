@@ -8,4 +8,6 @@ int			main()
 
   core.getMenuManager().callMenu(INTRO);
   core.getMenuManager().callMenu(START);
+  core.gameLoop();
+  return (0);
 }

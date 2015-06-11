@@ -18,15 +18,15 @@ MenuManager<T>::~MenuManager()
 }
 
 template <class T>
-void				MenuManager<T>::callMenu(eMenu menu)
+eMenuEvent			MenuManager<T>::callMenu(eMenu menu)
 {
   _gui.menuInit();
 
-  (this->*_callMenuFct[menu])();
+  return ((this->*_callMenuFct[menu])());
 }
 
 template <class T>
-int				MenuManager<T>::callIntro()
+eMenuEvent			MenuManager<T>::callIntro()
 {
   std::vector<std::string>	intro;
 
@@ -34,11 +34,11 @@ int				MenuManager<T>::callIntro()
   _gui.menuLoadTexture(intro);
   _gui.drawMenu(0);
   usleep(500000);
-  return (0);
+  return (NOTHING);
 }
 
 template <class T>
-int				MenuManager<T>::callStart()
+eMenuEvent			MenuManager<T>::callStart()
 {
   _gui.menuLoadTexture(_menuStart.getScene());
   _gui.drawMenu(_menuStart.getIndex());
@@ -47,19 +47,13 @@ int				MenuManager<T>::callStart()
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuStart.getIndex() == 0)
-	    return 0;
+	    return (LAUNCH);
 	  if (_menuStart.getIndex() == 1)
-	    {
-	      callLoad();
-	      _gui.menuLoadTexture(_menuStart.getScene());
-	    }
+	    return (callLoad());
 	  if (_menuStart.getIndex() == 2)
-	    {
-	      callSettings();
-	      _gui.menuLoadTexture(_menuStart.getScene());
-	    }
+	    return (callSettings());
 	  if (_menuStart.getIndex() == 3)
-	    return -1;
+	    return (EXIT);
 	}
       if (_menuStart.getIndex() == 0 && _lastKeyPressed == UP1)
 	_menuStart.setIndex(_menuStart.getMaxIndex());
@@ -75,11 +69,11 @@ int				MenuManager<T>::callStart()
       _gui.drawMenu(_menuStart.getIndex());
       usleep(100000);
     }
-  return -1;
+  return (EXIT);
 }
 
 template <class T>
-int				MenuManager<T>::callSettings()
+eMenuEvent			MenuManager<T>::callSettings()
 {
   _gui.menuLoadTexture(_menuSettings.getScene());
   _gui.drawMenu(_menuSettings.getIndex());
@@ -88,9 +82,9 @@ int				MenuManager<T>::callSettings()
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuSettings.getIndex() == 0)
-	    return 0;
+	    return (LAUNCH);
 	  if (_menuSettings.getIndex() == 1)
-	    return 0;
+	    return (callStart());
 	}
       if (_menuSettings.getIndex() == 0 && _lastKeyPressed == UP1)
 	_menuSettings.setIndex(_menuSettings.getMaxIndex());
@@ -106,11 +100,11 @@ int				MenuManager<T>::callSettings()
       _gui.drawMenu(_menuSettings.getIndex());
       usleep(100000);
     }
-  return -1;
+  return (EXIT);
 }
 
 template <class T>
-int				MenuManager<T>::callLoad()
+eMenuEvent			MenuManager<T>::callLoad()
 {
   _gui.menuLoadTexture(_menuLoad.getScene());
   _gui.drawMenu(_menuLoad.getIndex());
@@ -135,11 +129,11 @@ int				MenuManager<T>::callLoad()
       _gui.drawMenu(_menuLoad.getIndex());
       usleep(100000);
     }
-  return -1;
+  return (EXIT);
 }
 
 template <class T>
-int				MenuManager<T>::callPause()
+eMenuEvent			MenuManager<T>::callPause()
 {
   _gui.menuLoadTexture(_menuPause.getScene());
   _gui.drawMenu(_menuPause.getIndex());
@@ -148,16 +142,15 @@ int				MenuManager<T>::callPause()
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuStart.getIndex() == 0)
-	    return 0;
+	    return (RESUME);
 	  if (_menuStart.getIndex() == 1)
-	    return (1);
+	    return (SAVE);
 	  if (_menuStart.getIndex() == 2)
-	    {
-	      callSettings();
-	      _gui.menuLoadTexture(_menuPause.getScene());
-	    }
+	    return (callSettings());
 	  if (_menuStart.getIndex() == 3)
-	    return -1;
+	    return (MAIN);
+	  if (_menuStart.getIndex() == 4)
+	    return (EXIT);
 	}
       if (_menuPause.getIndex() == 0 && _lastKeyPressed == UP1)
 	_menuPause.setIndex(_menuPause.getMaxIndex());
@@ -173,11 +166,11 @@ int				MenuManager<T>::callPause()
       _gui.drawMenu(_menuPause.getIndex());
       usleep(100000);
     }
-  return -1;
+  return (EXIT);
 }
 
 template <class T>
-int				MenuManager<T>::callEnd()
+eMenuEvent			MenuManager<T>::callEnd()
 {
   _gui.menuLoadTexture(_menuEnd.getScene());
   _gui.drawMenu(_menuEnd.getIndex());
@@ -197,5 +190,5 @@ int				MenuManager<T>::callEnd()
       _gui.drawMenu(_menuEnd.getIndex());
       usleep(100000);
     }
-  return -1;
+  return (EXIT);
 }

@@ -67,21 +67,21 @@ public:
 private:
   gdl::Geometry				_geometryMenu;
   std::vector<gdl::Texture*>		_textureMenu;
-  std::vector<IEntity<T> *> _ents;
-  gdl::SdlContext	_context;
-  glm::mat4		_camProj;
-  glm::mat4		_camTransf;
-  gdl::BasicShader	_shader;
-  gdl::Input		_input;
-  gdl::Texture		_texture;
-  gdl::Clock		_clock;
-  ICondVar		&_drawCondVar;
-  Mutex			_updateMutex;
-  ICondVar		*_updateCondVar;
-  ISafeQueue<IEntity<T> *> &_drawQueue;
-  IThread		 *_GUIThread;
-  eKey			 _lastKeyPressed;
-  double		_time;
+  std::vector<IEntity<T> *>		_ents;
+  gdl::SdlContext			_context;
+  glm::mat4				_camProj;
+  glm::mat4				_camTransf;
+  gdl::BasicShader			_shader;
+  gdl::Input				_input;
+  gdl::Texture				_texture;
+  gdl::Clock				_clock;
+  ICondVar				&_drawCondVar;
+  Mutex					_updateMutex;
+  ICondVar				*_updateCondVar;
+  ISafeQueue<IEntity<T> *>		&_drawQueue;
+  IThread				*_GUIThread;
+  eKey					_lastKeyPressed;
+  double				_time;
 
   typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent) const;
   std::map<eEntityType, drawFunc> _drawFct;
