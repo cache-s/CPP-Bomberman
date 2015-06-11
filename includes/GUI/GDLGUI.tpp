@@ -19,12 +19,7 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, s
   _drawFct[BRKWALL] = &GDLGUI<T>::drawBrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
-  windowInit();
-  cameraInit();
-  shaderInit();
-  soundInit();
-  assetsInit();
-  objectInit();
+  initialize();
   _GUIThread->create(&draw_routine<T>, reinterpret_cast<void *>(this));
   drawMap(entityMap, characterMap);
 }
@@ -134,8 +129,9 @@ void    GDLGUI<T>::draw(void)
       _drawCondVar.wait();
       while ((_drawQueue.tryPop(&ent)) == true)
         {
-          (this->*_drawFct[ent->getType()])(*ent);
-          _context.flush();
+	  (this->*_drawFct[FLAME])(*(_factory->createEntity(FLAME, -1, -1)));  // std::cout << "draw" << std::endl;
+          // (this->*_drawFct[ent->getType()])(*ent);
+	  // std::cout << "context flush" << std::endl;
         }
     }
 }
@@ -143,16 +139,16 @@ void    GDLGUI<T>::draw(void)
 template <typename T>
 void	GDLGUI<T>::windowInit()
 {
-  if (!_context.start(1920, 1080, "My bomberman!"))
+  if (!_context.start(1280, 720, "My bomberman!"))
     std::cout << "error window init" << std::endl;
 }
 
 template <typename T>
 void	GDLGUI<T>::cameraInit()
 {
-  _camProj = glm::perspective(60.0f, 1920.0f / 1080.0f, 0.1f, 2000.0f);
-   // _camTransf = glm::lookAt(T(100, 70, -60), T(100, 0, 0), T(0, 1, 0));
-  _camTransf = glm::lookAt(T(100, 200, -60), T(100, 0, 0), T(0, 1, 0));
+  _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
+  _camTransf = glm::lookAt(T(100, 200, -70), T(100, 0, 100), T(0, 1, 0));
+  // _camTransf = glm::lookAt(T(100, 200, -60), T(100, 0, 0), T(0, 1, 0));
 }
 
 template <typename T>
@@ -214,6 +210,9 @@ bool	GDLGUI<T>::update()
   _context.updateClock(_clock);
   _context.updateInputs(_input);
   _updateCondVar->signal();
+  _shader.bind();
+  _camTransf = glm::lookAt(glm::vec3(100, 120, -60), _p1->getPosition(), glm::vec3(0, 1, 0));
+  _shader.setUniform("view", _camTransf);
   return (true);
 }
 
@@ -293,12 +292,13 @@ void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
 {
   std::cout << "draw flame" << std::endl; 
   gdl::Texture  _texture;
- 
-  if (_texture.load("./assets/.tga") == false)
+
+  if (_texture.load("./assets/TnT.tga") == false)
     {
       std::cerr << "Cannot load the texture" << std::endl;
       return;
     }
+  std::cout << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
   _cube->build();
   _texture.bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
@@ -315,7 +315,6 @@ template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
 {
   gdl::Texture  _texture;
-
 
   if (_texture.load("./assets/hardened_clay_stained_cyan.tga") == false)
     {
@@ -391,6 +390,7 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std:
 {
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_e;
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_p;
+  static int once = 0;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   it_e = entMap.begin();
@@ -399,13 +399,21 @@ void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std:
       if (it_e->second != NULL)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	(this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));  
+	(this->*_drawFct[FLAME])(*(_factory->createEntity(FLAME, std::get<0>(it_e->first), std::get<1>(it_e->first))));  
     }
   it_p = characterMap.begin();
   for (it_p = characterMap.begin(); it_p != characterMap.end(); it_p++)
-    (this->*_drawFct[it_p->second->getType()])(*it_p->second);
-  _shader.bind();
+    {
+      (this->*_drawFct[it_p->second->getType()])(*it_p->second);
+      if (once == 0)
+	_p1 = it_p->second;
+      if (once == 1)
+	_p2 = it_p->second;
+      once++;
+    }
+  (this->*_drawFct[UBRKWALL])(*(_factory->createEntity(UBRKWALL, 1, 10)));
   _context.flush();
+  // _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 100.0f);
 }
 
 template <typename T>
@@ -457,25 +465,14 @@ glm::mat4	GDLGUI<T>::getTransformation(const IEntity<T> &ent) const
 template <typename T>
 bool GDLGUI<T>::initialize()
 {
+  windowInit();
+  cameraInit();
+  shaderInit();
+  soundInit();
+  assetsInit();
+  objectInit();
   return true;
 }
-
-// template <typename T>
-// bool GDLGUI<T>::update()
-// {
-//   std::cout << "update bool" << std::endl;
-//   return true;
-// }
-
-// template <typename T>
-// void GDLGUI<T>::draw()
-// {
-//   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//   _shader.bind();
-//   for (size_t i = 0; i < _ents.size(); i++)
-//     (this->*_drawFct[_ents[i]->getType()])(*_ents[i]);
-//   _context.flush();
-// }
 
 template <typename T>
 void	GDLGUI<T>::translate(T const &v, IEntity<T> &ent) const

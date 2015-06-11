@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 14:24:29 2015 Jordan Chazottes
-// Last update Thu Jun  4 19:14:02 2015 Jordan Chazottes
+// Last update Thu Jun 11 19:27:16 2015 Mathieu Bourmaud
 //
 
 #include "GameEngine.hh"
@@ -71,15 +71,15 @@ bool	GameEngine::update()
   _context.updateInputs(_input);
   for (size_t i = 0; i < _objects.size(); ++i)
     _objects[i]->update(_clock, _input);
-  // _transformation = glm::lookAt(setCamPos(), _character->getPosition(),glm::vec3(0, 1, 0));
-  // _shader.setUniform("view", _transformation);
+  _transformation = glm::lookAt(setCamPos(), _character->getPosition(),glm::vec3(0, 1, 0));
+  _shader.setUniform("view", _transformation);
   return true;
 }
 
 void	GameEngine::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  _shader.bind();
+  // _shader.bind();
   for (size_t i = 0; i < _objects.size(); ++i)
     _objects[i]->draw(_shader, _clock);
   _context.flush();

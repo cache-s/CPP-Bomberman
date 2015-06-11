@@ -90,6 +90,8 @@ private:
   double				_time;
   gdl::Geometry				*_cube;
   gdl::Geometry				*_floor;
+  IEntity<T>				*_p1;
+  IEntity<T>				*_p2;
 
   typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent);
   std::map<eEntityType, drawFunc>	_drawFct;
