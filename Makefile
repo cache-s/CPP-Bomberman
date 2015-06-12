@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri Jun 12 12:29:27 2015 Pierre Charie
+## Last update Fri Jun 12 13:31:49 2015 Pierre Charie
 ##
 
 NAME	= bomberman
@@ -24,7 +24,7 @@ SRCS	= ./sources/main.cpp				\
 	  ./sources/Menu/MenuPause.cpp			\
 	  ./sources/Menu/MenuEnd.cpp			\
 	  ./sources/Settings.cpp			\
-##	  ./sources/Lua/AInt.cpp			\
+	  ./sources/Lua/AInt.cpp			\
 
 OBJS	= $(SRCS:.cpp=.o)
 

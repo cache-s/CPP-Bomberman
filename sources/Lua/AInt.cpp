@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Fri Jun 12 11:37:56 2015 Pierre Charie
-// Last update Fri Jun 12 12:28:09 2015 Pierre Charie
+// Last update Fri Jun 12 14:50:28 2015 Pierre Charie
 //
 
 
@@ -21,7 +21,7 @@ extern "C"
 #include "IEntity.hpp"
 
 
-AInt::AInt(int width, int height)
+AInt::AInt(int width, int height, std::map<std::pair<int, int>, IEntity<glm::vec3> *> &playerMap, std::map<std::pair<int, int>, IEntity<glm::vec3> *> &gameMap, IEntity<glm::vec3> &player) : _player(player), _playerMap(playerMap), _gameMap(gameMap)
 {
   _width = width;
   _height = height;
@@ -32,7 +32,7 @@ AInt::~AInt()
 
 }
 
-std::string	AInt::mapMerge(std::map<std::pair<int, int>, IEntity<glm::vec3> *> playerMap, std::map<std::pair<int, int>, IEntity<glm::vec3> *> gameMap)
+std::string	AInt::mapMerge()
 {
   int	tmp;
   std::string result;
@@ -43,13 +43,13 @@ std::string	AInt::mapMerge(std::map<std::pair<int, int>, IEntity<glm::vec3> *> p
     {
       while (x < _width)
 	{
-	  if (gameMap[std::make_pair(x, y)] == NULL)
-	    if (playerMap[std::make_pair(x, y)] == NULL)
+	  if (_gameMap[std::make_pair(x, y)] == NULL)
+	    if (_playerMap[std::make_pair(x, y)] == NULL)
 	      tmp = 0;
 	    else
-	      tmp += playerMap[std::make_pair(x, y)]->getType();
+	      tmp += _playerMap[std::make_pair(x, y)]->getType();
 	  else
-	    tmp += gameMap[std::make_pair(x, y)]->getType();
+	    tmp += _gameMap[std::make_pair(x, y)]->getType();
 
 	  std::stringstream ss;
 	  ss << tmp;
@@ -103,36 +103,46 @@ std::string	AInt::mapMerge(std::map<std::pair<int, int>, IEntity<glm::vec3> *> p
   return result;
 } // DZ = 33, BMB = 32
 
-void		AInt::move(std::string, int width, int height, int selfX, int selfY)
+void		AInt::move()
 {
   lua_State*            L = luaL_newstate();
   int			action;
 
 
-  luaL_openlibs(L);
-  if (luaL_loadfile(L, "./sources/Scripts/AI/aggressiveAI.lua") || lua_pcall(L, 0, 0, 0))
-    throw std::runtime_error("Couldn't load the AI");
-  lua_getglobal(L, "act");
-  if(!lua_isfunction(L,-1))
-    {
-      lua_pop(L,1);
-      std::string error;
-      error = "Error, function doesn't exist in";
-      throw std::runtime_error(error);
-    }
-  lua_pushstring(L, map.c_str());
-  lua_pushinteger(L, width);
-  lua_pushinteger(L, height);
-  lua_pushinteger(L, selfX);
-  lua_pushinteger(L, selfY);
+  // int			oldPosX = 0;
+  // int			oldPosY = 0;
+  // int			oldAction
 
-  if (lua_pcall(L, 5, 1, 0) != 0)
+  while (true)
     {
-      std::string error;
-      error = "Error running LUA function";
-      throw std::runtime_error(error);
+      luaL_openlibs(L);
+      if (luaL_loadfile(L, "./sources/Scripts/AI/aggressiveAI.lua") || lua_pcall(L, 0, 0, 0))
+	throw std::runtime_error("Couldn't load the AI");
+      lua_getglobal(L, "act");
+      if(!lua_isfunction(L,-1))
+	{
+	  lua_pop(L,1);
+	  std::string error;
+	  error = "Error, function doesn't exist in";
+	  throw std::runtime_error(error);
+	}
+
+      std::string map = mapMerge();
+      lua_pushstring(L, map.c_str());
+      lua_pushinteger(L, _width);
+      lua_pushinteger(L, _height);
+      lua_pushinteger(L, _player.getPosX());
+      lua_pushinteger(L, _player.getPosY());
+
+      if (lua_pcall(L, 5, 1, 0) != 0)
+	{
+	  std::string error;
+	  error = "Error running LUA function";
+	  throw std::runtime_error(error);
+	}
+      action = lua_tointeger(L, -1);
+      lua_pop(L, 1);
+      (void)action;
+
     }
-  action = lua_tointeger(L, -1);
-  lua_pop(L, 1);
-  (void)action;
 }

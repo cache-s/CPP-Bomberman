@@ -18,102 +18,108 @@
     -- Gens : 20-29
     -- DANGER : 30
 
+-- 0 = on bombe
+-- 8 = go up
+-- 2 = go down
+-- 4 = go left
+-- 6 = go right
+
 function act (map, width, height, selfx, selfy)
    pos = selfx * selfy + selfx
 
    if (map[pos] > 29) then --Survie de l'IA
       if (map[pos + width] == 0 or (map[pos + width] > 9 and map[pos + width] < 20)) then
-	 --go up
+	 return(8)
       elseif (map[pos + 1] == 0 or (map[pos + 1] > 9 and map[pos + 1] < 20)) then
-	 --go right
+	 return(6)	 --go right
       elseif (map[pos - 1] == 0 or (map[pos - 1] > 9 and map[pos - 1] < 20)) then
-	 --go left
+	 return(4)	 --go left
       elseif (map[pos - width] == 0 or (map[pos - width] > 9 and map[pos - width] < 20)) then
-	 -- go bot
+	 return(2)	 -- go bot
       end
    end -- Survie
    
 --posage de bombe
    if (map[pos + width] > 19 and map[pos + width] < 30) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos + width] < 3 and (map[pos + (2 * width)] > 19 and map[pos + (2 * width)] < 30)) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos + width] < 3 and map[pos + (2 * width)] < 3 and (map[pos + (3 * width)] > 19 and map[pos + (3 * width)] < 30)) then
-      --on bombe 
+      return(0) --on bombe 
    end
 
    if (map[pos - width] > 19 and map[pos - width] < 30) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos - width] < 3 and (map[pos - (2 * width)] > 19 and map[pos - (2 * width)] < 30)) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos - width] < 3 and map[pos - (2 * width)] < 3 and (map[pos - (3 * width)] > 19 and map[pos - (3 * width)] < 30)) then
-      --on bombe
+      return(0) --on bombe
    end
 
    if (map[pos + 1] > 19 and map[pos + 1] < 30) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos + 1] < 3 and (map[pos + (2 * 1)] > 19 and map[pos + (2 * 1)] < 30)) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos + 1] < 3 and map[pos + (2 * 1)] < 3 and (map[pos + (3 * 1)] > 19 and map[pos + (3 * 1)] < 30)) then
-      --on bombe 
+      return(0) --on bombe 
    end
 
    if (map[pos - 1] > 19 and map[pos - 1] < 30) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos - 1] < 3 and (map[pos - (2 * 1)] > 19 and map[pos - (2 * 1)] < 30)) then
-      --on bombe
+      return(0) --on bombe
    end
    if (map[pos - 1] < 3 and map[pos - (2 * 1)] < 3 and (map[pos - (3 * 1)] > 19 and map[pos - (3 * 1)] < 30)) then
-      --on bombe
+      return(0) --on bombe
    end
 --fin posage de bombe
 
 --recolte de bonus
    if (map[pos + width] > 9 and map[pos + width] < 20) then
-      --on recolte
+      return(8) --on recolte
    end
-   if (map[pos + width] < 3 and (map[pos + (2 * width)] > 9 and map[pos + (2 * width)] < 20)) then
-      --on recolte
+   if (map[pos + width] < 1 and (map[pos + (2 * width)] > 9 and map[pos + (2 * width)] < 20)) then
+      return(8)--on recolte
    end
-   if (map[pos + width] < 3 and map[pos + (2 * width)] < 3 and (map[pos + (3 * width)] > 9 and map[pos + (3 * width)] < 20)) then
-      --on recolte 
+   if (map[pos + width] < 1 and map[pos + (2 * width)] < 1 and (map[pos + (3 * width)] > 9 and map[pos + (3 * width)] < 20)) then
+      return(8)--on recolte 
    end
 
    if (map[pos - width] > 9 and map[pos - width] < 20) then
-      --on recolte
+      return(2)--on recolte
    end
-   if (map[pos - width] < 3 and (map[pos - (2 * width)] > 9 and map[pos - (2 * width)] < 20)) then
-      --on recolte
+   if (map[pos - width] < 1 and (map[pos - (2 * width)] > 9 and map[pos - (2 * width)] < 20)) then
+      return(2)--on recolte
    end
-   if (map[pos - width] < 3 and map[pos - (2 * width)] < 3 and (map[pos - (3 * width)] > 9 and map[pos - (3 * width)] < 20)) then
-      --on recolte
+   if (map[pos - width] < 1 and map[pos - (2 * width)] < 1 and (map[pos - (3 * width)] > 9 and map[pos - (3 * width)] < 20)) then
+      return(2)--on recolte
    end
 
    if (map[pos + 1] > 9 and map[pos + 1] < 20) then
-      --on recolte
+      return(6)--on recolte
    end
-   if (map[pos + 1] < 3 and (map[pos + (2 * 1)] > 9 and map[pos + (2 * 1)] < 20)) then
-      --on recolte
+   if (map[pos + 1] < 1 and (map[pos + (2 * 1)] > 9 and map[pos + (2 * 1)] < 20)) then
+      return(6)--on recolte
    end
-   if (map[pos + 1] < 3 and map[pos + (2 * 1)] < 3 and (map[pos + (3 * 1)] > 9 and map[pos + (3 * 1)] < 20)) then
-      --on recolte 
+   if (map[pos + 1] < 1 and map[pos + (2 * 1)] < 1 and (map[pos + (3 * 1)] > 9 and map[pos + (3 * 1)] < 20)) then
+      return(6)--on recolte 
    end
 
    if (map[pos - 1] > 9 and map[pos - 1] < 20) then
-      --on recolte
+      return(4)--on recolte
    end
-   if (map[pos - 1] < 3 and (map[pos - (2 * 1)] > 9 and map[pos - (2 * 1)] < 20)) then
-      --on recolte
+   if (map[pos - 1] < 1 and (map[pos - (2 * 1)] > 9 and map[pos - (2 * 1)] < 20)) then
+      return(4)--on recolte
    end
-   if (map[pos - 1] < 3 and map[pos - (2 * 1)] < 3 and (map[pos - (3 * 1)] > 9 and map[pos - (3 * 1)] < 20)) then
-      --on recolte
+   if (map[pos - 1] < 1 and map[pos - (2 * 1)] < 1 and (map[pos - (3 * 1)] > 9 and map[pos - (3 * 1)] < 20)) then
+      return(4)--on recolte
    end
 
 --fin recolte bonus
@@ -139,44 +145,44 @@ closest = -1
    if (pos - closest > 0) then -- au dessus ou a gauche
       if (pos - closest < width) then -- a gauche!
 	 if (map[pos - 1] == 0) then
-	    --go left
+	    return(4)
 	 end
 	 if (map[pos - 1] == 1) then
-	    --on bombe le mur!
+	    return(0) --on bombe le mur!
 	 end
 	 if (map[pos - 1] == 2) then
 	    if (map[pos - width] == 0) then
-	       -- go top pour contourner
+	       return(8)-- go top pour contourner
 	    end
 	    if (map[pos - width] == 1) then
-	       --on bombe le mur pour contourner l'obstacle indestructible
+	       return(0) --on bombe le mur pour contourner l'obstacle indestructible
 	    end
 	    if (map[pos + width] == 0) then
-	       -- go bot pour contourner
+	       return(2)-- go bot pour contourner
 	    end
 	    if (map[pos + width] == 1) then
-	       --on bombe le mur pour contourner l'obstacle indestructible
+	       return(0) --on bombe le mur pour contourner l'obstacle indestructible
 	    end
 	 end --end gauche
       else -- au dessus!
 	 if (map[pos - width] == 0) then
-	    -- go top
+	    return(8)-- go top
 	 end
 	 if (map[pos - width] == 1) then
-	    --on bombe le mur!
+	    return(0) --on bombe le mur!
 	 end
 	 if (map[pos - width] == 2) then
 	    if (map[pos - 1] == 0) then
-               -- go left pour contourner
+               return(4)-- go left pour contourner
             end
             if (map[pos - 1] == 1) then
-               --on bombe le mur pour contourner l'obstacle indestructible
+               return(0) --on bombe le mur pour contourner l'obstacle indestructible
             end
             if (map[pos + 1] == 0) then
-               -- go right pour contourner
+               return(6)-- go right pour contourner
             end
             if (map[pos + 1] == 1) then
-               --on bombe le mur pour contourner l'obstacle indestructible
+               return(0) --on bombe le mur pour contourner l'obstacle indestructible
             end
 	 end
       end -- end au dessus
@@ -185,44 +191,44 @@ closest = -1
 
       if (closest - pos < width) then -- a droite!
 	 if (map[pos + 1] == 0) then
-	    --go right
+	    return(6)--go right
 	 end
 	 if (map[pos + 1] == 1) then
-	    --on bombe le mur!
+	    return(0) --on bombe le mur!
 	 end
 	 if (map[pos + 1] == 2) then
 	    if (map[pos - width] == 0) then
-	       -- go top pour contourner
+	       return(8)-- go top pour contourner
 	    end
 	    if (map[pos - width] == 1) then
-	       --on bombe le mur pour contourner l'obstacle indestructible
+	       return(0) --on bombe le mur pour contourner l'obstacle indestructible
 	    end
 	    if (map[pos + width] == 0) then
-	       -- go bot pour contourner
+	       return(2)-- go bot pour contourner
 	    end
 	    if (map[pos + width] == 1) then
-	       --on bombe le mur pour contourner l'obstacle indestructible
+	       return(0) --on bombe le mur pour contourner l'obstacle indestructible
 	    end
 	 end --end gauche
       else -- en dessous!
 	 if (map[pos + width] == 0) then
-	    -- go bot
+	    return(2)-- go bot
 	 end
 	 if (map[pos + width] == 1) then
-	    --on bombe le mur!
+	    return(0) --on bombe le mur!
 	 end
 	 if (map[pos + width] == 2) then
 	    if (map[pos - 1] == 0) then
-               -- go left pour contourner
+               return (4)-- go left pour contourner
             end
             if (map[pos - 1] == 1) then
-               --on bombe le mur pour contourner l'obstacle indestructible
+               return(0) --on bombe le mur pour contourner l'obstacle indestructible
             end
             if (map[pos + 1] == 0) then
-               -- go right pour contourner
+               return(6)-- go right pour contourner
             end
             if (map[pos + 1] == 1) then
-               --on bombe le mur pour contourner l'obstacle indestructible
+               return(0) --on bombe le mur pour contourner l'obstacle indestructible
             end
 	 end
       end -- end au dessus
@@ -231,8 +237,6 @@ closest = -1
    end --end dessous ou droite
 
 --fin mouvement
-
-	 print("Aggressive AI ready")
 
 --deltapos / largeur - 2 + deltapos % largeur;
 
