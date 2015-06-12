@@ -2,7 +2,7 @@
 
 --TODO (cpp) : avant de serialiser la map : on définit les zones de danger en priorité)
 
---TODO : 1) Si sur une case 4 (DangerZone) ou 6(Bomb) : GTFO
+--TODO : 1) Si sur une case 33 (DangerZone) ou 32(Bomb) : GTFO
 --	 2) Si aligné à un joueur : On le bombe! (verifier si on peut se casser ;D)
 --	 3) Si un bonus dans le coin : On va marcher dessus.
 --	 4) Si un path est clear vers un joueur : on y va. Sinon, on se rapproche du mur cassable entre nous et on le bombe.
