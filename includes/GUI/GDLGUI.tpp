@@ -1,5 +1,5 @@
 template <typename T>
-GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawCondVar(drawCondVar), _drawQueue(drawQueue)
+GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawQueue(drawQueue)
 {
   _floor = new gdl::Geometry();
   _cube = new gdl::Geometry();
@@ -7,7 +7,6 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, s
   _lastKeyPressed = NONE;
   _time = 0;
   _updateCondVar = new CondVar(_updateMutex);
-  _GUIThread = new Thread();
   _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
   _drawFct[MONSTER] = &GDLGUI<T>::drawMonster;
   _drawFct[ARTINT] = &GDLGUI<T>::drawAI;
@@ -20,7 +19,6 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, ICondVar &drawCondVar, s
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
   initialize();
-  _GUIThread->create(&draw_routine<T>, reinterpret_cast<void *>(this));
   drawMap(entityMap, characterMap);
 }
 
@@ -107,14 +105,7 @@ void	GDLGUI<T>::objectInit()
 template <typename T>
 GDLGUI<T>::~GDLGUI()
 {
-  _GUIThread->cancel();
-}
 
-template	<typename T>
-void		*draw_routine(void *c)
-{
-  reinterpret_cast<GDLGUI<T> *>(c)->draw();
-  return (NULL);
 }
 
 template <typename T>
@@ -124,16 +115,9 @@ void    GDLGUI<T>::draw(void)
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _shader.bind();
-  while (true)
-    {
-      _drawCondVar.wait();
-      while ((_drawQueue.tryPop(&ent)) == true)
-        {
-	  (this->*_drawFct[FLAME])(*(_factory->createEntity(FLAME, -1, -1)));  // std::cout << "draw" << std::endl;
-          // (this->*_drawFct[ent->getType()])(*ent);
-	  // std::cout << "context flush" << std::endl;
-        }
-    }
+  while ((_drawQueue.tryPop(&ent)) == true)
+    (this->*_drawFct[ent->getType()])(*ent);
+  _context.flush();
 }
 
 template <typename T>

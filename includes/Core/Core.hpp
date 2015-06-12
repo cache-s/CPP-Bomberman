@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Thu Jun 11 13:30:20 2015 Mathieu Bourmaud
+// Last update Fri Jun 12 12:14:43 2015 Martin Porrès
 //
 
 #ifndef		_CORE_HPP_
@@ -36,7 +36,6 @@ private:
   EventManager<T>					*_eventManager;
   ISafeQueue<IEntity<T> *>				*_drawQueue;
   Mutex							_drawMutex;
-  ICondVar						*_drawCondVar;
   std::map<std::pair<int, int>, IEntity<T> *>		_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>		_characterMap;
   MapGen						_lua;

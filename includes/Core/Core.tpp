@@ -6,8 +6,7 @@ Core<T>::Core(void)
   _entityMap = _lua.getMap();
   _characterMap = _lua.getPMap();
   _drawQueue = new SafeQueue<IEntity<T> *>();
-  _drawCondVar = new CondVar(_drawMutex);
-  _gui = new GDLGUI<T>(*_drawQueue, *_drawCondVar, _entityMap, _characterMap);
+  _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap);
   _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory);
   _menuManager = new MenuManager<T>(*_gui, _settings);
 }
@@ -25,14 +24,8 @@ void		Core<T>::gameLoop(void)
   while(!(_eventManager->isEnd()))
     {
       if (_eventManager->update())
-	signalDraw();
+	_gui->draw();
     }
-}
-
-template <typename T>
-void		Core<T>::signalDraw(void)
-{
-  _drawCondVar->signal();
 }
 
 template <typename T>

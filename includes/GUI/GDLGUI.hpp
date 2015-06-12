@@ -26,7 +26,7 @@ template <typename T>
 class GDLGUI : public IGUI<T>, public gdl::Game
 {
 public:
-  GDLGUI(ISafeQueue<IEntity <T> *> &_drawQueue, ICondVar &_drawCondVar, std::map<std::pair<int, int>, IEntity<T> *> &_entityMap, std::map<std::pair<int, int>, IEntity<T> *> &_characterMap);
+  GDLGUI(ISafeQueue<IEntity <T> *> &_drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &_entityMap, std::map<std::pair<int, int>, IEntity<T> *> &_characterMap);
   ~GDLGUI();
 
   void windowInit();
@@ -81,11 +81,9 @@ private:
   gdl::Texture				_texture;
   gdl::Clock				_clock;
   Factory<glm::vec3>			*_factory;
-  ICondVar				&_drawCondVar;
   Mutex					_updateMutex;
   ICondVar				*_updateCondVar;
   ISafeQueue<IEntity<T> *>		&_drawQueue;
-  IThread				*_GUIThread;
   eKey					_lastKeyPressed;
   double				_time;
   gdl::Geometry				*_cube;
