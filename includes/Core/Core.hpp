@@ -1,11 +1,11 @@
 //
 // Core.hpp for Bomberman in /home/porres_m/Projets/Cpp/Bomberman/cpp_bomberman/includes/Core
-// 
+//
 // Made by Martin Porrès
 // Login   <porres_m@epitech.net>
-// 
+//
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Fri Jun 12 12:14:43 2015 Martin Porrès
+// Last update Fri Jun 12 16:59:53 2015 Pierre Charie
 //
 
 #ifndef		_CORE_HPP_
@@ -38,7 +38,7 @@ private:
   Mutex							_drawMutex;
   std::map<std::pair<int, int>, IEntity<T> *>		_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>		_characterMap;
-  MapGen						_lua;
+  MapGen<T>						_lua;
   MenuManager<T>					*_menuManager;
   Settings						_settings;
 };

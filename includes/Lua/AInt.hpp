@@ -5,21 +5,30 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 10 17:13:21 2015 Pierre Charie
-// Last update Fri Jun 12 14:54:03 2015 Pierre Charie
+// Last update Fri Jun 12 17:02:30 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
 # define	AI_HPP
+
+extern "C"
+{
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
+}
+
 
 #include	<sstream>
 
 # include       "Bomberman.hpp"
 # include	"IEntity.hpp"
 
+template <typename T>
 class		AInt
 {
 public:
-  AInt(int width, int height, std::map<std::pair<int, int>, IEntity<glm::vec3> *> &playerMap, std::map<std::pair<int, int>, IEntity<glm::vec3> *> &gameMap, IEntity<glm::vec3> *player);
+  AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *> &playerMap, std::map<std::pair<int, int>, IEntity<T> *> &gameMap, IEntity<T> *player);
   ~AInt();
   void		move();
 private:
@@ -27,11 +36,13 @@ private:
   int		_width;
   int		_height;
 
-  IEntity<glm::vec3>	*_player;
-  std::map<std::pair<int, int>, IEntity<glm::vec3> *> &_playerMap;
-  std::map<std::pair<int, int>, IEntity<glm::vec3> *> &_gameMap;
+  IEntity<T>	*_player;
+  std::map<std::pair<int, int>, IEntity<T> *> &_playerMap;
+  std::map<std::pair<int, int>, IEntity<T> *> &_gameMap;
 
   std::string   mapMerge();
 };
+
+#include "AInt.tpp"
 
 #endif

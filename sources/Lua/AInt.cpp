@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Fri Jun 12 11:37:56 2015 Pierre Charie
-// Last update Fri Jun 12 14:55:01 2015 Pierre Charie
+// Last update Fri Jun 12 16:52:55 2015 Pierre Charie
 //
 
 
@@ -20,18 +20,20 @@ extern "C"
 #include "AInt.hpp"
 #include "IEntity.hpp"
 
-
-AInt::AInt(int width, int height, std::map<std::pair<int, int>, IEntity<glm::vec3> *> &playerMap, std::map<std::pair<int, int>, IEntity<glm::vec3> *> &gameMap, IEntity<glm::vec3> *player) : _player(player), _playerMap(playerMap), _gameMap(gameMap)
+template <typename T>
+AInt::AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *> &playerMap, std::map<std::pair<int, int>, IEntity<T> *> &gameMap, IEntity<T> *player) : _player(player), _playerMap(playerMap), _gameMap(gameMap)
 {
   _width = width;
   _height = height;
 }
 
+template <typename T>
 AInt::~AInt()
 {
 
 }
 
+template <typename T>
 std::string	AInt::mapMerge()
 {
   int	tmp;
@@ -103,6 +105,7 @@ std::string	AInt::mapMerge()
   return result;
 } // DZ = 33, BMB = 32
 
+template <typename T>
 void		AInt::move()
 {
   lua_State*            L = luaL_newstate();
