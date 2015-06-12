@@ -284,16 +284,10 @@ void	GDLGUI<T>::drawRadius(const IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
 {
- gdl::Texture  _texture;
-
-  if (_texture.load("./assets/TnT.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
-  // std::cout << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
+  gdl::Texture *  texture = _AM.getTexture(FLAME);
+  
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
@@ -307,62 +301,40 @@ void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
-  if (_texture.load("./assets/hardened_clay_stained_cyan.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
+  gdl::Texture *  texture = _AM.getTexture(FLOOR);
+  
   _floor->build();
-  _texture.bind();
+  texture->bind();
   _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
+  gdl::Texture *  texture = _AM.getTexture(BRKWALL);
   
- if (_texture.load("./assets/planksbirch.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return;
-    }
-
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
-
-  if (_texture.load("./assets/test.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return;
-    }
-
+  gdl::Texture *  texture = _AM.getTexture(UBRKWALL);
+  
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawBomb(const IEntity<T> &ent)
 {
-  std::cout << "drawBomb" << std::endl;
-  gdl::Texture  _texture;
- 
-  if (_texture.load("./assets/TnT.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
+  gdl::Texture *  texture = _AM.getTexture(BOMB);
+  
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
