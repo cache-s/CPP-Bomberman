@@ -274,7 +274,6 @@ void	GDLGUI<T>::drawRadius(const IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
 {
-  std::cout << "draw flame" << std::endl; 
   gdl::Texture  _texture;
 
   if (_texture.load("./assets/TnT.tga") == false)
@@ -282,7 +281,7 @@ void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
       std::cerr << "Cannot load the texture" << std::endl;
       return;
     }
-  std::cout << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
+  // std::cout << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
   _cube->build();
   _texture.bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);

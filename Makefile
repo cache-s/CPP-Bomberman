@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Fri Jun 12 13:31:49 2015 Pierre Charie
+## Last update Fri Jun 12 14:57:54 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
@@ -36,6 +36,8 @@ LUAFLAGS	+= lua/lua-5.3.0/install/lib/liblua.a -I lua/lua-5.3.0/install/include/
 
 GDLFLAGS	+= -lgdl_gl -lGLEW -lfbxsdk -lGL -ldl -lrt -lSDL2 -lpthread -std=c++0x
 
+SOUNDFLAGS      += -lsfml-system -lsfml-audio
+
 CXX	= g++
 
 RM	= rm -f
@@ -52,7 +54,7 @@ $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LUAFLAGS) $(GDLFLAGS)
+	$(CXX) $(CXXFLAGS) $(SOUNDFLAGS) -o $@ $^ $(LUAFLAGS) $(GDLFLAGS)
 	@echo -n 'Finished building target:'
 	@echo -e $(GREEN) '$@'
 	@echo -e $(NORMAL) ' '
@@ -61,7 +63,7 @@ $(NAME): $(OBJS)
 	@echo ' '
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	$(CXX) $(CXXFLAGS) -c -o $@ $< $(LUAFLAGS) $(GDLFLAGS)
+	$(CXX) $(CXXFLAGS) $(SOUNDFLAGS) -c -o $@ $< $(LUAFLAGS) $(GDLFLAGS)
 	@echo -n 'Finished building: '
 	@echo -e $(YELLOW) '$<'
 	@echo -e $(NORMAL) ' '

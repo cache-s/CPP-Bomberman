@@ -21,7 +21,7 @@ IEntity<T>				*Bomb<T>::clone(int x, int y)
   Bomb<T> *bomb = new Bomb<T>(*this);
   bomb->setPosX(x);
   bomb->setPosY(y);
-  bomb->setScale(T(10, 10, 10));
+  bomb->setScale(T(0.01, 0.01, 0.01));
   bomb->setPosition(T(x, 0, y));
   bomb->setRotation(T(0, 0, 0));
   bomb->setIsBreakable(false);
@@ -46,7 +46,7 @@ Bomb<T>::Bomb(int x, int y)
 {
   this->setPosX(x);
   this->setPosY(y);
-  this->setScale(T(10, 10, 10));
+  this->setScale(T(0.01, 0.01, 0.01));
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
   this->setIsBreakable(false);
