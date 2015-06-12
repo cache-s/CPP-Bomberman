@@ -1,8 +1,8 @@
 template <typename T>
 Core<T>::Core(void)
 {
-  _lua.mapGenerate(25, 25);
-  _lua.playerMapGenerate(5);
+  _lua.mapGenerate(10, 10);
+  _lua.playerMapGenerate(2);
   _entityMap = _lua.getMap();
   _characterMap = _lua.getPMap();
   _drawQueue = new SafeQueue<IEntity<T> *>();

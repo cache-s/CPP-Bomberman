@@ -1,5 +1,5 @@
 template <typename T>
-GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawQueue(drawQueue)
+GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawQueue(drawQueue), _charMap(characterMap), _entMap(entityMap)
 {
   _floor = new gdl::Geometry();
   _cube = new gdl::Geometry();
@@ -19,7 +19,7 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
   initialize();
-  drawMap(entityMap, characterMap);
+  drawMap();
 }
 
 template <class T>
@@ -116,7 +116,7 @@ void    GDLGUI<T>::draw(void)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _shader.bind();
   while ((_drawQueue.tryPop(&ent)) == true)
-    (this->*_drawFct[ent->getType()])(*ent);
+    drawMap();
   _context.flush();
 }
 
@@ -195,8 +195,6 @@ bool	GDLGUI<T>::update()
   _context.updateInputs(_input);
   _updateCondVar->signal();
   _shader.bind();
-  _camTransf = glm::lookAt(glm::vec3(100, 120, -60), _p1->getPosition(), glm::vec3(0, 1, 0));
-  _shader.setUniform("view", _camTransf);
   return (true);
 }
 
@@ -221,6 +219,18 @@ bool	GDLGUI<T>::getKey()
     return false;
   return true;
 }
+
+template <typename T>
+glm::vec3 GDLGUI<T>::setCamPos()
+{
+  glm::vec3 ret;
+  ret = _p1->getPosition();
+  ret.x += 1;
+  ret.y += 90;
+  ret.z += 70;
+  return ret;
+}
+
 
 template <typename T>
 bool	GDLGUI<T>::getMenuKey()
@@ -298,7 +308,7 @@ template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
 {
   gdl::Texture  _texture;
-
+  std::cout << "Drawing floor" << std::endl;
   if (_texture.load("./assets/hardened_clay_stained_cyan.tga") == false)
     {
       std::cerr << "Cannot load the texture" << std::endl;
@@ -307,6 +317,7 @@ void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
   _floor->build();
   _texture.bind();
   _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
+  std::cout << "Floor drawed" << std::endl;
 }
 
 template <class T>
@@ -364,39 +375,46 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent)
   gdl::Model	model;
 
   _texture.bind();
+  std::cout << "libdefdp:" << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
   _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
 }
 
 template <typename T>
-void	GDLGUI<T>::drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std::map<std::pair<int, int>, IEntity<T> *> characterMap)
+void	GDLGUI<T>::drawMap()
 {
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_e;
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_p;
   static int once = 0;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  it_e = entMap.begin();
-  for (it_e = entMap.begin(); it_e != entMap.end(); it_e++)
+  it_e = _entMap.begin();
+  for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
       if (it_e->second != NULL)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	(this->*_drawFct[FLAME])(*(_factory->createEntity(FLAME, std::get<0>(it_e->first), std::get<1>(it_e->first))));  
+	(this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));  
     }
-  it_p = characterMap.begin();
-  for (it_p = characterMap.begin(); it_p != characterMap.end(); it_p++)
+  it_p = _charMap.begin();
+  for (it_p = _charMap.begin(); it_p != _charMap.end(); it_p++)
     {
-      (this->*_drawFct[it_p->second->getType()])(*it_p->second);
-      if (once == 0)
-	_p1 = it_p->second;
-      if (once == 1)
-	_p2 = it_p->second;
-      once++;
+      if (it_p->second != NULL)
+	{
+	  (this->*_drawFct[it_p->second->getType()])(*it_p->second);
+	  if (once == 0)
+	    _p1 = it_p->second;
+	  if (once == 1)
+	    _p2 = it_p->second;
+	  once++;
+	}
+      else
+	std::cout << "prk t a null gros fdp" << std::endl;
     }
-  (this->*_drawFct[UBRKWALL])(*(_factory->createEntity(UBRKWALL, 1, 10)));
+  std::cout << "flushing" << std::endl;
+  // _camTransf = glm::lookAt(setCamPos(), _p1->getPosition(), glm::vec3(0, 1, 0));
+  // _shader.setUniform("view", _camTransf);
   _context.flush();
-  // _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 100.0f);
 }
 
 template <typename T>

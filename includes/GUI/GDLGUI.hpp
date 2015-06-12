@@ -41,9 +41,11 @@ public:
   bool getMenuKey();
   void draw();
   void translate(T const &v, IEntity<T> &ent) const;
-  void rotate(T const &axis, float angle, IEntity<T> &ent) const;
+  void rotate(T const &axis, float angle, IEntity<T> &ent)
+ const;
   void menuLoadTexture(const std::vector<std::string> & image);
 
+  glm::vec3	setCamPos();
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawInit();
   void drawBomb(const IEntity<T> &ent);
@@ -57,7 +59,7 @@ public:
   void drawUbrkWall(const IEntity<T> &ent);
   void drawPlayer(const IEntity<T> &ent);
   void drawFloor(const IEntity<T> &ent);
-  void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std::map<std::pair<int, int>, IEntity<T> *> characterMap);
+  void drawMap();
   void drawMenu(int i);
 
   void createCube();
@@ -90,6 +92,8 @@ private:
   gdl::Geometry				*_floor;
   IEntity<T>				*_p1;
   IEntity<T>				*_p2;
+  std::map<std::pair<int, int>, IEntity<T> *> &_charMap;
+  std::map<std::pair<int, int>, IEntity<T> *> &_entMap;
 
   typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent);
   std::map<eEntityType, drawFunc>	_drawFct;

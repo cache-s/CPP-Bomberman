@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Wed Jun 10 17:08:03 2015 Martin Porrès
+// Last update Fri Jun 12 17:33:18 2015 Mathieu Bourmaud
 //
 
 template	<typename T>
@@ -146,12 +146,12 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
   double	newX;
 
   std::cout << "MOVE UP" << std::endl;
-  newX = player->getPosX() + 0.1;
-  if (static_cast<int>(newX) > static_cast<int>(player->getPosX()))
-    {
-      _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
-      _characterMap[std::make_pair(static_cast<int>(newX), static_cast<int>(player->getPosY()))] = NULL;
-    }
+  newX = player->getPosX() + 1;
+  // if (static_cast<int>(newX) > static_cast<int>(player->getPosX()))
+  //   {
+  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
+  //     _characterMap[std::make_pair(static_cast<int>(newX), static_cast<int>(player->getPosY()))] = NULL;
+  //   }
   player->setPosX(newX);
   _drawQueue.push(player);
 }
@@ -162,12 +162,12 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
   double	newX;
 
   std::cout << "MOVE DOWN" << std::endl;
-  newX = player->getPosX() - 0.1;
-  if (static_cast<int>(newX) < static_cast<int>(player->getPosX()))
-    {
-      _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
-      _characterMap[std::make_pair(static_cast<int>(newX), static_cast<int>(player->getPosY()))] = NULL;
-    }
+  newX = player->getPosX() - 1;
+  // if (static_cast<int>(newX) < static_cast<int>(player->getPosX()))
+  //   {
+  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
+  //     _characterMap[std::make_pair(static_cast<int>(newX), static_cast<int>(player->getPosY()))] = NULL;
+  //   }
   player->setPosX(newX);
   _drawQueue.push(player);
 }
@@ -178,12 +178,12 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
   double	newY;
 
   std::cout << "MOVE LEFT" << std::endl;
-  newY = player->getPosY() + 0.1;
-  if (static_cast<int>(newY) > static_cast<int>(player->getPosY()))
-    {
-      _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
-      _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(newY))] = NULL;
-    }
+  newY = player->getPosY() + 1;
+  // if (static_cast<int>(newY) > static_cast<int>(player->getPosY()))
+  //   {
+  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
+  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(newY))] = NULL;
+  //   }
   player->setPosY(newY);
   _drawQueue.push(player);
 }
@@ -194,12 +194,12 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
   double	newY;
 
   std::cout << "MOVE RIGHT" << std::endl;
-  newY = player->getPosY() - 0.1;
-  if (static_cast<int>(newY) < static_cast<int>(player->getPosY()))
-    {
-      _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
-      _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(newY))] = NULL;
-    }
+  newY = player->getPosY() - 1;
+  // if (static_cast<int>(newY) < static_cast<int>(player->getPosY()))
+  //   {
+  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
+  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(newY))] = NULL;
+  //   }
   player->setPosY(newY);
   _drawQueue.push(player);
 }

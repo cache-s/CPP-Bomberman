@@ -39,7 +39,7 @@ public:
   virtual void drawUbrkWall(const IEntity<T> &ent) = 0;
   virtual void drawPlayer(const IEntity<T> &ent) = 0;
   virtual void drawFloor(const IEntity<T> &ent) = 0;
-  virtual void drawMap(std::map<std::pair<int, int>, IEntity<T> *> entMap, std::map<std::pair<int, int>, IEntity<T> *> characterMap) = 0;
+  virtual void drawMap() = 0;
   virtual void drawMenu(int i) = 0;
 
   virtual double getElapsedTime() = 0;
