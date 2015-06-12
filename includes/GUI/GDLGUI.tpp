@@ -308,7 +308,6 @@ template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
 {
   gdl::Texture  _texture;
-  std::cout << "Drawing floor" << std::endl;
   if (_texture.load("./assets/hardened_clay_stained_cyan.tga") == false)
     {
       std::cerr << "Cannot load the texture" << std::endl;
@@ -317,7 +316,6 @@ void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
   _floor->build();
   _texture.bind();
   _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
-  std::cout << "Floor drawed" << std::endl;
 }
 
 template <class T>
@@ -408,10 +406,7 @@ void	GDLGUI<T>::drawMap()
 	    _p2 = it_p->second;
 	  once++;
 	}
-      else
-	std::cout << "prk t a null gros fdp" << std::endl;
     }
-  std::cout << "flushing" << std::endl;
   // _camTransf = glm::lookAt(setCamPos(), _p1->getPosition(), glm::vec3(0, 1, 0));
   // _shader.setUniform("view", _camTransf);
   _context.flush();
