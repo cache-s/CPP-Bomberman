@@ -13,7 +13,7 @@ int			main()
   s.playSound(S_BOMB);
   s.playSound(S_VICTORY);
   s.playSound(S_DEATH);
-  s.playSound(S_MENU);
+  s.playSound(S_MENU, true);
   Core<glm::vec3>	core;
 
   core.gameLoop();

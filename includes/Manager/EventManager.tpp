@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Fri Jun 12 22:39:59 2015 Jordan Chazottes
+// Last update Sat Jun 13 00:38:34 2015 Jordan Chazottes
 //
 
 template	<typename T>
@@ -133,11 +133,11 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 {
   std::cout << "BOMB DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(bomb->getPosX(), bomb->getPosY())] = NULL;
-  burn(bomb->getPosX() + 1, bomb->getPosY(), bomb->getPosX() + 2, bomb->getPosY());
-  burn(bomb->getPosX() - 1, bomb->getPosY(), bomb->getPosX() - 2, bomb->getPosY());
-  burn(bomb->getPosX(), bomb->getPosY() + 1, bomb->getPosX(), bomb->getPosY() + 2);
-  burn(bomb->getPosX(), bomb->getPosY() - 1, bomb->getPosX(), bomb->getPosY() - 2);
-  burn(bomb->getPosX(), bomb->getPosY());
+   burn(bomb->getPosX() + 1, bomb->getPosY(), bomb->getPosX() + 2, bomb->getPosY());
+   burn(bomb->getPosX() - 1, bomb->getPosY(), bomb->getPosX() - 2, bomb->getPosY());
+   burn(bomb->getPosX(), bomb->getPosY() + 1, bomb->getPosX(), bomb->getPosY() + 2);
+   burn(bomb->getPosX(), bomb->getPosY() - 1, bomb->getPosX(), bomb->getPosY() - 2);
+   burn(bomb->getPosX(), bomb->getPosY());
 }
 
 template	<typename T>
@@ -150,74 +150,69 @@ bool		EventManager<T>::collider(IEntity<T> *p, IEntity<T> *obj, double toX, doub
     std::cout << obj->getType() << std::endl;
   if (obj == NULL)
     return (true);
-  else
-    {
-      if ((p->getPosX() + toX) > (obj->getPosX() + obj->getHitboxSize()) || (p->getPosY() + toY) > (obj->getPosY() + obj->getHitboxSize()))
-	return (false);
-      else
-	return (true);
-    }
+  (void)p;
+  (void)toX;
+  (void)toY;
+  // else
+  //   {
+  //     if ((p->getPosX() + toX) > (obj->getPosX() + obj->getHitboxSize()) || (p->getPosY() + toY) > (obj->getPosY() + obj->getHitboxSize()))
+  // 	return (false);
+  //     else
+  // 	return (true);
+  //   }
+  return false;
 }
 
 template	<typename T>
 void		EventManager<T>::moveUp(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosY()), static_cast<int>(player->getPosY() + 1))], 0, 0.2) == true)
+  std::cout << "UPKEY" << std::endl;
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() + 1))], 0, 1) == true)
     {
-      std::cout << "moveup ok" << std::endl;
-  // if (static_cast<int>(player->getPosY() - 1) < static_cast<int>(player->getPosY()))
-  //   {
-  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
-  //     _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() - 1))] = NULL;
-  //   }
       player->setRotation(T(0, 0, 0));
-      player->setPosY(player->getPosY() + 0.2);
+      player->setPosY(player->getPosY() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
-      _drawQueue.push(player);
     }
+  _drawQueue.push(player);
 }
 
 template	<typename T>
 void		EventManager<T>::moveDown(IEntity<T> *player)
 {
-
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosY()), static_cast<int>(player->getPosY() - 1))], 0, 0.2) == true)
-    {//   if (static_cast<int>(player->getPosY() + 1) > static_cast<int>(player->getPosY()))
-      // {
-      //   _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY()))] = NULL;
-      //   _characterMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() + 1))] = NULL;
-      // }
+  std::cout << "DOWNKEY" << std::endl;
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() - 1))], 0, 1) == true)
+    {
       player->setRotation(T(0, 180, 0));
-      player->setPosY(player->getPosY() - 0.2);
+      player->setPosY(player->getPosY() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
-      _drawQueue.push(player);
     }
+  _drawQueue.push(player);
 }
 
 template	<typename T>
 void		EventManager<T>::moveLeft(IEntity<T> *player)
 {
-
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosX() + 1))], 0.2, 0) == true)
+  std::cout << "LEFTKEY" << std::endl;
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() + 1), static_cast<int>(player->getPosY()))], 1, 0) == true)
     {
       player->setRotation(T(0, 90, 0));
-      player->setPosX(player->getPosX() + 0.2);
+      player->setPosX(player->getPosX() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
-      _drawQueue.push(player);
     }
+      _drawQueue.push(player);
 }
 
 template	<typename T>
 void		EventManager<T>::moveRight(IEntity<T> *player)
 {
-
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosX() - 1))], 0.2, 0) == true)
+  std::cout << "RIGHTKEY" << std::endl;
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() - 1), static_cast<int>(player->getPosY()))], 1, 0) == true)
     {
       player->setRotation(T(0, 270, 0));
-      player->setPosX(player->getPosX() - 0.2);
+      player->setPosX(player->getPosX() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
-      _drawQueue.push(player);
     }
+  _drawQueue.push(player);
 }
 
 template	<typename T>
@@ -231,7 +226,7 @@ void		EventManager<T>::flameDestruction(IEntity<T> *flame)
 template	<typename T>
 void		EventManager<T>::increaseBombStock(IEntity<T> *player)
 {
-  reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() + 1);
+   reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() + 1);
 }
 
 template	<typename T>
@@ -271,11 +266,11 @@ void		EventManager<T>::burnEntity(int x, int y)
       delete _entityMap[std::make_pair(x, y)];
       _entityMap[std::make_pair(x, y)] = NULL;
     }
-  if (_characterMap[std::make_pair(x, y)] != NULL)
+  /*if (_characterMap[std::make_pair(x, y)] != NULL)
     {
       delete _characterMap[std::make_pair(x, y)];
       _characterMap[std::make_pair(x, y)] = NULL;
-    }
+      }*/
   flameCreation(x, y);
 }
 

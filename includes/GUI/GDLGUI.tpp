@@ -284,7 +284,7 @@ void	GDLGUI<T>::drawRadius(const IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
+ gdl::Texture  _texture;
 
   if (_texture.load("./assets/TnT.tga") == false)
     {
@@ -373,7 +373,6 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent)
   gdl::Model	model;
 
   _texture.bind();
-  std::cout << "libdefdp:" << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
   _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
 }

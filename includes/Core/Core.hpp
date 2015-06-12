@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 //
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Fri Jun 12 16:59:53 2015 Pierre Charie
+// Last update Sat Jun 13 00:34:55 2015 Jordan Chazottes
 //
 
 #ifndef		_CORE_HPP_
@@ -41,6 +41,7 @@ private:
   MapGen<T>						_lua;
   MenuManager<T>					*_menuManager;
   Settings						_settings;
+  //SoundManager						*_soundManager;
 };
 
 #include	"Core.tpp"

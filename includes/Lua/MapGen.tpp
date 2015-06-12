@@ -6,14 +6,12 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Fri Jun 12 17:07:20 2015 Pierre Charie
+// Last update Fri Jun 12 23:53:50 2015 Jordan Chazottes
 //
 
 template <typename T>
 MapGen<T>::MapGen()
 {
-  std::cout << "LE JEUDADA\n";
-
   _spawnM[2] = &MapGen::spawnTwoPlayer;
   _spawnM[3] = &MapGen::spawnThreePlayer;
   _spawnM[4] = &MapGen::spawnFourPlayer;
