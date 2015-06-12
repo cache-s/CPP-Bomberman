@@ -111,13 +111,13 @@ GDLGUI<T>::~GDLGUI()
 template <typename T>
 void    GDLGUI<T>::draw(void)
 {
-  IEntity<T> *ent;
+  //IEntity<T> *ent;
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  _shader.bind();
-  while ((_drawQueue.tryPop(&ent)) == true)
+  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  //_shader.bind();
+  //while ((_drawQueue.tryPop(&ent)) == true)
     drawMap();
-  _context.flush();
+  //_context.flush();
 }
 
 template <typename T>

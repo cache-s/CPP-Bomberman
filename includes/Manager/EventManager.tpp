@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Sat Jun 13 00:38:34 2015 Jordan Chazottes
+// Last update Sat Jun 13 01:39:27 2015 Jordan Chazottes
 //
 
 template	<typename T>
@@ -125,6 +125,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, bomb));
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, player));
   std::sort(_eventTime.begin(), _eventTime.end());
+  _entityMap[std::make_pair(player->getPosX(), player->getPosY())] = bomb;
   _drawQueue.push(bomb);
 }
 
@@ -240,14 +241,16 @@ void		EventManager<T>::itemDrop(IEntity<T> *item)
 template	<typename T>
 void		EventManager<T>::burn(int x1, int y1, int x2, int y2)
 {
-  if (_entityMap[std::make_pair(x1, y1)] == NULL ||
-      _entityMap[std::make_pair(x1, y1)]->isBreakable() == true)
+  if (_entityMap[std::make_pair(x1, y1)] == NULL)
     {
       burnEntity(x1, y1);
       if (_entityMap[std::make_pair(x2, y2)] == NULL ||
 	  _entityMap[std::make_pair(x2, y2)]->isBreakable() == true)
 	burnEntity(x2, y2);
     }
+  else
+    if (_entityMap[std::make_pair(x1, y1)]->isBreakable() == true)
+      burnEntity(x1, y1);
 }
 
 template	<typename T>
@@ -283,6 +286,7 @@ void		EventManager<T>::flameCreation(int x, int y)
   flame = _factory.createEntity(FLAME, x, y);
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 1, flame));
   std::sort(_eventTime.begin(), _eventTime.end());
+  _entityMap[std::make_pair(x, y)] = flame;
   _drawQueue.push(flame);
 }
 
