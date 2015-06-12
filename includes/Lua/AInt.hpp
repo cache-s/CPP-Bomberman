@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 10 17:13:21 2015 Pierre Charie
-// Last update Fri Jun 12 11:54:04 2015 Pierre Charie
+// Last update Fri Jun 12 12:28:38 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP

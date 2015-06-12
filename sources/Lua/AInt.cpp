@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Fri Jun 12 11:37:56 2015 Pierre Charie
-// Last update Fri Jun 12 12:24:13 2015 Pierre Charie
+// Last update Fri Jun 12 12:28:09 2015 Pierre Charie
 //
 
 
@@ -103,7 +103,7 @@ std::string	AInt::mapMerge(std::map<std::pair<int, int>, IEntity<glm::vec3> *> p
   return result;
 } // DZ = 33, BMB = 32
 
-void		AInt::move(std::map<std::pair<int, int> , int width, int height, int selfX, int selfY)
+void		AInt::move(std::string, int width, int height, int selfX, int selfY)
 {
   lua_State*            L = luaL_newstate();
   int			action;
