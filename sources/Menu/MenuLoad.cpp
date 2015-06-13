@@ -30,11 +30,6 @@ int				MenuLoad::getMaxIndex(void) const
   return (_scene.size() - 1);
 }
 
-std::string			MenuLoad::getCurrentScene(void) const
-{
-  return (_scene[_index]);
-}
-
 std::vector<std::string>	MenuLoad::getScene() const
 {
   return (_scene);

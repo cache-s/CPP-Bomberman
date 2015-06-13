@@ -4,7 +4,9 @@
 # include			<iostream>
 # include			<vector>
 
-class				MenuPause
+# include			"IMenu.hpp"
+
+class				MenuPause : public IMenu
 {
 public:
   MenuPause();
@@ -16,7 +18,6 @@ public:
   //GETTERS
   int				getIndex(void) const;
   int				getMaxIndex(void) const;
-  std::string			getCurrentScene(void) const;
   std::vector<std::string>	getScene() const;
 
 private:
