@@ -34,9 +34,9 @@ void		AssetsManager::init()
     std::cerr << "error loading grass" << std::endl;  
   _textures[UBRKWALL] = &_texture[3];
   
-  if (_texture[4].load("./assets/TnT.tga") == false)
+  if (_texture[4].load("./assets/redstone.tga") == false)
     std::cerr << "error loading tnt" << std::endl;
-  _textures[FLAME] = &_texture[1];
+  _textures[FLAME] = &_texture[4];
 }
 
 gdl::Model*	AssetsManager::getModel(eEntityType type) const

@@ -61,6 +61,7 @@ eEntityType			Bomb<T>::getType() const
 template <class T>
 Bomb<T>::~Bomb()
 {
+  std::cout << "DELETE BOMBE FDP" << std::endl;
 }
 
 #endif				/* BOMB_HPP_ */
