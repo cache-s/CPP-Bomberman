@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Apr 14 17:34:34 2015 Martin Porrès
-// Last update Sun May 24 17:12:52 2015 Martin Porrès
+// Last update Sat Jun 13 21:57:46 2015 Martin Porrès
 //
 
 #include	"Thread.hpp"

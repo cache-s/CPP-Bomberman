@@ -74,6 +74,43 @@ eMenuEvent			MenuManager<T>::callStart()
 }
 
 template <class T>
+std::string			MenuManager<T>::getString(int result)
+{
+  std::string			str;
+  unsigned int			uvalue = result;
+  int				digits = 3;
+
+  while (digits-- > 0)
+    {
+      str += ('0' + uvalue % 10);
+      uvalue /= 10;
+    }
+
+  std::reverse(str.begin(), str.end());
+  return str;
+}
+
+
+template <class T>
+int				MenuManager<T>::getNumber(int min, int max, int current)
+{
+  int				result = current;
+
+  _gui.drawMenu(_menuSettings.getIndex());
+  _gui.drawNumber(getString(result));
+  while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1)
+    {
+      if (_lastKeyPressed == LEFT1 && result > min)
+        result--;
+      if (_lastKeyPressed == RIGHT1 && result < max)
+        result++;
+      _gui.drawMenu(_menuSettings.getIndex());
+      _gui.drawNumber(getString(result));
+    }
+  return (result);
+}
+
+template <class T>
 eMenuEvent			MenuManager<T>::callSettings()
 {
   _gui.menuLoadTexture(_menuSettings.getScene());
@@ -83,10 +120,17 @@ eMenuEvent			MenuManager<T>::callSettings()
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1)
 	{
-	  if (_menuSettings.getIndex() == 0)
-	    return (LAUNCH);
+          if (_menuSettings.getIndex() == 4)
+            return (callStart());
+          else
+            if (_menuSettings.getIndex() == 0)
+              _settings.setMapSize(getNumber(5, 999, _settings.getMapSize()));
 	  if (_menuSettings.getIndex() == 1)
-	    return (callStart());
+	    _settings.setPlayerNumber(getNumber(1, 2, _settings.getPlayerNumber()));
+	  if (_menuSettings.getIndex() == 2)
+	    _settings.setAINumber(getNumber(0, 1, _settings.getAINumber()));
+	  if (_menuSettings.getIndex() == 3)
+	    _settings.setSoundVolume(getNumber(0, 10, _settings.getSoundVolume()));
 	}
       if (_menuSettings.getIndex() == 0 && _lastKeyPressed == UP1)
 	_menuSettings.setIndex(_menuSettings.getMaxIndex());

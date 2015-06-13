@@ -19,12 +19,31 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _drawFct[MAPWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
+  _numbers['0'] = "./assets/menu/0.tga";
+  _numbers['1'] = "./assets/menu/1.tga";
+  _numbers['2'] = "./assets/menu/2.tga";
+  _numbers['3'] = "./assets/menu/3.tga";
+  _numbers['4'] = "./assets/menu/4.tga";
+  _numbers['5'] = "./assets/menu/5.tga";
+  _numbers['6'] = "./assets/menu/6.tga";
+  _numbers['7'] = "./assets/menu/7.tga";
+  _numbers['8'] = "./assets/menu/8.tga";
+  _numbers['9'] = "./assets/menu/9.tga";
   _p1 = characterMap[std::make_pair(-1, -1)];
   _p2 = characterMap[std::make_pair(-2, -2)];
   initialize();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   drawMap();
   _context.flush();
+}
+
+template <typename T>
+GDLGUI<T>::~GDLGUI()
+{
+  delete _floor;
+  delete _cube;
+  delete _factory;
+  delete _updateCondVar;
 }
 
 template <class T>
@@ -39,7 +58,7 @@ void	GDLGUI<T>::createCube()
   _cube->pushUv(glm::vec2(1.0f, 1.0f));
   _cube->pushUv(glm::vec2(0.0f, 1.0f));
 
-  _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));  
+  _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));
   _cube->pushVertex(glm::vec3(0.5 , 0.5, -0.5));
   _cube->pushVertex(glm::vec3(-0.5 , 0.5, -0.5));
   _cube->pushVertex(glm::vec3(-0.5 , -0.5, -0.5));
@@ -47,7 +66,7 @@ void	GDLGUI<T>::createCube()
   _cube->pushUv(glm::vec2(1.0f, 0.0f));
   _cube->pushUv(glm::vec2(1.0f, 1.0f));
   _cube->pushUv(glm::vec2(0.0f, 1.0f));
-  
+
   _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));
   _cube->pushVertex(glm::vec3(0.5 , 0.5, -0.5));
   _cube->pushVertex(glm::vec3(0.5 , 0.5, 0.5));
@@ -56,7 +75,7 @@ void	GDLGUI<T>::createCube()
   _cube->pushUv(glm::vec2(1.0f, 0.0f));
   _cube->pushUv(glm::vec2(1.0f, 1.0f));
   _cube->pushUv(glm::vec2(0.0f, 1.0f));
-  
+
   _cube->pushVertex(glm::vec3(-0.5 , -0.5, 0.5));
   _cube->pushVertex(glm::vec3(-0.5 , 0.5, 0.5));
   _cube->pushVertex(glm::vec3(-0.5 , 0.5, -0.5));
@@ -65,7 +84,7 @@ void	GDLGUI<T>::createCube()
   _cube->pushUv(glm::vec2(1.0f, 0.0f));
   _cube->pushUv(glm::vec2(1.0f, 1.0f));
   _cube->pushUv(glm::vec2(0.0f, 1.0f));
-  
+
   _cube->pushVertex(glm::vec3(0.5 , 0.5, 0.5));
   _cube->pushVertex(glm::vec3(0.5 , 0.5, -0.5));
   _cube->pushVertex(glm::vec3(-0.5 , 0.5, -0.5));
@@ -74,7 +93,7 @@ void	GDLGUI<T>::createCube()
   _cube->pushUv(glm::vec2(1.0f, 0.0f));
   _cube->pushUv(glm::vec2(1.0f, 1.0f));
   _cube->pushUv(glm::vec2(0.0f, 1.0f));
-  
+
   _cube->pushVertex(glm::vec3(0.5 , -0.5, -0.5));
   _cube->pushVertex(glm::vec3(0.5 , -0.5, 0.5));
   _cube->pushVertex(glm::vec3(-0.5 , -0.5, 0.5));
@@ -108,12 +127,6 @@ void	GDLGUI<T>::objectInit()
 }
 
 template <typename T>
-GDLGUI<T>::~GDLGUI()
-{
-
-}
-
-template <typename T>
 void    GDLGUI<T>::draw(void)
 {
   //IEntity<T> *ent;
@@ -122,7 +135,7 @@ void    GDLGUI<T>::draw(void)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // glViewport(0, 0, 640, 360);
   drawMap();
-  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x * 10) + 1, (_p1->getPosition().y * 10) + 100, _p1->getPosition().z * 10 - 50), glm::vec3(_p1->getPosition().x * 10 + 0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
+  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
   // glViewport(640, 360, 640, 360);
   // drawMap();
@@ -199,6 +212,61 @@ void	GDLGUI<T>::menuInit()
   _geometryMenu.pushUv(glm::vec2(1.0f, 1.0f));
   _geometryMenu.pushUv(glm::vec2(0.0f, 1.0f));
   _geometryMenu.build();
+}
+
+template <class T>
+void	GDLGUI<T>::drawNumber(const std::string & number)
+{
+  glm::mat4		transformNumber(1);
+  gdl::Geometry		geometryNumber1;
+  gdl::Geometry		geometryNumber2;
+  gdl::Geometry		geometryNumber3;
+  gdl::Texture		textureNumber;
+
+  geometryNumber1.pushVertex(glm::vec3(6, 12, -1));
+  geometryNumber1.pushVertex(glm::vec3(4, 12, -1));
+  geometryNumber1.pushVertex(glm::vec3(4, 14, -1));
+  geometryNumber1.pushVertex(glm::vec3(6, 14, -1));
+  geometryNumber1.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryNumber1.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryNumber1.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryNumber1.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryNumber1.build();
+
+  geometryNumber2.pushVertex(glm::vec3(8, 12, -1));
+  geometryNumber2.pushVertex(glm::vec3(6, 12, -1));
+  geometryNumber2.pushVertex(glm::vec3(6, 14, -1));
+  geometryNumber2.pushVertex(glm::vec3(8, 14, -1));
+  geometryNumber2.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryNumber2.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryNumber2.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryNumber2.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryNumber2.build();
+
+  geometryNumber3.pushVertex(glm::vec3(10, 12, -1));
+  geometryNumber3.pushVertex(glm::vec3(8, 12, -1));
+  geometryNumber3.pushVertex(glm::vec3(8, 14, -1));
+  geometryNumber3.pushVertex(glm::vec3(10, 14, -1));
+  geometryNumber3.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryNumber3.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryNumber3.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryNumber3.build();
+
+  if (textureNumber.load(_numbers[number[2]]) == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryNumber1.draw(_shader, transformNumber, GL_QUADS);
+  if (textureNumber.load(_numbers[number[1]]) == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryNumber2.draw(_shader, transformNumber, GL_QUADS);
+  if (textureNumber.load(_numbers[number[0]]) == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryNumber3.draw(_shader, transformNumber, GL_QUADS);
+
+  _context.flush();
 }
 
 template <typename T>

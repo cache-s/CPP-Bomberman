@@ -42,6 +42,7 @@ public:
   virtual void drawFloor(IEntity<T> &ent) = 0;
   virtual void drawMap() = 0;
   virtual void drawMenu(int i) = 0;
+  virtual void drawNumber(const std::string & number) = 0;
 
   virtual double getElapsedTime() = 0;
   virtual ~IGUI() {};

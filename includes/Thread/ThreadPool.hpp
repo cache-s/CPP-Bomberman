@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Apr 21 17:03:24 2015 Martin Porrès
-// Last update Sat Jun 13 11:15:04 2015 Martin Porrès
+// Last update Sat Jun 13 21:57:32 2015 Martin Porrès
 //
 
 #ifndef		_THREADPOOL_HPP_
@@ -46,6 +46,7 @@ public:
 
   ~ThreadPool()
   {
+    setFinished();
     while (!pool.empty())
       {
     	(pool.back())->join();

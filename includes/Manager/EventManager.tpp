@@ -1,12 +1,3 @@
-//
-// EventManager.tpp for Bomberman in /home/porres_m/Projets/Cpp/Bomberman/cpp_bomberman
-//
-// Made by Martin Porrès
-// Login   <porres_m@epitech.net>
-//
-// Last update Sat Jun 13 23:01:53 2015 Pierre Charie
-// Last update Sat Jun 13 11:51:27 2015 Martin Porrès
-//
 
 template	<typename T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
@@ -50,7 +41,10 @@ template	<typename T>
 EventManager<T>::~EventManager(void)
 {
   _end = true;
-  _pollEventThread->join();
+  delete _eventCondVar;
+  delete _eventQueue;
+  delete _pollEventThread;
+  delete _AIPool;
 }
 
 template	<typename T>

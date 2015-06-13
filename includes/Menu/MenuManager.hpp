@@ -44,6 +44,9 @@ public:
 
 private:
 
+  std::string			getString(int result);
+  int				getNumber(int min, int max, int current);
+
   eMenuEvent			callIntro();
   eMenuEvent			callStart();
   eMenuEvent			callLoad();
@@ -53,7 +56,6 @@ private:
 
   typedef eMenuEvent (MenuManager<T>::*callMenuFct)();
   std::map<eMenu, callMenuFct> _callMenuFct;
-
   IGUI<T>			&_gui;
   Settings			&_settings;
   SoundManager			&_sM;
