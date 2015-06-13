@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sat Jun 13 17:41:01 2015 Martin Porrès
+// Last update Sat Jun 13 17:58:15 2015 Jordan Chazottes
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -25,6 +25,7 @@
 #include        "ThreadPool.hpp"
 #include        "AInt.hpp"
 #include	"eKey.hpp"
+#include	"SoundManager.hpp"
 
 template <class T>
 class IGUI;
@@ -66,7 +67,7 @@ public:
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-	       Factory<T> &factory, ICondVar &_AICondVar);
+	       Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM);
   ~EventManager(void);
   bool		update(void);
   bool		timeCheck(void);
@@ -103,6 +104,7 @@ private:
   Factory<T>							&_factory;
   IThreadPool<AInt<T>, T>					*_AIPool;
   bool								_end;
+  SoundManager							&_sM;
 };
 
 template <typename T>

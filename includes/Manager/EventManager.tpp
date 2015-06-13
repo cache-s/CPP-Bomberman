@@ -4,7 +4,7 @@
 // Made by Martin Porrès
 // Login   <porres_m@epitech.net>
 // 
-// Last update Sat Jun 13 17:49:26 2015 Martin Porrès
+// Last update Sat Jun 13 17:57:03 2015 Jordan Chazottes
 // Last update Sat Jun 13 11:51:27 2015 Martin Porrès
 //
 
@@ -12,7 +12,7 @@ template	<typename T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 			      std::map<std::pair<int, int>, IEntity<T> *> &entityMap,
 			      std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-			      Factory<T> &factory, ICondVar &AICondVar) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory)
+			      Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory), _sM(sM)
 {
   _end = false;
   _eventCondVar = new CondVar(_eventMutex);
@@ -131,6 +131,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, player));
   std::sort(_eventTime.begin(), _eventTime.end());
   _entityMap[std::make_pair(player->getPosX(), player->getPosY())] = bomb;
+  _sM.playSound(S_BOMB);
   _drawQueue.push(bomb);
 }
 
@@ -147,6 +148,7 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
   burn(bomb->getPosX(), bomb->getPosY() + 1, bomb->getPosX(), bomb->getPosY() + 2, time);
   burn(bomb->getPosX(), bomb->getPosY() - 1, bomb->getPosX(), bomb->getPosY() - 2, time);
   burn(bomb->getPosX(), bomb->getPosY(), time);
+  _sM.playSound(S_EXPLOSION);
 }
 
 template	<typename T>

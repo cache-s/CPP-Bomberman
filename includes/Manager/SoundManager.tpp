@@ -65,7 +65,7 @@ void	SoundManager::playMenu(bool loop)
 
 void	SoundManager::playGame(bool loop)
 {
-  if (!_music.OpenFromFile("assets/sound/Music.wav"))
+  if (!_music.OpenFromFile("assets/sound/Game.wav"))
     return;
   _music.SetLoop(loop);
   _music.Play();

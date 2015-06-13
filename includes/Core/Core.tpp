@@ -8,8 +8,8 @@ Core<T>::Core(void)
   _drawQueue = new SafeQueue<IEntity<T> *>();
   _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap);
   _AICondVar = new CondVar(_AIMutex);
-  _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory, *_AICondVar);
   _soundManager = new SoundManager();
+  _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory, *_AICondVar, *_soundManager);
   _menuManager = new MenuManager<T>(*_gui, _settings, *_soundManager);
 }
 
@@ -41,6 +41,7 @@ void		Core<T>::gameLoop(void)
   loadGame();
   if (loadMenu() != EXIT)
     {
+      _soundManager->playSound(S_GAME);
       _gui->draw();
       _gui->cameraInit();
       while(!(_eventManager->isEnd()))
