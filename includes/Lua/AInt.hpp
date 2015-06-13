@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 10 17:13:21 2015 Pierre Charie
-// Last update Sat Jun 13 01:00:56 2015 Martin Porrès
+// Last update Sat Jun 13 13:58:33 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -35,6 +35,9 @@ public:
   ~AInt();
   void		move();
 private:
+
+  std::string	_path;
+  std::string	_func;
 
   int		_width;
   int		_height;

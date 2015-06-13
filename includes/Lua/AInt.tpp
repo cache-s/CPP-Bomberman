@@ -3,6 +3,9 @@ AInt<T>::AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *>
 {
   _width = width;
   _height = height;
+
+  _path = "./sources/Scripts/ai/ai.lua";
+  _func = "move";
 }
 
 template <typename T>
@@ -19,6 +22,8 @@ std::string     AInt<T>::mapMerge()
 
   int x = 0, y = 0;
 
+  std::cout << "x = " << _width << " y= " << _height << std::endl;
+
   while (y < _height)
     {
       while (x < _width)
@@ -27,59 +32,105 @@ std::string     AInt<T>::mapMerge()
             if (_playerMap[std::make_pair(x, y)] == NULL)
               tmp = 0;
             else
-              tmp += _playerMap[std::make_pair(x, y)]->getType();
+	      {
+		tmp = _playerMap[std::make_pair(x, y)]->getType();
+		tmp = 5;
+	      }
           else
-            tmp += _gameMap[std::make_pair(x, y)]->getType();
+	      {
+		int mapCase = _gameMap[std::make_pair(x, y)]->getType();
+		switch (mapCase)
+		  {
+		  case BRKWALL:
+		    tmp = 1;
+		    break;
+		  case UBRKWALL:
+		    tmp = 2;
+		    break;
+		  case MAPWALL:
+		    tmp = 3;
+		    break;
 
+		  case BBOMBNUMBER:
+		    tmp = 4;
+		    break;
+		  case BSPEED:
+		    tmp = 4;
+		    break;
+		  case BRADIUS:
+		    tmp = 4;
+		    break;
+
+		  case PLAYER:
+		    tmp = 5;
+		    break;
+		  case ARTINT:
+		    tmp = 5;
+		    break;
+		  case MONSTER:
+		    tmp = 5;
+		    break;
+
+		  case FLAME:
+		    tmp = 6;
+		    break;
+		  case BOMB:
+		    tmp = 6;
+		    break;
+		  }
+	      }
 	  std::stringstream ss;
           ss << tmp;
           result += ss.str();
           x++;
         }
       y++;
+      x = 0;
     }
 
-  std::size_t found = result.find("32");
-  int i = 0;
+  // std::size_t found = result.find("32");
+  // int i = 0;
 
 
-  while (found != std::string::npos)
-    {
-      result[found - 1] = '3';
-      result[found - 2] = '3';
+  // while (found != std::string::npos)
+  //   {
+  //     result[found - 1] = '3';
+  //     result[found - 2] = '3';
 
-      result[found - 3] = '3';
-      result[found - 4] = '3';
+  //     result[found - 3] = '3';
+  //     result[found - 4] = '3';
 
 
-      result[found - 5] = '3';
-      result[found - 6] = '3';
+  //     result[found - 5] = '3';
+  //     result[found - 6] = '3';
 
-      result[found - _width] = '3';
-      result[found - _width + 1] = '3';
+  //     result[found - _width] = '3';
+  //     result[found - _width + 1] = '3';
 
-      result[found - _width * 2] = '3';
-      result[found - _width * 2 + 1] = '3';
+  //     result[found - _width * 2] = '3';
+  //     result[found - _width * 2 + 1] = '3';
 
-      result[found - _width * 3] = '3';
-      result[found - _width * 3 + 1] = '3';
+  //     result[found - _width * 3] = '3';
+  //     result[found - _width * 3 + 1] = '3';
 
-      result[found + 2] = '3';
-      result[found + 3] = '3';
-      result[found + 4] = '3';
-      result[found + 5] = '3';
-      result[found + 6] = '3';
-      result[found + 7] = '3';
+  //     result[found + 2] = '3';
+  //     result[found + 3] = '3';
+  //     result[found + 4] = '3';
+  //     result[found + 5] = '3';
+  //     result[found + 6] = '3';
+  //     result[found + 7] = '3';
 
-      result[found + _width] = '3';
-      result[found + _width + 1] = '3';
-      result[found + _width * 2] = '3';
-      result[found + _width * 2 + 1] = '3';
-      result[found + _width * 3] = '3';
-      result[found + _width * 3 + 1] = '3';
-      i++;
-      found = result.find("32", i);
-    }
+  //     result[found + _width] = '3';
+  //     result[found + _width + 1] = '3';
+  //     result[found + _width * 2] = '3';
+  //     result[found + _width * 2 + 1] = '3';
+  //     result[found + _width * 3] = '3';
+  //     result[found + _width * 3 + 1] = '3';
+  //     i++;
+  //     found = result.find("32", i);
+  //   }
+
+  std::cout << "RESULT = " << result << std::endl;
 
   return result;
 } // DZ = 33, BMB = 32
@@ -99,14 +150,17 @@ void            AInt<T>::move()
     {
       _AICondVar.wait();
       luaL_openlibs(L);
-      if (luaL_loadfile(L, "sources/Scripts/ai/aggressiveAI.lua") || lua_pcall(L, 0, 0, 0))
-        throw std::runtime_error("Couldn't load the AI");
-      lua_getglobal(L, "act");
+      if (luaL_loadfile(L, _path.c_str()) || lua_pcall(L, 0, 0, 0))
+	{
+	  std:: cout << lua_tostring(L, -1);
+	  throw std::runtime_error("Couldn't load the AI");
+	}
+      lua_getglobal(L, _func.c_str());
       if(!lua_isfunction(L,-1))
         {
           lua_pop(L,1);
 	  std::string error;
-          error = "Error, function doesn't exist in";
+          error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
 
@@ -120,8 +174,9 @@ void            AInt<T>::move()
       if (lua_pcall(L, 5, 1, 0) != 0)
         {
 	  std::string error;
+	  std::cout << "lua FAIL : " << lua_tostring(L, -1) << std::endl;
           error = "Error running LUA function";
-          throw std::runtime_error(error);
+	  throw std::runtime_error(error);
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);

@@ -1,7 +1,7 @@
--- randomAI.lua
 
-function act ()
+function move(map, width, height, selfx, selfy)
 
-	 print("Random AI ready")
+   return (0)
 
-end
+end --end dessous ou droite
+
