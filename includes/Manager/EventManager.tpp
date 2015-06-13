@@ -5,20 +5,22 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Fri Jun 12 17:33:18 2015 Mathieu Bourmaud
+// Last update Fri Jun 12 23:18:30 2015 Martin Porrès
 //
 
 template	<typename T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 			      std::map<std::pair<int, int>, IEntity<T> *> &entityMap,
 			      std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-			      Factory<T> &factory) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory)
+			      Factory<T> &factory, ICondVar &AICondVar) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory)
 {
   _end = false;
   _eventCondVar = new CondVar(_eventMutex);
   _eventQueue = new SafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >();
   _pollEventThread = new Thread();
   _pollEventThread->create(&poll_event<T>, reinterpret_cast<void *>(this));
+  _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
+  _AIPool->addTask(new AInt<T>(25, 25, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar)); 
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
   _eventPtr[EventManager<T>::FLAMEDESTRUCTION] = &EventManager<T>::flameDestruction;
@@ -280,3 +282,15 @@ bool		EventManager<T>::isEnd() const
 {
   return (_end);
 }
+/*
+template <class T>
+ICondVar        &EventManager<T>::getEventCondVar()
+{
+  return (_eventCondVar);
+}
+
+template <class T>
+ISafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >	&EventManager<T>::getEventCondVar()
+{
+  return (_eventCondVar);
+  }*/

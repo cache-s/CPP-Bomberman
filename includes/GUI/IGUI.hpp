@@ -4,9 +4,10 @@
 #include	<iostream>
 #include	"IEntity.hpp"
 #include	"EventManager.hpp"
+#include	"eKey.hpp"
 
-// template <class T>
-// class EventManager;
+template <class T>
+class EventManager;
 
 template <typename T>
 class IGUI

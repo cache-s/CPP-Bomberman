@@ -1,6 +1,5 @@
 template <typename T>
-AInt<T>::AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *> &playerMap, std::map<std::pair<int, int>\
-	   , IEntity<T> *> &gameMap, IEntity<T> *player) : _player(player), _playerMap(playerMap), _gameMap(gameMap)
+AInt<T>::AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *> &playerMap, std::map<std::pair<int, int>, IEntity<T> *> &gameMap, IEntity<T> *player, ISafeQueue<std::pair<typename EventManager<T>::eEvent, IEntity<T> *> > &eventQueue, ICondVar &eventCondVar, ICondVar &AICondVar) : _player(player), _playerMap(playerMap), _gameMap(gameMap), _eventQueue(eventQueue), _eventCondVar(eventCondVar), _AICondVar(AICondVar)
 {
   _width = width;
   _height = height;
@@ -98,8 +97,9 @@ void            AInt<T>::move()
 
   while (true)
     {
+      _AICondVar.wait();
       luaL_openlibs(L);
-      if (luaL_loadfile(L, "./sources/Scripts/AI/aggressiveAI.lua") || lua_pcall(L, 0, 0, 0))
+      if (luaL_loadfile(L, "sources/Scripts/ai/aggressiveAI.lua") || lua_pcall(L, 0, 0, 0))
         throw std::runtime_error("Couldn't load the AI");
       lua_getglobal(L, "act");
       if(!lua_isfunction(L,-1))
@@ -125,7 +125,7 @@ void            AInt<T>::move()
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
-      (void)action;
-
+      _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
+      _eventCondVar.signal();
     }
 }
