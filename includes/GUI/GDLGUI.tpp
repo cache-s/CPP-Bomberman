@@ -111,13 +111,13 @@ GDLGUI<T>::~GDLGUI()
 template <typename T>
 void    GDLGUI<T>::draw(void)
 {
-  IEntity<T> *ent;
+  //IEntity<T> *ent;
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  _shader.bind();
-  while ((_drawQueue.tryPop(&ent)) == true)
-    drawMap();
-  _context.flush();
+  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  //_shader.bind();
+  //while ((_drawQueue.tryPop(&ent)) == true)
+  drawMap();
+  //_context.flush();
 }
 
 template <typename T>
@@ -284,16 +284,10 @@ void	GDLGUI<T>::drawRadius(const IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
-
-  if (_texture.load("./assets/TnT.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
-  // std::cout << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
+  gdl::Texture *  texture = _AM.getTexture(FLAME);
+  
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
@@ -307,64 +301,40 @@ void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
-  std::cout << "Drawing floor" << std::endl;
-  if (_texture.load("./assets/hardened_clay_stained_cyan.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
+  gdl::Texture *  texture = _AM.getTexture(FLOOR);
+  
   _floor->build();
-  _texture.bind();
+  texture->bind();
   _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
-  std::cout << "Floor drawed" << std::endl;
 }
 
 template <class T>
 void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
+  gdl::Texture *  texture = _AM.getTexture(BRKWALL);
   
- if (_texture.load("./assets/planksbirch.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return;
-    }
-
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent)
 {
-  gdl::Texture  _texture;
-
-  if (_texture.load("./assets/test.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return;
-    }
-
+  gdl::Texture *  texture = _AM.getTexture(UBRKWALL);
+  
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawBomb(const IEntity<T> &ent)
 {
-  std::cout << "drawBomb" << std::endl;
-  gdl::Texture  _texture;
- 
-  if (_texture.load("./assets/TnT.tga") == false)
-    {
-      std::cerr << "Cannot load the texture" << std::endl;
-      return;
-    }
+  gdl::Texture *  texture = _AM.getTexture(BOMB);
+  
   _cube->build();
-  _texture.bind();
+  texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
@@ -375,7 +345,6 @@ void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent)
   gdl::Model	model;
 
   _texture.bind();
-  std::cout << "libdefdp:" << ent.getPosX() << ":" << ent.getPosY() << ":" << std::endl;
   _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
 }
@@ -408,10 +377,7 @@ void	GDLGUI<T>::drawMap()
 	    _p2 = it_p->second;
 	  once++;
 	}
-      else
-	std::cout << "prk t a null gros fdp" << std::endl;
     }
-  std::cout << "flushing" << std::endl;
   // _camTransf = glm::lookAt(setCamPos(), _p1->getPosition(), glm::vec3(0, 1, 0));
   // _shader.setUniform("view", _camTransf);
   _context.flush();

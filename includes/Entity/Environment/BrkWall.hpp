@@ -24,7 +24,8 @@ IEntity<T>				*BrkWall<T>::clone(int x, int y)
   brkwall->setScale(T(10, 10, 10));
   brkwall->setPosition(T(x, 0, y));
   brkwall->setRotation(T(0, 0, 0));
-  brkwall->setIsBreakable(false);
+  brkwall->setIsBreakable(true);
+  brkwall->setHitboxSize(1);
   return (brkwall);
 }
 

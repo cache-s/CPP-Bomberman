@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sat Jun 13 11:34:56 2015 Martin Porrès
+// Last update Sat Jun 13 11:50:54 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -85,8 +85,7 @@ public:
   void		burnEntity(int x, int y);
   void		flameCreation(int x, int y);
   bool		isEnd() const;
-  //ISafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >	&getEventQueue();
-  //ICondVar							&getEventCondVar();
+  bool		collider(IEntity<T> *p, IEntity<T> *obj, double toX, double toY);
 private:
   IGUI<T>							&_gui;
   ISafeQueue<IEntity<T> *>					&_drawQueue;
