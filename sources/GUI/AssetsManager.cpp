@@ -14,7 +14,7 @@ void		AssetsManager::init()
 {
   _texture.reserve(10);
 
-  if (_model.load("./includes/LibBomberman/assets/marvin.fbx") == false)
+  if (_model.load("./assets/old/marvin.fbx") == false)
     std::cout << "erreur loading model marvin" << std::endl;
   _models[PLAYER] = &_model;  
   
