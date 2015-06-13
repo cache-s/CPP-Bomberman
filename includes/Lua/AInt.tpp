@@ -183,6 +183,8 @@ void            AInt<T>::move()
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
+      std::cout << "action :" << action << std::endl;
+      action = 105;
       _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
       _eventCondVar.signal();
       std::cout << "end Le JEU\n";

@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Apr 14 17:34:34 2015 Martin Porrès
-// Last update Sat Jun 13 21:57:46 2015 Martin Porrès
+// Last update Sun Jun 14 00:03:51 2015 Martin Porrès
 //
 
 #include	"Thread.hpp"
@@ -55,6 +55,5 @@ void		Thread::exit(void *retValue)
 
 void		Thread::cancel(void)
 {
-  if (pthread_cancel(thread) != 0)
-    throw std::runtime_error("Thread cancel has failed");
+  pthread_cancel(thread)}
 }

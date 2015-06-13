@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Apr 21 17:03:24 2015 Martin Porrès
-// Last update Sat Jun 13 21:57:32 2015 Martin Porrès
+// Last update Sat Jun 13 23:58:25 2015 Martin Porrès
 //
 
 #ifndef		_THREADPOOL_HPP_
@@ -49,7 +49,7 @@ public:
     setFinished();
     while (!pool.empty())
       {
-    	(pool.back())->join();
+    	(pool.back())->cancel();
     	delete pool.back();
     	pool.pop_back();
     	delete tasks.back();

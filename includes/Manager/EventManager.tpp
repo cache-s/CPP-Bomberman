@@ -41,10 +41,10 @@ template	<typename T>
 EventManager<T>::~EventManager(void)
 {
   _end = true;
+  delete _AIPool;
   delete _eventCondVar;
   delete _eventQueue;
   delete _pollEventThread;
-  delete _AIPool;
 }
 
 template	<typename T>
