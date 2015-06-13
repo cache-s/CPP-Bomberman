@@ -67,6 +67,13 @@ public:
   void objectInit();
   bool animInit();
 
+  bool inputUp(int p);
+  bool inputQuit(int p);
+  bool inputRight(int p);
+  bool inputDown(int p);
+  bool inputLeft(int p);
+  bool inputBomb(int p);
+
   double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   eKey pollEvent();
@@ -99,6 +106,8 @@ private:
 
   typedef void	(GDLGUI<T>::*drawFunc)(IEntity<T> &ent);
   std::map<eEntityType, drawFunc>	_drawFct;
+  typedef bool  (GDLGUI<T>::*inputFunc)(int);
+  std::map<int, inputFunc>              _inputFct;
   AssetsManager				_AM;
 };
 

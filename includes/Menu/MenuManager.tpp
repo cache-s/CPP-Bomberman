@@ -45,7 +45,7 @@ eMenuEvent			MenuManager<T>::callStart()
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
-      if (_lastKeyPressed == BOMB1)
+      if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
 	  if (_menuStart.getIndex() == 0)
 	    return (LAUNCH);
@@ -56,15 +56,15 @@ eMenuEvent			MenuManager<T>::callStart()
 	  if (_menuStart.getIndex() == 3)
 	    return (EXIT);
 	}
-      if (_menuStart.getIndex() == 0 && _lastKeyPressed == UP1)
+      if (_menuStart.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
 	_menuStart.setIndex(_menuStart.getMaxIndex());
-      else if (_menuStart.getIndex() == _menuStart.getMaxIndex() && _lastKeyPressed == DOWN1)
+      else if (_menuStart.getIndex() == _menuStart.getMaxIndex() && (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2))
 	_menuStart.setIndex(0);
       else
 	{
-	  if (_lastKeyPressed == UP1)
+	  if ((_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
 	    _menuStart.setIndex(_menuStart.getIndex() - 1);
-	  if (_lastKeyPressed == DOWN1)
+	  if ((_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2))
 	    _menuStart.setIndex(_menuStart.getIndex() + 1);
 	}
       _gui.drawMenu(_menuStart.getIndex());
@@ -100,9 +100,9 @@ int				MenuManager<T>::getNumber(int min, int max, int current)
   _gui.drawNumber(getString(result));
   while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1)
     {
-      if (_lastKeyPressed == LEFT1 && result > min)
+      if ((_lastKeyPressed == LEFT1 || _lastKeyPressed == LEFT2) && result > min)
         result--;
-      if (_lastKeyPressed == RIGHT1 && result < max)
+      if ((_lastKeyPressed == RIGHT1 || _lastKeyPressed == RIGHT2) && result < max)
         result++;
       _gui.drawMenu(_menuSettings.getIndex());
       _gui.drawNumber(getString(result));
@@ -118,7 +118,7 @@ eMenuEvent			MenuManager<T>::callSettings()
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
-      if (_lastKeyPressed == BOMB1)
+      if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
           if (_menuSettings.getIndex() == 4)
             return (callStart());
@@ -132,15 +132,15 @@ eMenuEvent			MenuManager<T>::callSettings()
 	  if (_menuSettings.getIndex() == 3)
 	    _settings.setSoundVolume(getNumber(0, 10, _settings.getSoundVolume()));
 	}
-      if (_menuSettings.getIndex() == 0 && _lastKeyPressed == UP1)
+      if (_menuSettings.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
 	_menuSettings.setIndex(_menuSettings.getMaxIndex());
-      else if (_menuSettings.getIndex() == _menuSettings.getMaxIndex() && _lastKeyPressed == DOWN1)
+      else if (_menuSettings.getIndex() == _menuSettings.getMaxIndex() && (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2))
 	_menuSettings.setIndex(0);
       else
 	{
-	  if (_lastKeyPressed == UP1)
+	  if (_lastKeyPressed == UP1 || _lastKeyPressed == UP2)
 	    _menuSettings.setIndex(_menuSettings.getIndex() - 1);
-	  if (_lastKeyPressed == DOWN1)
+	  if (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2)
 	    _menuSettings.setIndex(_menuSettings.getIndex() + 1);
 	}
       _gui.drawMenu(_menuSettings.getIndex());
@@ -157,20 +157,20 @@ eMenuEvent			MenuManager<T>::callLoad()
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
-      if (_lastKeyPressed == BOMB1)
+      if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
 	  if (_menuSettings.getIndex() == 0)
 	    return (callStart());
 	}
-      if (_menuLoad.getIndex() == 0 && _lastKeyPressed == UP1)
+      if (_menuLoad.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
 	_menuLoad.setIndex(_menuLoad.getMaxIndex());
-      else if (_menuLoad.getIndex() == _menuLoad.getMaxIndex() && _lastKeyPressed == DOWN1)
+      else if (_menuLoad.getIndex() == _menuLoad.getMaxIndex() && (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2))
 	_menuLoad.setIndex(0);
       else
 	{
-	  if (_lastKeyPressed == UP1)
+	  if (_lastKeyPressed == UP1 || _lastKeyPressed == UP2)
 	    _menuLoad.setIndex(_menuLoad.getIndex() - 1);
-	  if (_lastKeyPressed == DOWN1)
+	  if (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2)
 	    _menuLoad.setIndex(_menuLoad.getIndex() + 1);
 	}
       _gui.drawMenu(_menuLoad.getIndex());
@@ -187,7 +187,7 @@ eMenuEvent			MenuManager<T>::callPause()
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
-      if (_lastKeyPressed == BOMB1)
+      if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
 	  if (_menuStart.getIndex() == 0)
 	    return (RESUME);
@@ -200,15 +200,15 @@ eMenuEvent			MenuManager<T>::callPause()
 	  if (_menuStart.getIndex() == 4)
 	    return (EXIT);
 	}
-      if (_menuPause.getIndex() == 0 && _lastKeyPressed == UP1)
+      if (_menuPause.getIndex() == 0 && ((_lastKeyPressed == UP1) || (_lastKeyPressed == UP2)))
 	_menuPause.setIndex(_menuPause.getMaxIndex());
-      else if (_menuPause.getIndex() == _menuPause.getMaxIndex() && _lastKeyPressed == DOWN1)
+      else if (_menuPause.getIndex() == _menuPause.getMaxIndex() && ((_lastKeyPressed == DOWN1) || (_lastKeyPressed == DOWN2)))
 	_menuPause.setIndex(0);
       else
 	{
-	  if (_lastKeyPressed == UP1)
+	  if (_lastKeyPressed == UP1 || _lastKeyPressed == UP2)
 	    _menuPause.setIndex(_menuPause.getIndex() - 1);
-	  if (_lastKeyPressed == DOWN1)
+	  if (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2)
 	    _menuPause.setIndex(_menuPause.getIndex() + 1);
 	}
       _gui.drawMenu(_menuPause.getIndex());
@@ -227,13 +227,13 @@ eMenuEvent			MenuManager<T>::callEnd()
   _gui.drawMenu(_menuEnd.getIndex());
   while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1)
     {
-      if (_lastKeyPressed == LEFT1 && pos != 0)
+      if ((_lastKeyPressed == LEFT1 || _lastKeyPressed == LEFT2) && pos != 0)
 	pos--;
-      if (_lastKeyPressed == RIGHT1 && pos != 2)
+      if ((_lastKeyPressed == RIGHT1 || _lastKeyPressed == RIGHT2) && pos != 2)
 	pos++;
-      if (_lastKeyPressed == UP1 && name[pos] != 'z')
+      if ((_lastKeyPressed == UP1 || _lastKeyPressed == UP2) && name[pos] != 'z')
 	name[pos] = name[pos] + 1;
-      if (_lastKeyPressed == DOWN1 && name[pos] != 'a')
+      if ((_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2) && name[pos] != 'a')
 	name[pos] = name[pos] - 1;
 
       _gui.drawMenu(_menuEnd.getIndex());

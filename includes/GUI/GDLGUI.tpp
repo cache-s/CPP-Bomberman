@@ -29,12 +29,136 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _numbers['7'] = "./assets/menu/7.tga";
   _numbers['8'] = "./assets/menu/8.tga";
   _numbers['9'] = "./assets/menu/9.tga";
+  _inputFct[0] = &GDLGUI<T>::inputUp;
+  _inputFct[1] = &GDLGUI<T>::inputQuit;
+  _inputFct[2] = &GDLGUI<T>::inputRight;
+  _inputFct[3] = &GDLGUI<T>::inputDown;
+  _inputFct[4] = &GDLGUI<T>::inputLeft;
+  _inputFct[5] = &GDLGUI<T>::inputBomb;
   _p1 = characterMap[std::make_pair(-1, -1)];
   _p2 = characterMap[std::make_pair(-2, -2)];
   initialize();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   drawMap();
   _context.flush();
+}
+template <typename T>
+bool	GDLGUI<T>::getMenuKey()
+{
+  _lastKeyPressed = NONE;
+  for (size_t i = 0; i < _inputFct.size(); i++)
+    (this->*_inputFct[i])(1);
+  for (size_t j = 0; j < _inputFct.size(); j++)
+    (this->*_inputFct[j])(2);
+  if (_lastKeyPressed == NONE)
+    return false;
+  return true;
+}
+
+template <typename T>
+bool    GDLGUI<T>::inputQuit(int p)
+{
+  (void)p;
+  if (_input.getKey(SDLK_ESCAPE, true) || _input.getInput(SDL_QUIT, true))
+    {
+      _lastKeyPressed = QUIT;
+      return (true);
+    }
+  return (false);
+}
+
+template <typename T>
+bool    GDLGUI<T>::inputLeft(int p)
+{
+  if (p == 1 && _input.getKey(SDLK_LEFT, true))
+    {
+      _lastKeyPressed = LEFT1;
+      return (true);
+    }
+  if (p == 2 && _input.getKey(SDLK_q, true))
+    {
+      _lastKeyPressed = LEFT2;
+      return (true);
+    }
+  return (false);
+}
+
+template <typename T>
+bool    GDLGUI<T>::inputRight(int p)
+{
+  if (p == 1 && _input.getKey(SDLK_RIGHT, true))
+    {
+      _lastKeyPressed = RIGHT1;
+      return (true);
+    }
+  if (p == 2 && _input.getKey(SDLK_d, true))
+    {
+      _lastKeyPressed = RIGHT2;
+      return (true);
+    }
+  return (false);
+}
+
+template <typename T>
+bool    GDLGUI<T>::inputDown(int p)
+{
+  if (p == 1 && _input.getKey(SDLK_DOWN, true))
+    {
+      _lastKeyPressed = DOWN1;
+      return (true);
+    }
+  if (p == 2 && _input.getKey(SDLK_s, true))
+    {
+      _lastKeyPressed = DOWN2;
+      return (true);
+    }
+  return (false);
+}
+
+template <typename T>
+bool    GDLGUI<T>::inputUp(int p)
+{
+  if (p == 1 && _input.getKey(SDLK_UP, true))
+    {
+      _lastKeyPressed = UP1;
+      return (true);
+    }
+  if (p == 2 && _input.getKey(SDLK_z, true))
+    {
+      _lastKeyPressed = UP2;
+      return (true);
+    }
+  return (false);
+}
+
+template <typename T>
+bool    GDLGUI<T>::inputBomb(int p)
+{
+  if (p == 1 && _input.getKey(SDLK_KP_0, true))
+    {
+      _lastKeyPressed = BOMB1;
+      return (true);
+    }
+  if (p == 2 && (_input.getKey(SDLK_SPACE, true) || _input.getKey(SDLK_RETURN, true)))
+    {
+      _lastKeyPressed = BOMB2;
+      return (true);
+    }
+  return (false);
+}
+
+template <typename T>
+bool    GDLGUI<T>::getKey()
+{
+  _updateCondVar->wait();
+  _lastKeyPressed = NONE;
+  for (size_t i = 0; i < _inputFct.size(); i++)
+    (this->*_inputFct[i])(1);
+  for (size_t j = 0; j < _inputFct.size(); j++)
+    (this->*_inputFct[j])(2);
+  if (_lastKeyPressed == NONE)
+    return false;
+  return true;
 }
 
 template <typename T>
@@ -312,30 +436,6 @@ bool	GDLGUI<T>::update()
 }
 
 template <typename T>
-bool	GDLGUI<T>::getKey()
-{
-  _updateCondVar->wait();
-  _lastKeyPressed = NONE;
-  if (_input.getKey(SDLK_ESCAPE, true) || _input.getInput(SDL_QUIT, true))
-    _lastKeyPressed = QUIT;
-  if (_input.getKey(SDLK_LEFT, true))
-    _lastKeyPressed = LEFT1;
-  if (_input.getKey(SDLK_RIGHT, true))
-    _lastKeyPressed = RIGHT1;
-  if (_input.getKey(SDLK_UP, true))
-    _lastKeyPressed = UP1;
-  if (_input.getKey(SDLK_DOWN, true))
-    _lastKeyPressed = DOWN1;
-  if (_input.getKey(SDLK_SPACE, true))
-    _lastKeyPressed = BOMB1;
-  if (_input.getKey(SDLK_m, true))
-    _lastKeyPressed = MUTEGAME;
-  if (_lastKeyPressed == NONE)
-    return false;
-  return true;
-}
-
-template <typename T>
 glm::vec3 GDLGUI<T>::setCamPos()
 {
   glm::vec3 ret;
@@ -344,30 +444,6 @@ glm::vec3 GDLGUI<T>::setCamPos()
   ret.y += 90;
   ret.z += 70;
   return ret;
-}
-
-
-template <typename T>
-bool	GDLGUI<T>::getMenuKey()
-{
-  _lastKeyPressed = NONE;
-  if (_input.getKey(SDLK_ESCAPE, true) || _input.getInput(SDL_QUIT, true))
-    _lastKeyPressed = QUIT;
-  if (_input.getKey(SDLK_LEFT, true))
-    _lastKeyPressed = LEFT1;
-  if (_input.getKey(SDLK_RIGHT, true))
-    _lastKeyPressed = RIGHT1;
-  if (_input.getKey(SDLK_UP, true))
-    _lastKeyPressed = UP1;
-  if (_input.getKey(SDLK_m, true))
-    _lastKeyPressed = MUTEGAME;
-  if (_input.getKey(SDLK_DOWN, true))
-    _lastKeyPressed = DOWN1;
-  if (_input.getKey(SDLK_SPACE, true))
-    _lastKeyPressed = BOMB1;
-  if (_lastKeyPressed == NONE)
-    return false;
-  return true;
 }
 
 template <class T>
