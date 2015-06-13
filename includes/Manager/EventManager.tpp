@@ -4,7 +4,7 @@
 // Made by Martin Porrès
 // Login   <porres_m@epitech.net>
 //
-// Last update Sat Jun 13 19:01:10 2015 Pierre Charie
+// Last update Sat Jun 13 21:58:55 2015 Martin Porrès
 // Last update Sat Jun 13 11:51:27 2015 Martin Porrès
 //
 
@@ -50,7 +50,10 @@ template	<typename T>
 EventManager<T>::~EventManager(void)
 {
   _end = true;
-  _pollEventThread->join();
+  delete _eventCondVar;
+  delete _eventQueue;
+  delete _pollEventThread;
+  delete _AIPool;
 }
 
 template	<typename T>

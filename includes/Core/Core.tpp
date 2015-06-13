@@ -18,6 +18,10 @@ Core<T>::~Core(void)
 {
   delete _eventManager;
   delete _gui;
+  delete _drawQueue;
+  delete _AICondVar;
+  delete _soundManager;
+  delete _menuManager;
 }
 
 template <typename T>
