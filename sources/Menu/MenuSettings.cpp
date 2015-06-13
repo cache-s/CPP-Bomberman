@@ -4,7 +4,10 @@ MenuSettings::MenuSettings()
 {
   _index = 0;
 
-  _scene.push_back("./assets/menu/Settings_Play.tga");
+  _scene.push_back("./assets/menu/Settings_Map.tga");
+  _scene.push_back("./assets/menu/Settings_Player.tga");
+  _scene.push_back("./assets/menu/Settings_AI.tga");
+  _scene.push_back("./assets/menu/Settings_Sound.tga");
   _scene.push_back("./assets/menu/Settings_Back.tga");
 }
 

@@ -41,8 +41,7 @@ public:
   bool getMenuKey();
   void draw();
   void translate(T const &v, IEntity<T> &ent) const;
-  void rotate(T const &axis, float angle, IEntity<T> &ent)
- const;
+  void rotate(T const &axis, float angle, IEntity<T> &ent) const;
   void menuLoadTexture(const std::vector<std::string> & image);
 
   glm::vec3	setCamPos();
@@ -60,7 +59,8 @@ public:
   void drawPlayer(IEntity<T> &ent);
   void drawFloor(IEntity<T> &ent);
   void drawMap();
-  void drawMenu(int i);
+  void drawMenu(int index);
+  void drawNumber(const std::string & number);
 
   void createCube();
   void createFloor();
@@ -89,6 +89,7 @@ private:
   ISafeQueue<IEntity<T> *>		&_drawQueue;
   eKey					_lastKeyPressed;
   double				_time;
+  std::map<char, std::string>		_numbers;
   gdl::Geometry				*_cube;
   gdl::Geometry				*_floor;
   IEntity<T>				*_p1;
