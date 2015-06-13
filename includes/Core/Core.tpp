@@ -7,7 +7,8 @@ Core<T>::Core(void)
   _characterMap = _lua.getPMap();
   _drawQueue = new SafeQueue<IEntity<T> *>();
   _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap);
-  _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory);
+  _AICondVar = new CondVar(_AIMutex);
+  _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory, *_AICondVar);
   _menuManager = new MenuManager<T>(*_gui, _settings);
 }
 
@@ -25,7 +26,10 @@ void		Core<T>::gameLoop(void)
     {
       std::cout << "COREEEEEEEEEEE" << std::endl;
       if (_eventManager->update())
-	_gui->draw();
+	{
+	  _gui->draw();
+	  _AICondVar->broadcast();
+	}
     }
 }
 

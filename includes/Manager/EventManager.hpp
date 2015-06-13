@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Fri Jun 12 18:35:22 2015 Jordan Chazottes
+// Last update Sat Jun 13 11:50:54 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -22,25 +22,31 @@
 #include	"GDLGUI.hpp"
 #include	"IEntity.hpp"
 #include	"IGUI.hpp"
+#include        "ThreadPool.hpp"
+#include        "AInt.hpp"
+#include	"eKey.hpp"
 
-template <typename T>
+template <class T>
 class IGUI;
 
-enum		eKey
-  {
-    UP1 = 200,
-    DOWN1 = 201,
-    LEFT1 = 202,
-    RIGHT1 = 203,
-    BOMB1 = 204,
-    UP2 = 205,
-    DOWN2 = 206,
-    LEFT2 = 207,
-    RIGHT2 = 208,
-    BOMB2 = 209,
-    QUIT = 210,
-    NONE = 211,
-  };
+template <class T>
+class AInt;
+
+// enum		eKey
+//   {
+//     UP1 = 200,
+//     DOWN1 = 201,
+//     LEFT1 = 202,
+//     RIGHT1 = 203,
+//     BOMB1 = 204,
+//     UP2 = 205,
+//     DOWN2 = 206,
+//     LEFT2 = 207,
+//     RIGHT2 = 208,
+//     BOMB2 = 209,
+//     QUIT = 210,
+//     NONE = 211,
+//   };
 
 template <typename T>
 class		EventManager
@@ -60,7 +66,7 @@ public:
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-	       Factory<T> &factory);
+	       Factory<T> &factory, ICondVar &_AICondVar);
   ~EventManager(void);
   bool		update(void);
   bool		timeCheck(void);
@@ -95,6 +101,7 @@ private:
   std::map<eEntityType, EventManager<T>::eEvent>		_timeMap;
   std::map<eKey, EventManager<T>::eEvent>			_keyMap;
   Factory<T>							&_factory;
+  IThreadPool<AInt<T>, T>					*_AIPool;
   bool								_end;
 };
 

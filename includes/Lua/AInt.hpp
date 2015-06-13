@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 10 17:13:21 2015 Pierre Charie
-// Last update Fri Jun 12 17:02:30 2015 Pierre Charie
+// Last update Sat Jun 13 01:00:56 2015 Martin Porrès
 //
 
 #ifndef		AI_HPP
@@ -18,17 +18,20 @@ extern "C"
 #include "lauxlib.h"
 }
 
-
 #include	<sstream>
 
 # include       "Bomberman.hpp"
 # include	"IEntity.hpp"
+# include	"EventManager.hpp"
+
+template <typename T>
+class           EventManager;
 
 template <typename T>
 class		AInt
 {
 public:
-  AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *> &playerMap, std::map<std::pair<int, int>, IEntity<T> *> &gameMap, IEntity<T> *player);
+  AInt(int width, int height, std::map<std::pair<int, int>, IEntity<T> *> &playerMap, std::map<std::pair<int, int>, IEntity<T> *> &gameMap, IEntity<T> *player, ISafeQueue<std::pair<typename EventManager<T>::eEvent, IEntity<T> *> > &eventQueue, ICondVar &eventCondVar, ICondVar &AICondVar);
   ~AInt();
   void		move();
 private:
@@ -39,6 +42,9 @@ private:
   IEntity<T>	*_player;
   std::map<std::pair<int, int>, IEntity<T> *> &_playerMap;
   std::map<std::pair<int, int>, IEntity<T> *> &_gameMap;
+  ISafeQueue<std::pair<typename EventManager<T>::eEvent, IEntity<T> *> > &_eventQueue;
+  ICondVar      &_eventCondVar;
+  ICondVar      &_AICondVar;
 
   std::string   mapMerge();
 };
