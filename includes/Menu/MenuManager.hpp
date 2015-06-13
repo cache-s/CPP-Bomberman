@@ -10,6 +10,7 @@
 # include			"IGUI.hpp"
 # include			"Settings.hpp"
 # include			"EventManager.hpp"
+# include			"SoundManager.hpp"
 
 enum				eMenuEvent
   {
@@ -36,7 +37,7 @@ template <class T>
 class				MenuManager
 {
 public:
-  MenuManager(IGUI<T>& gui, Settings& settings);
+  MenuManager(IGUI<T>& gui, Settings& settings, SoundManager& sM);
   ~MenuManager();
 
   eMenuEvent			callMenu(eMenu menu);
@@ -55,6 +56,7 @@ private:
 
   IGUI<T>			&_gui;
   Settings			&_settings;
+  SoundManager			&_sM;
   eKey				_lastKeyPressed;
 
   MenuStart			_menuStart;

@@ -1,7 +1,7 @@
 #include			"MenuManager.hpp"
 
 template <class T>
-MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings) : _gui(gui), _settings(settings)
+MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) : _gui(gui), _settings(settings), _sM(sM)
 {
   _callMenuFct[INTRO] = &MenuManager<T>::callIntro;
   _callMenuFct[START] = &MenuManager<T>::callStart;
@@ -33,7 +33,7 @@ eMenuEvent			MenuManager<T>::callIntro()
   intro.push_back("./assets/menu/Intro.tga");
   _gui.menuLoadTexture(intro);
   _gui.drawMenu(0);
-  usleep(500000);
+  usleep(7000000);
   return (NOTHING);
 }
 
@@ -44,6 +44,7 @@ eMenuEvent			MenuManager<T>::callStart()
   _gui.drawMenu(_menuStart.getIndex());
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
+      _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuStart.getIndex() == 0)
@@ -79,6 +80,7 @@ eMenuEvent			MenuManager<T>::callSettings()
   _gui.drawMenu(_menuSettings.getIndex());
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
+      _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuSettings.getIndex() == 0)
@@ -110,6 +112,7 @@ eMenuEvent			MenuManager<T>::callLoad()
   _gui.drawMenu(_menuLoad.getIndex());
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
+      _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuSettings.getIndex() == 0)
@@ -139,6 +142,7 @@ eMenuEvent			MenuManager<T>::callPause()
   _gui.drawMenu(_menuPause.getIndex());
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
+      _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1)
 	{
 	  if (_menuStart.getIndex() == 0)

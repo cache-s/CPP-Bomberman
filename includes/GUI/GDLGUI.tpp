@@ -133,7 +133,9 @@ void	GDLGUI<T>::cameraInit()
 {
   _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
   _camTransf = glm::lookAt(T(100, 80, -70), T(100, 0, 100), T(0, 1, 0));
-  // _camTransf = glm::lookAt(T(100, 200, -60), T(100, 0, 0), T(0, 1, 0));
+  _shader.bind();
+  _shader.setUniform("view", _camTransf);
+  _shader.setUniform("projection", _camProj);
 }
 
 template <typename T>

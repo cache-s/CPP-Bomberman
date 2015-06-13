@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 //
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Sat Jun 13 11:52:11 2015 Martin Porrès
+// Last update Sat Jun 13 16:52:53 2015 Jordan Chazottes
 //
 
 #ifndef		_CORE_HPP_
@@ -17,6 +17,7 @@
 #include	"EventManager.hpp"
 #include	"MapGen.hpp"
 #include	"MenuManager.hpp"
+#include	"SoundManager.hpp"
 
 template <typename T>
 class		Core
@@ -25,6 +26,8 @@ public:
   Core<T>(void);
   ~Core<T>(void);
 
+  void		loadGame();
+  eMenuEvent	loadMenu();
   void		gameLoop(void);
   void		signalDraw(void);
 
@@ -39,6 +42,7 @@ private:
   std::map<std::pair<int, int>, IEntity<T> *>		_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>		_characterMap;
   MapGen<T>						_lua;
+  SoundManager						*_soundManager;
   MenuManager<T>					*_menuManager;
   Settings						_settings;
   Mutex                                                 _AIMutex;

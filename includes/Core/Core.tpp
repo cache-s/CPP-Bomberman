@@ -9,7 +9,8 @@ Core<T>::Core(void)
   _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap);
   _AICondVar = new CondVar(_AIMutex);
   _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory, *_AICondVar);
-  _menuManager = new MenuManager<T>(*_gui, _settings);
+  _soundManager = new SoundManager();
+  _menuManager = new MenuManager<T>(*_gui, _settings, *_soundManager);
 }
 
 template <typename T>
@@ -20,16 +21,41 @@ Core<T>::~Core(void)
 }
 
 template <typename T>
+void		Core<T>::loadGame()
+{
+  _soundManager->initSound();
+  _soundManager->playSound(S_INTRO);
+  _menuManager->callMenu(INTRO);
+}
+
+template <typename T>
+eMenuEvent		Core<T>::loadMenu()
+{
+  _soundManager->playSound(S_MENU, true);
+  return (_menuManager->callMenu(START));
+}
+
+template <typename T>
 void		Core<T>::gameLoop(void)
 {
-  while(!(_eventManager->isEnd()))
+  loadGame();
+  if (loadMenu() != EXIT)
     {
-      std::cout << "COREEEEEEEEEEE" << std::endl;
-      if (_eventManager->update())
+      _gui->draw();
+      _gui->cameraInit();
+      while(!(_eventManager->isEnd()))
 	{
-	  _gui->draw();
-	  _AICondVar->broadcast();
+	  if (_eventManager->update())
+	    {
+	      _gui->draw();
+	      _AICondVar->broadcast();
+	    }
 	}
+    }
+  else
+    {
+      std::cout << "toto" << std::endl;
+      exit (0);
     }
 }
 
