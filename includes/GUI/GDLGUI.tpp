@@ -27,6 +27,15 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _context.flush();
 }
 
+template <typename T>
+GDLGUI<T>::~GDLGUI()
+{
+  delete _floor;
+  delete _cube;
+  delete _factory;
+  delete _updateCondVar;
+}
+
 template <class T>
 void	GDLGUI<T>::createCube()
 {
@@ -105,12 +114,6 @@ void	GDLGUI<T>::objectInit()
 {
   createCube();
   createFloor();
-}
-
-template <typename T>
-GDLGUI<T>::~GDLGUI()
-{
-
 }
 
 template <typename T>
