@@ -125,7 +125,7 @@ void    GDLGUI<T>::draw(void)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // glViewport(0, 0, 640, 360);
   drawMap();
-  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x * 10) + 1, (_p1->getPosition().y * 10) + 100, _p1->getPosition().z * 10 - 50), glm::vec3(_p1->getPosition().x * 10 + 0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
+  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
   // glViewport(640, 360, 640, 360);
   // drawMap();
