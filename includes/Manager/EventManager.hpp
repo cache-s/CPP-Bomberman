@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sat Jun 13 17:58:15 2015 Jordan Chazottes
+// Last update Sat Jun 13 23:57:13 2015 Jordan Chazottes
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -63,7 +63,8 @@ public:
       DOWN = 105,
       LEFT = 106,
       RIGHT = 107,
-      ITEMDROP = 108
+      ITEMDROP = 108,
+      MUTE = 109
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
@@ -86,6 +87,7 @@ public:
   void		burnEntity(int x, int y, double time);
   void		flameCreation(int x, int y, double time);
   bool		isEnd() const;
+  void		mute(IEntity<T> *player);
   bool		collider(IEntity<T> *p, IEntity<T> *obj, double toX, double toY);
 private:
   IGUI<T>							&_gui;

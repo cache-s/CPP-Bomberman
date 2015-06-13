@@ -28,6 +28,9 @@ public:
   ~SoundManager();
   void			initSound();
   void			playSound(eSoundType sound, bool loop = false);
+  void			mute();
+  void			unmute();
+  int			getVolume() const;
 private:
   void			playIntro(bool loop);
   void			playTick(bool loop);
@@ -40,6 +43,7 @@ private:
   void			playVictory(bool loop);
   void			playDeath(bool loop);
   void			clearQ();
+  void			updateQ();
 
   typedef void	(SoundManager::*playFct)(bool loop);
   std::map<eSoundType, playFct> _soundFct;
@@ -54,6 +58,7 @@ private:
   sf::SoundBuffer	_bExplosion;
   sf::SoundBuffer	_bVictory;
   sf::SoundBuffer	_bDeath;
+  int			_volume;
 };
 
 #include		"SoundManager.tpp"

@@ -45,7 +45,7 @@ void		Core<T>::gameLoop(void)
   loadGame();
   if (loadMenu() != EXIT)
     {
-      _soundManager->playSound(S_GAME);
+      _soundManager->playSound(S_GAME, true);
       _gui->draw();
       _gui->cameraInit();
       while(!(_eventManager->isEnd()))

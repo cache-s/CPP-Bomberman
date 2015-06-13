@@ -328,6 +328,8 @@ bool	GDLGUI<T>::getKey()
     _lastKeyPressed = DOWN1;
   if (_input.getKey(SDLK_SPACE, true))
     _lastKeyPressed = BOMB1;
+  if (_input.getKey(SDLK_m, true))
+    _lastKeyPressed = MUTEGAME;
   if (_lastKeyPressed == NONE)
     return false;
   return true;
@@ -357,6 +359,8 @@ bool	GDLGUI<T>::getMenuKey()
     _lastKeyPressed = RIGHT1;
   if (_input.getKey(SDLK_UP, true))
     _lastKeyPressed = UP1;
+  if (_input.getKey(SDLK_m, true))
+    _lastKeyPressed = MUTEGAME;
   if (_input.getKey(SDLK_DOWN, true))
     _lastKeyPressed = DOWN1;
   if (_input.getKey(SDLK_SPACE, true))

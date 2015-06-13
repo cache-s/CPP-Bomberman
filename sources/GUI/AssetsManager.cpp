@@ -22,7 +22,7 @@ void		AssetsManager::init()
     std::cerr << "error loading grass" << std::endl;
   _textures[FLOOR] = &_texture[0];
   
-  if (_texture[1].load("./assets/ice.tga") == false)
+  if (_texture[1].load("./assets/TnT.tga") == false)
     std::cerr << "error loading tnt" << std::endl;
   _textures[BOMB] = &_texture[1];
   

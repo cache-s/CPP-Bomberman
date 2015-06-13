@@ -22,6 +22,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _eventPtr[EventManager<T>::LEFT] = &EventManager<T>::moveLeft;
   _eventPtr[EventManager<T>::RIGHT] = &EventManager<T>::moveRight;
   _eventPtr[EventManager<T>::ITEMDROP] = &EventManager<T>::itemDrop;
+  _eventPtr[EventManager<T>::MUTE] = &EventManager<T>::mute;
   _timeMap[BOMB] = EventManager<T>::BOMBDESTRUCTION;
   _timeMap[FLAME] = EventManager<T>::FLAMEDESTRUCTION;
   _timeMap[PLAYER] = EventManager<T>::INCREASEBOMBSTOCK;
@@ -35,6 +36,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _keyMap[LEFT2] = EventManager<T>::LEFT;
   _keyMap[RIGHT2] = EventManager<T>::RIGHT;
   _keyMap[BOMB2] = EventManager<T>::BOMBCREATION;
+  _keyMap[MUTEGAME] = EventManager<T>::MUTE;
 }
 
 template	<typename T>
@@ -292,6 +294,16 @@ void		EventManager<T>::flameCreation(int x, int y, double time)
   std::sort(_eventTime.begin(), _eventTime.end());
   _entityMap[std::make_pair(x, y)] = flame;
   _drawQueue.push(flame);
+}
+
+template	<typename T>
+void		EventManager<T>::mute(IEntity<T> *player)
+{
+  (void)player;
+  if (_sM.getVolume() == 0)
+    _sM.unmute();
+  else
+    _sM.mute();
 }
 
 template	<typename T>

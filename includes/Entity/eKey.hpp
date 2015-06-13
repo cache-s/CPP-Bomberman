@@ -13,8 +13,9 @@ enum		eKey
     LEFT2 = 207,
     RIGHT2 = 208,
     BOMB2 = 209,
-    QUIT = 210,
-    NONE = 211,
+    MUTEGAME = 210,
+    QUIT = 211,
+    NONE = 212, 
   };
 
 #endif

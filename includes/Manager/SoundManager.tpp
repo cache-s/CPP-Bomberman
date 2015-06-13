@@ -19,6 +19,7 @@ SoundManager::SoundManager()
   _bExplosion.LoadFromFile("assets/sound/Explosion.wav");
   _bVictory.LoadFromFile("assets/sound/Victory.wav");
   _bDeath.LoadFromFile("assets/sound/Death.wav");
+  _volume = 100;
 }
 
 SoundManager::~SoundManager()
@@ -41,6 +42,7 @@ void	SoundManager::playIntro(bool loop)
 
   sound.SetBuffer(_bIntro);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -51,6 +53,7 @@ void	SoundManager::playTick(bool loop)
 
   sound.SetBuffer(_bTick);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -60,6 +63,7 @@ void	SoundManager::playMenu(bool loop)
   if (!_music.OpenFromFile("assets/sound/Music.wav"))
     return;
   _music.SetLoop(loop);
+  _music.SetVolume(_volume);
   _music.Play();
 }
 
@@ -68,6 +72,7 @@ void	SoundManager::playGame(bool loop)
   if (!_music.OpenFromFile("assets/sound/Game.wav"))
     return;
   _music.SetLoop(loop);
+  _music.SetVolume(_volume);
   _music.Play();
 }
 
@@ -77,6 +82,7 @@ void	SoundManager::playPause(bool loop)
 
   sound.SetBuffer(_bPause);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -87,6 +93,7 @@ void	SoundManager::playBonus(bool loop)
 
   sound.SetBuffer(_bBonus);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -97,6 +104,7 @@ void	SoundManager::playBomb(bool loop)
 
   sound.SetBuffer(_bBomb);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -104,8 +112,10 @@ void	SoundManager::playBomb(bool loop)
 void	SoundManager::playExplosion(bool loop)
 {
   sf::Sound	sound;
+
   sound.SetBuffer(_bExplosion);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -116,6 +126,7 @@ void	SoundManager::playVictory(bool loop)
 
   sound.SetBuffer(_bVictory);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -126,6 +137,7 @@ void	SoundManager::playDeath(bool loop)
 
   sound.SetBuffer(_bDeath);
   sound.SetLoop(loop);
+  sound.SetVolume(_volume);
   _soundQ.push(sound);
   _soundQ.back().Play();
 }
@@ -134,4 +146,29 @@ void	SoundManager::clearQ()
 {
   if (_soundQ.size() > 0 && _soundQ.front().GetStatus() == sf::Sound::Status::Stopped)
     _soundQ.pop();
+}
+
+void	SoundManager::mute()
+{
+  _volume = 0;
+  updateQ();
+  _music.SetVolume(0);
+}
+
+void	SoundManager::unmute()
+{
+  _volume = 100;
+  updateQ();
+  _music.SetVolume(100);
+}
+
+void	SoundManager::updateQ()
+{
+  _soundQ.back().SetVolume(_volume);
+  _soundQ.front().SetVolume(_volume);
+}
+
+int	SoundManager::getVolume() const
+{
+  return (_volume);
 }
