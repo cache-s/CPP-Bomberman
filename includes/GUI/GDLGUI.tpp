@@ -19,8 +19,12 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _drawFct[MAPWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
+  _p1 = characterMap[std::make_pair(-1, -1)];
+  _p2 = characterMap[std::make_pair(-2, -2)];
   initialize();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   drawMap();
+  _context.flush();
 }
 
 template <class T>
@@ -113,11 +117,18 @@ template <typename T>
 void    GDLGUI<T>::draw(void)
 {
   //IEntity<T> *ent;
-
-  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   //_shader.bind();
   //while ((_drawQueue.tryPop(&ent)) == true)
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  // glViewport(0, 0, 640, 360);
   drawMap();
+  _camTransf = glm::lookAt(glm::vec3(_p1->getPosX() * 10, _p1->getPosY() + 50, -30), _p1->getPosition(), glm::vec3(0, 1, 0));
+  _shader.setUniform("view", _camTransf);
+  // glViewport(640, 360, 640, 360);
+  // drawMap();
+  // _camTransf = glm::lookAt(glm::vec3(_p2->getPosX(), _p2->getPosY() + 100, -100), _p2->getPosition(), glm::vec3(0, 1, 0));
+  // _shader.setUniform("view", _camTransf);
+  _context.flush();
   //_context.flush();
 }
 
@@ -132,7 +143,7 @@ template <typename T>
 void	GDLGUI<T>::cameraInit()
 {
   _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
-  _camTransf = glm::lookAt(T(100, 80, -70), T(100, 0, 100), T(0, 1, 0));
+  _camTransf = glm::lookAt(glm::vec3(_p1->getPosX(), _p1->getPosY() + 10, -30), _p1->getPosition(), glm::vec3(0, 1, 0));
   _shader.bind();
   _shader.setUniform("view", _camTransf);
   _shader.setUniform("projection", _camProj);
@@ -357,9 +368,7 @@ void	GDLGUI<T>::drawMap()
 {
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_e;
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_p;
-  static int once = 0;
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   it_e = _entMap.begin();
   for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
@@ -370,20 +379,8 @@ void	GDLGUI<T>::drawMap()
     }
   it_p = _charMap.begin();
   for (it_p = _charMap.begin(); it_p != _charMap.end(); it_p++)
-    {
-      if (it_p->second != NULL)
-	{
-	  (this->*_drawFct[it_p->second->getType()])(*it_p->second);
-	  if (once == 0)
-	    _p1 = it_p->second;
-	  if (once == 1)
-	    _p2 = it_p->second;
-	  once++;
-	}
-    }
-  // _camTransf = glm::lookAt(setCamPos(), _p1->getPosition(), glm::vec3(0, 1, 0));
-  // _shader.setUniform("view", _camTransf);
-  _context.flush();
+    if (it_p->second != NULL)
+      (this->*_drawFct[it_p->second->getType()])(*it_p->second);
 }
 
 template <typename T>
