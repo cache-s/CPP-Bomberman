@@ -26,9 +26,11 @@ public:
   virtual void			setRotation(const T &pos);
   virtual void			setScale(const T &pos);
   virtual void			setSpeed(float speed);
+  virtual void			setIsDraw(bool isDraw);
 
   virtual IEntity<T>		*clone(int x, int y) = 0;
   virtual eEntityType		getType() const = 0;
+  virtual bool			isDraw() const;
 private:
   int				_x;
   int				_y;
@@ -38,6 +40,7 @@ private:
   T				_rotation;
   T				_scale;
   float				_speed;
+  bool				_isDraw;
 };
 
 template <class T>
@@ -45,7 +48,21 @@ AEntity<T>::AEntity(int x, int y)
 {
   this->_x = x;
   this->_y = y;
+  this->_isDraw = false;
 }
+
+template <class T>
+bool				AEntity<T>::isDraw() const
+{
+  return (_isDraw);
+}
+
+template <class T>
+void				AEntity<T>::setIsDraw(bool isDraw) 
+{
+  _isDraw = isDraw;
+}
+
 
 template <class T>
 void				AEntity<T>::setHitboxSize(int hitbox)

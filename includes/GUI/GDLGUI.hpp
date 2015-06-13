@@ -48,17 +48,17 @@ public:
   glm::vec3	setCamPos();
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawInit();
-  void drawBomb(const IEntity<T> &ent);
-  void drawMonster(const IEntity<T> &ent);
-  void drawAI(const IEntity<T> &ent);
-  void drawBombNumber(const IEntity<T> &ent);
-  void drawRadius(const IEntity<T> &ent);
-  void drawFlame(const IEntity<T> &ent);
-  void drawSpeed(const IEntity<T> &ent);
-  void drawBrkWall(const IEntity<T> &ent);
-  void drawUbrkWall(const IEntity<T> &ent);
-  void drawPlayer(const IEntity<T> &ent);
-  void drawFloor(const IEntity<T> &ent);
+  void drawBomb(IEntity<T> &ent);
+  void drawMonster(IEntity<T> &ent);
+  void drawAI(IEntity<T> &ent);
+  void drawBombNumber(IEntity<T> &ent);
+  void drawRadius(IEntity<T> &ent);
+  void drawFlame(IEntity<T> &ent);
+  void drawSpeed(IEntity<T> &ent);
+  void drawBrkWall(IEntity<T> &ent);
+  void drawUbrkWall(IEntity<T> &ent);
+  void drawPlayer(IEntity<T> &ent);
+  void drawFloor(IEntity<T> &ent);
   void drawMap();
   void drawMenu(int i);
 
@@ -96,7 +96,7 @@ private:
   std::map<std::pair<int, int>, IEntity<T> *> &_charMap;
   std::map<std::pair<int, int>, IEntity<T> *> &_entMap;
 
-  typedef void	(GDLGUI<T>::*drawFunc)(const IEntity<T> &ent);
+  typedef void	(GDLGUI<T>::*drawFunc)(IEntity<T> &ent);
   std::map<eEntityType, drawFunc>	_drawFct;
   AssetsManager				_AM;
 };

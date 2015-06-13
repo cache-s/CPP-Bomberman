@@ -29,17 +29,17 @@ public:
   virtual void menuLoadTexture(const std::vector<std::string> & images) = 0;
 
   virtual void draw() = 0;
-  virtual void drawBomb(const IEntity<T> &ent) = 0;
-  virtual void drawMonster(const IEntity<T> &ent) = 0;
-  virtual void drawAI(const IEntity<T> &ent) = 0;
-  virtual void drawBombNumber(const IEntity<T> &ent) = 0;
-  virtual void drawRadius(const IEntity<T> &ent) = 0;
-  virtual void drawFlame(const IEntity<T> &ent) = 0;
-  virtual void drawSpeed(const IEntity<T> &ent) = 0;
-  virtual void drawBrkWall(const IEntity<T> &ent) = 0;
-  virtual void drawUbrkWall(const IEntity<T> &ent) = 0;
-  virtual void drawPlayer(const IEntity<T> &ent) = 0;
-  virtual void drawFloor(const IEntity<T> &ent) = 0;
+  virtual void drawBomb(IEntity<T> &ent) = 0;
+  virtual void drawMonster(IEntity<T> &ent) = 0;
+  virtual void drawAI(IEntity<T> &ent) = 0;
+  virtual void drawBombNumber(IEntity<T> &ent) = 0;
+  virtual void drawRadius(IEntity<T> &ent) = 0;
+  virtual void drawFlame(IEntity<T> &ent) = 0;
+  virtual void drawSpeed(IEntity<T> &ent) = 0;
+  virtual void drawBrkWall(IEntity<T> &ent) = 0;
+  virtual void drawUbrkWall(IEntity<T> &ent) = 0;
+  virtual void drawPlayer(IEntity<T> &ent) = 0;
+  virtual void drawFloor(IEntity<T> &ent) = 0;
   virtual void drawMap() = 0;
   virtual void drawMenu(int i) = 0;
 

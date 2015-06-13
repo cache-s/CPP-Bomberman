@@ -51,6 +51,8 @@ public:
   virtual void		setPosY(int y) = 0;
   virtual void		setSpeed(float speed) = 0;
 
+  virtual bool		isDraw() const = 0;
+  virtual void		setIsDraw(bool isDraw) = 0;
   virtual eEntityType	getType() const = 0;
   virtual IEntity<T>	*clone(int x, int y) = 0;
 

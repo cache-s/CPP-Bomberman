@@ -268,92 +268,110 @@ bool	GDLGUI<T>::getMenuKey()
 }
 
 template <class T>
-void	GDLGUI<T>::drawMonster(const IEntity<T> &ent)
+void	GDLGUI<T>::drawMonster(IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw Monster" << std::endl;
 }
 
 template <class T>
-void	GDLGUI<T>::drawAI(const IEntity<T> &ent)
+void	GDLGUI<T>::drawAI(IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw AI" << std::endl;
 }
 
 template <class T>
-void	GDLGUI<T>::drawBombNumber(const IEntity<T> &ent)
+void	GDLGUI<T>::drawBombNumber(IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw bomb number" << std::endl;
 }
 
 template <class T>
-void	GDLGUI<T>::drawRadius(const IEntity<T> &ent)
+void	GDLGUI<T>::drawRadius(IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw Radius" << std::endl;
 }
 
 template <class T>
-void	GDLGUI<T>::drawFlame(const IEntity<T> &ent)
+void	GDLGUI<T>::drawFlame(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(FLAME);
-  
-  _cube->build();
+
+  if (!ent.isDraw())
+    _cube->build();
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
-void	GDLGUI<T>::drawSpeed(const IEntity<T> &ent)
+void	GDLGUI<T>::drawSpeed(IEntity<T> &ent)
 {
   (void)ent;
   std::cout << "draw Speed" << std::endl;
 }
 
 template <class T>
-void	GDLGUI<T>::drawFloor(const IEntity<T> &ent)
+void	GDLGUI<T>::drawFloor(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(FLOOR);
   
-  _floor->build();
+
+  if (!ent.isDraw())
+    {
+      _floor->build();
+      ent.setIsDraw(true);
+    }
   texture->bind();
   _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
-void	GDLGUI<T>::drawBrkWall(const IEntity<T> &ent)
+void	GDLGUI<T>::drawBrkWall(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BRKWALL);
   
-  _cube->build();
+  if (!ent.isDraw())
+    {
+      _cube->build();
+      ent.setIsDraw(true);
+    }
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
-void	GDLGUI<T>::drawUbrkWall(const IEntity<T> &ent)
+void	GDLGUI<T>::drawUbrkWall(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(UBRKWALL);
-  
-  _cube->build();
+ 
+  if (!ent.isDraw())
+    {
+      _cube->build();
+      ent.setIsDraw(true);
+    }
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
-void	GDLGUI<T>::drawBomb(const IEntity<T> &ent)
+void	GDLGUI<T>::drawBomb(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BOMB);
-  
-  _cube->build();
+   
+  if (!ent.isDraw())
+    {
+      _cube->build();
+      ent.setIsDraw(true);
+    }
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <typename T>
-void	GDLGUI<T>::drawPlayer(const IEntity<T> &ent)
+void	GDLGUI<T>::drawPlayer(IEntity<T> &ent)
 {
   gdl::Texture texture;
   gdl::Model	model;
