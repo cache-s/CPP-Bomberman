@@ -4,7 +4,7 @@
 // Made by Martin Porrès
 // Login   <porres_m@epitech.net>
 // 
-// Last update Sat Jun 13 13:04:00 2015 Martin Porrès
+// Last update Sat Jun 13 17:49:26 2015 Martin Porrès
 // Last update Sat Jun 13 11:51:27 2015 Martin Porrès
 //
 
@@ -63,7 +63,7 @@ bool		EventManager<T>::update(void)
   _eventCondVar->timedwait(10000000);
   std::cout << "update" << std::endl;
   _gui.update();
-  if (_eventQueue->tryPop(&event) == true)
+  while (_eventQueue->tryPop(&event) == true)
     {
       (this->*_eventPtr[std::get<0>(event)])(std::get<1>(event));
       pollEventUpdate = true;
@@ -80,10 +80,11 @@ bool		EventManager<T>::timeCheck(void)
   while (!_eventTime.empty() && std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
     {
       _eventQueue->push(std::make_pair(_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])));
-      _eventCondVar->signal();
       _eventTime.erase(_eventTime.begin());
       update = true;
     }
+  if (update)
+    _eventCondVar->signal();
   return (update);
 }
 
@@ -136,13 +137,16 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 {
+  double	time;
+
   std::cout << "BOMB DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(bomb->getPosX(), bomb->getPosY())] = NULL;
-   burn(bomb->getPosX() + 1, bomb->getPosY(), bomb->getPosX() + 2, bomb->getPosY());
-   burn(bomb->getPosX() - 1, bomb->getPosY(), bomb->getPosX() - 2, bomb->getPosY());
-   burn(bomb->getPosX(), bomb->getPosY() + 1, bomb->getPosX(), bomb->getPosY() + 2);
-   burn(bomb->getPosX(), bomb->getPosY() - 1, bomb->getPosX(), bomb->getPosY() - 2);
-   burn(bomb->getPosX(), bomb->getPosY());
+  time = _gui.getElapsedTime() + 1;
+  burn(bomb->getPosX() + 1, bomb->getPosY(), bomb->getPosX() + 2, bomb->getPosY(), time);
+  burn(bomb->getPosX() - 1, bomb->getPosY(), bomb->getPosX() - 2, bomb->getPosY(), time);
+  burn(bomb->getPosX(), bomb->getPosY() + 1, bomb->getPosX(), bomb->getPosY() + 2, time);
+  burn(bomb->getPosX(), bomb->getPosY() - 1, bomb->getPosX(), bomb->getPosY() - 2, time);
+  burn(bomb->getPosX(), bomb->getPosY(), time);
 }
 
 template	<typename T>
@@ -243,30 +247,30 @@ void		EventManager<T>::itemDrop(IEntity<T> *item)
 }
 
 template	<typename T>
-void		EventManager<T>::burn(int x1, int y1, int x2, int y2)
+void		EventManager<T>::burn(int x1, int y1, int x2, int y2, double time)
 {
   if (_entityMap[std::make_pair(x1, y1)] == NULL)
     {
-      burnEntity(x1, y1);
+      burnEntity(x1, y1, time);
       if (_entityMap[std::make_pair(x2, y2)] == NULL ||
 	  _entityMap[std::make_pair(x2, y2)]->isBreakable() == true)
-	burnEntity(x2, y2);
+	burnEntity(x2, y2, time);
     }
   else
     if (_entityMap[std::make_pair(x1, y1)]->isBreakable() == true)
-      burnEntity(x1, y1);
+      burnEntity(x1, y1, time);
 }
 
 template	<typename T>
-void		EventManager<T>::burn(int x, int y)
+void		EventManager<T>::burn(int x, int y, double time)
 {
   if (_entityMap[std::make_pair(x, y)] == NULL ||
       _entityMap[std::make_pair(x, y)]->isBreakable() == true)
-    burnEntity(x, y);
+    burnEntity(x, y, time);
 }
 
 template	<typename T>
-void		EventManager<T>::burnEntity(int x, int y)
+void		EventManager<T>::burnEntity(int x, int y, double time)
 {
   if (_entityMap[std::make_pair(x, y)] != NULL)
     {
@@ -278,17 +282,17 @@ void		EventManager<T>::burnEntity(int x, int y)
       delete _characterMap[std::make_pair(x, y)];
       _characterMap[std::make_pair(x, y)] = NULL;
       }*/
-  flameCreation(x, y);
+  flameCreation(x, y, time);
 }
 
 template	<typename T>
-void		EventManager<T>::flameCreation(int x, int y)
+void		EventManager<T>::flameCreation(int x, int y, double time)
 {
   IEntity<T>	*flame;
 
   std::cout << "FLAME CREATION" << std::endl;
   flame = _factory.createEntity(FLAME, x, y);
-  _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 1, flame));
+  _eventTime.push_back(std::make_pair(time, flame));
   std::sort(_eventTime.begin(), _eventTime.end());
   _entityMap[std::make_pair(x, y)] = flame;
   _drawQueue.push(flame);

@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sat Jun 13 11:50:54 2015 Martin Porrès
+// Last update Sat Jun 13 17:41:01 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -80,10 +80,10 @@ public:
   void		flameDestruction(IEntity<T> *flame);
   void		increaseBombStock(IEntity<T> *player);
   void		itemDrop(IEntity<T> *item);
-  void		burn(int x1, int y1, int x2, int y2);
-  void		burn(int x, int y);
-  void		burnEntity(int x, int y);
-  void		flameCreation(int x, int y);
+  void		burn(int x1, int y1, int x2, int y2, double time);
+  void		burn(int x, int y, double time);
+  void		burnEntity(int x, int y, double time);
+  void		flameCreation(int x, int y, double time);
   bool		isEnd() const;
   bool		collider(IEntity<T> *p, IEntity<T> *obj, double toX, double toY);
 private:
