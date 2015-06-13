@@ -218,10 +218,32 @@ template <class T>
 void	GDLGUI<T>::drawNumber(const std::string & number)
 {
   glm::mat4		transformNumber(1);
+  gdl::Geometry		geometryLeftArrow;
+  gdl::Geometry		geometryRightArrow;
   gdl::Geometry		geometryNumber1;
   gdl::Geometry		geometryNumber2;
   gdl::Geometry		geometryNumber3;
   gdl::Texture		textureNumber;
+
+  geometryRightArrow.pushVertex(glm::vec3(4, 12, -1));
+  geometryRightArrow.pushVertex(glm::vec3(2, 12, -1));
+  geometryRightArrow.pushVertex(glm::vec3(2, 14, -1));
+  geometryRightArrow.pushVertex(glm::vec3(4, 14, -1));
+  geometryRightArrow.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryRightArrow.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryRightArrow.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryRightArrow.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryRightArrow.build();
+
+  geometryLeftArrow.pushVertex(glm::vec3(12, 12, -1));
+  geometryLeftArrow.pushVertex(glm::vec3(10, 12, -1));
+  geometryLeftArrow.pushVertex(glm::vec3(10, 14, -1));
+  geometryLeftArrow.pushVertex(glm::vec3(12, 14, -1));
+  geometryLeftArrow.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryLeftArrow.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryLeftArrow.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryLeftArrow.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryLeftArrow.build();
 
   geometryNumber1.pushVertex(glm::vec3(6, 12, -1));
   geometryNumber1.pushVertex(glm::vec3(4, 12, -1));
@@ -252,6 +274,15 @@ void	GDLGUI<T>::drawNumber(const std::string & number)
   geometryNumber3.pushUv(glm::vec2(1.0f, 1.0f));
   geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
   geometryNumber3.build();
+
+  if (textureNumber.load("./assets/menu/leftArrowSelected.tga") == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryLeftArrow.draw(_shader, transformNumber, GL_QUADS);
+  if (textureNumber.load("./assets/menu/rightArrowSelected.tga") == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryRightArrow.draw(_shader, transformNumber, GL_QUADS);
 
   if (textureNumber.load(_numbers[number[2]]) == false)
     exit(0);//throw
