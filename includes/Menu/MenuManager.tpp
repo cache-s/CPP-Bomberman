@@ -220,21 +220,22 @@ eMenuEvent			MenuManager<T>::callPause()
 template <class T>
 eMenuEvent			MenuManager<T>::callEnd()
 {
+  int				pos = 0;
+  std::string			name = "aaa";
+
   _gui.menuLoadTexture(_menuEnd.getScene());
   _gui.drawMenu(_menuEnd.getIndex());
-  while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
+  while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1)
     {
-      if (_menuEnd.getIndex() == 0 && _lastKeyPressed == UP1)
-	_menuEnd.setIndex(_menuEnd.getMaxIndex());
-      else if (_menuEnd.getIndex() == _menuEnd.getMaxIndex() && _lastKeyPressed == DOWN1)
-	_menuEnd.setIndex(0);
-      else
-	{
-	  if (_lastKeyPressed == UP1)
-	    _menuEnd.setIndex(_menuEnd.getIndex() - 1);
-	  if (_lastKeyPressed == DOWN1)
-	    _menuEnd.setIndex(_menuEnd.getIndex() + 1);
-	}
+      if (_lastKeyPressed == LEFT1 && pos != 0)
+	pos--;
+      if (_lastKeyPressed == RIGHT1 && pos != 2)
+	pos++;
+      if (_lastKeyPressed == UP1 && name[pos] != 'z')
+	name[pos] = name[pos] + 1;
+      if (_lastKeyPressed == DOWN1 && name[pos] != 'a')
+	name[pos] = name[pos] - 1;
+
       _gui.drawMenu(_menuEnd.getIndex());
       usleep(100000);
     }
