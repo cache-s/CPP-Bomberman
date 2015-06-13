@@ -4,7 +4,7 @@
 // Made by Martin Porrès
 // Login   <porres_m@epitech.net>
 // 
-// Last update Sat Jun 13 13:00:53 2015 Mathieu Bourmaud
+// Last update Sat Jun 13 13:04:00 2015 Martin Porrès
 // Last update Sat Jun 13 11:51:27 2015 Martin Porrès
 //
 
@@ -20,7 +20,8 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _pollEventThread = new Thread();
   _pollEventThread->create(&poll_event<T>, reinterpret_cast<void *>(this));
   _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
-  _AIPool->addTask(new AInt<T>(25, 25, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar)); 
+  (void)AICondVar;
+  //_AIPool->addTask(new AInt<T>(25, 25, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar)); 
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
   _eventPtr[EventManager<T>::FLAMEDESTRUCTION] = &EventManager<T>::flameDestruction;
