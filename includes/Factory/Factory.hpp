@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 //
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Thu Jun 11 12:06:49 2015 Mathieu Bourmaud
+// Last update Sat Jun 13 11:29:14 2015 Mathieu Bourmaud
 //
 
 #ifndef			_FACTORY_HPP_
@@ -18,6 +18,7 @@
 # include		"Radius.hpp"
 # include		"Speed.hpp"
 # include		"Floor.hpp"
+# include		"MapWall.hpp"
 # include		"Flame.hpp"
 # include		"UbrkWall.hpp"
 # include		"BrkWall.hpp"
@@ -38,7 +39,7 @@ template <class T>
 Factory<T>::Factory()
 {
   _ents[BOMB] = new Bomb<T>;
-  _ents[MAPWALL] = new UbrkWall<T>;
+  _ents[MAPWALL] = new MapWall<T>;
   _ents[FLOOR] = new Floor<T>;
   _ents[ARTINT] = new AI<T>;
   _ents[MONSTER] = new Monster<T>;

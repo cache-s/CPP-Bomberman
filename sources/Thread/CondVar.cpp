@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Mon Apr 20 17:35:03 2015 Martin Porrès
-// Last update Mon Jun  8 17:42:18 2015 Mathieu Bourmaud
+// Last update Sat Jun 13 12:56:01 2015 Mathieu Bourmaud
 //
 
 #include	"CondVar.hpp"
@@ -32,8 +32,9 @@ void		CondVar::timedwait(long time)
 {
   struct timespec	ts;
 
-  ts.tv_sec = 0;
-  ts.tv_nsec = time;
+  clock_gettime(CLOCK_REALTIME, &ts);
+  ts.tv_sec += 0;
+  ts.tv_nsec += time;
   pthread_cond_timedwait(&cond, mutex.getMutex(), &ts);
 }
 

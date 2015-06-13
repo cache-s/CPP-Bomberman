@@ -23,6 +23,7 @@ void		Core<T>::gameLoop(void)
 {
   while(!(_eventManager->isEnd()))
     {
+      std::cout << "COREEEEEEEEEEE" << std::endl;
       if (_eventManager->update())
 	_gui->draw();
     }

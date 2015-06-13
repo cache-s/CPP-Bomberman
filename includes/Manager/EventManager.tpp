@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Jun  9 23:07:38 2015 Martin Porrès
-// Last update Sat Jun 13 01:39:27 2015 Jordan Chazottes
+// Last update Sat Jun 13 12:59:17 2015 Mathieu Bourmaud
 //
 
 template	<typename T>
@@ -57,7 +57,8 @@ bool		EventManager<T>::update(void)
   bool							pollEventUpdate = false;
   bool							timeUpdate;
 
-  _eventCondVar->timedwait(100000000);
+  _eventCondVar->timedwait(10000000);
+  std::cout << "update" << std::endl;
   _gui.update();
   if (_eventQueue->tryPop(&event) == true)
     {

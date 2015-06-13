@@ -65,6 +65,7 @@ public:
   void createCube();
   void createFloor();
   void objectInit();
+  bool animInit();
 
   double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
