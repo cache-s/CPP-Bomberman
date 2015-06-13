@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Apr 21 17:03:24 2015 Martin Porrès
-// Last update Sun May 24 17:48:20 2015 Martin Porrès
+// Last update Sat Jun 13 11:15:04 2015 Martin Porrès
 //
 
 #ifndef		_THREADPOOL_HPP_
@@ -16,12 +16,18 @@
 #include	"Thread.hpp"
 #include	"Mutex.hpp"
 #include	"Task.hpp"
+template	<typename U>
+class		Task;
+
 #include	"SafeQueue.hpp"
 #include	"CondVar.hpp"
 #include	"IThreadPool.hpp"
 
-template <typename T>
-class ThreadPool : public IThreadPool<T>
+template        <typename U>
+void    *thread_loop(void *c);
+
+template <typename T, typename U>
+class ThreadPool : public IThreadPool<T, U>
 {
 public:
   explicit ThreadPool(int nbThread) : condVarPool(mutexPool)
@@ -32,8 +38,8 @@ public:
     while (i < nbThread)
       {
 	pool.push_back(new Thread());
-	tasks.push_back(new Task(&queue, &mutexPool, &condVarPool, i));
-	(pool.back())->create(&thread_loop, reinterpret_cast<void *>(tasks.back())); 
+	tasks.push_back(new Task<U>(queue, mutexPool, condVarPool, i));
+	(pool.back())->create(&thread_loop<U>, reinterpret_cast<void *>(tasks.back())); 
 	i++;
       }
   }
@@ -74,7 +80,7 @@ public:
 
 private:
   std::vector<Thread *>	pool;
-  std::vector<Task *>	tasks;
+  std::vector<Task<U> *> tasks;
   SafeQueue<T *>	queue;
   Mutex			mutexPool;
   CondVar		condVarPool;
