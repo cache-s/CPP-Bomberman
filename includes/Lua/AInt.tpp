@@ -88,47 +88,30 @@ std::string     AInt<T>::mapMerge()
       x = 0;
     }
 
-  // std::size_t found = result.find("32");
-  // int i = 0;
+  std::size_t found = result.find("32");
+  int i = 0;
 
 
-  // while (found != std::string::npos)
-  //   {
-  //     result[found - 1] = '3';
-  //     result[found - 2] = '3';
+  while (found != std::string::npos)
+    {
+      result[found - 1] = '3';
+      result[found - 2] = '3';
+      result[found - 3] = '3';
 
-  //     result[found - 3] = '3';
-  //     result[found - 4] = '3';
+      result[found - _width] = '3';
+      result[found - _width * 2] = '3';
+      result[found - _width * 3] = '3';
 
+      result[found + 1] = '3';
+      result[found + 2] = '3';
+      result[found + 3] = '3';
 
-  //     result[found - 5] = '3';
-  //     result[found - 6] = '3';
-
-  //     result[found - _width] = '3';
-  //     result[found - _width + 1] = '3';
-
-  //     result[found - _width * 2] = '3';
-  //     result[found - _width * 2 + 1] = '3';
-
-  //     result[found - _width * 3] = '3';
-  //     result[found - _width * 3 + 1] = '3';
-
-  //     result[found + 2] = '3';
-  //     result[found + 3] = '3';
-  //     result[found + 4] = '3';
-  //     result[found + 5] = '3';
-  //     result[found + 6] = '3';
-  //     result[found + 7] = '3';
-
-  //     result[found + _width] = '3';
-  //     result[found + _width + 1] = '3';
-  //     result[found + _width * 2] = '3';
-  //     result[found + _width * 2 + 1] = '3';
-  //     result[found + _width * 3] = '3';
-  //     result[found + _width * 3 + 1] = '3';
-  //     i++;
-  //     found = result.find("32", i);
-  //   }
+      result[found + _width] = '3';
+      result[found + _width * 2] = '3';
+      result[found + _width * 3] = '3';
+      i++;
+      found = result.find("32", i);
+    }
 
   std::cout << "RESULT = " << result << std::endl;
 
@@ -183,10 +166,11 @@ void            AInt<T>::move()
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
-      std::cout << "action :" << action << std::endl;
-      action = 105;
-      _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
-      _eventCondVar.signal();
-      std::cout << "end Le JEU\n";
+      if (action != 404)
+	{
+	  std::cout << "action :" << action << std::endl;
+	  _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
+	  _eventCondVar.signal();
+	}
     }
 }

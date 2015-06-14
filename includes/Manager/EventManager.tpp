@@ -57,7 +57,6 @@ bool		EventManager<T>::update(void)
   bool							timeUpdate;
 
   _eventCondVar->timedwait(10000000);
-  std::cout << "update" << std::endl;
   _gui.update();
   while (_eventQueue->tryPop(&event) == true)
     {
