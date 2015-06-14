@@ -34,11 +34,13 @@ enum				eMenu
     INTRO = 1,
     START = 2,
     SETTINGS = 3,
-    LOAD = 4,
-    PAUSE = 5,
-    SCORE = 6,
-    WIN = 7,
-    LOSE = 8
+    SAVE = 4,
+    LOAD = 5,
+    PAUSE = 6,
+    SCORE = 7,
+    END = 8,
+    WIN = 9,
+    LOSE = 10
   };
 
 template <typename T>
@@ -75,6 +77,7 @@ private:
   SoundManager			&_sM;
   eKey				_lastKeyPressed;
 
+  eMenu				_lastMenu;
   MenuStart			_menuStart;
   MenuSettings			_menuSettings;
   MenuLoad			_menuLoad;

@@ -51,6 +51,7 @@ eMenuEvent			MenuManager<T>::callStart()
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
+	  _lastMenu = START;
 	  if (_menuStart.getIndex() == 0)
 	    return (LAUNCH);
 	  if (_menuStart.getIndex() == 1)
@@ -77,6 +78,7 @@ eMenuEvent			MenuManager<T>::callStart()
       _gui.getContext().flush();
       usleep(100000);
     }
+  _lastMenu = START;
   return (EXIT);
 }
 
@@ -130,7 +132,15 @@ eMenuEvent			MenuManager<T>::callSettings()
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
           if (_menuSettings.getIndex() == 4)
-            return (callStart());
+	    {
+	      if (_lastMenu == PAUSE)
+		{
+		  _lastMenu = SETTINGS;
+		  return (callPause());
+		}
+	      _lastMenu = SETTINGS;
+	      return (callStart());
+	    }
           else
 	    {
 	      if (_menuSettings.getIndex() == 0)
@@ -158,6 +168,7 @@ eMenuEvent			MenuManager<T>::callSettings()
       _gui.getContext().flush();
       usleep(100000);
     }
+  _lastMenu = SETTINGS;
   return (EXIT);
 }
 
@@ -172,6 +183,7 @@ eMenuEvent			MenuManager<T>::callLoad()
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
+	  _lastMenu = LOAD;
           if (_menuLoad.getIndex() == 3)
             return (callStart());
           else
@@ -199,6 +211,7 @@ eMenuEvent			MenuManager<T>::callLoad()
       _gui.getContext().flush();
       usleep(100000);
     }
+  _lastMenu = LOAD;
   return (EXIT);
 }
 
@@ -213,6 +226,7 @@ eMenuEvent			MenuManager<T>::callSave()
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
+	  _lastMenu = SAVE;
           if (_menuSave.getIndex() == 3)
             return (callStart());
           else
@@ -240,6 +254,7 @@ eMenuEvent			MenuManager<T>::callSave()
       _gui.getContext().flush();
       usleep(100000);
     }
+  _lastMenu = SAVE;
   return (EXIT);
 }
 
@@ -254,6 +269,7 @@ eMenuEvent			MenuManager<T>::callPause()
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
+	  _lastMenu = PAUSE;
 	  if (_menuStart.getIndex() == 0)
 	    return (RESUME);
 	  if (_menuStart.getIndex() == 1)
@@ -280,6 +296,7 @@ eMenuEvent			MenuManager<T>::callPause()
       _gui.getContext().flush();
       usleep(100000);
     }
+  _lastMenu = PAUSE;
   return (EXIT);
 }
 
@@ -336,6 +353,7 @@ eMenuEvent			MenuManager<T>::callEnd(int index)
     }
   _settings.setName(name);
   fillScoreFile();
+  _lastMenu = END;
   return (NOTHING);
 }
 
@@ -350,12 +368,16 @@ eMenuEvent			MenuManager<T>::callScore()
     {
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
-	return (callStart());
+	{
+	  _lastMenu = SCORE;
+	  return (callStart());
+	}
       _gui.drawMenu(_menuScore.getIndex());
       _gui.drawHighScore();
       _gui.getContext().flush();
       usleep(100000);
     }
+  _lastMenu = SCORE;
   return (EXIT);
 }
 
