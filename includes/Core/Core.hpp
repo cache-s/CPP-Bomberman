@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 //
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Sun Jun 14 21:09:17 2015 Jordan Chazottes
+// Last update Sun Jun 14 22:12:42 2015 Mathieu Bourmaud
 //
 
 #ifndef		_CORE_HPP_
@@ -18,6 +18,7 @@
 #include	"MapGen.hpp"
 #include	"MenuManager.hpp"
 #include	"SoundManager.hpp"
+#include	"XMLWriter.hpp"
 
 template <typename T>
 class		Core
@@ -47,6 +48,7 @@ private:
   Settings						_settings;
   Mutex                                                 _AIMutex;
   ICondVar                                              *_AICondVar;
+  XMLWriter<T>						*_XMLWriter;
 };
 
 #include	"Core.tpp"

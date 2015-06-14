@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:13:50 2015 Jordan Chazottes
-// Last update Sun Jun 14 21:13:51 2015 Jordan Chazottes
+// Last update Sun Jun 14 22:30:53 2015 Mathieu Bourmaud
 //
 
 template <typename T>
@@ -17,6 +17,7 @@ Core<T>::Core(void)
   _soundManager = new SoundManager();
   _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory, *_AICondVar, *_soundManager, _settings);
   _menuManager = new MenuManager<T>(*_gui, _settings, *_soundManager);
+  _XMLWriter = new XMLWriter<T>();
 }
 
 template <typename T>
@@ -59,6 +60,7 @@ void		Core<T>::gameLoop(void)
       _eventManager->init();
       _gui->init();
       _soundManager->playSound(S_GAME, true);
+      _XMLWriter->fillDoc(_entityMap, _characterMap, _settings);
       while(!(_eventManager->isEnd()))
 	{
 	  if (_eventManager->update() && !(_eventManager->isEnd()))
