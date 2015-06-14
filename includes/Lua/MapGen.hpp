@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Fri Jun 12 17:02:21 2015 Pierre Charie
+// Last update Sun Jun 14 20:40:17 2015 Pierre Charie
 //
 
 #ifndef		MAPGEN_HPP_
@@ -18,6 +18,7 @@ extern "C"
 #include "lauxlib.h"
 }
 
+# include	<complex>
 # include	<stdlib.h>     /* srand, rand */
 
 # include	"Bomberman.hpp"

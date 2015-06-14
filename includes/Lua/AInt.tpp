@@ -19,10 +19,7 @@ std::string     AInt<T>::mapMerge()
 {
   int   tmp;
   std::string result;
-
   int x = 0, y = 0;
-
-  std::cout << "on merge!\n";
 
   while (y < _height)
     {
@@ -87,7 +84,6 @@ std::string     AInt<T>::mapMerge()
       y++;
       x = 0;
     }
-  std::cout << "premier while finit!\n";
 
   std::size_t found = result.find("7");
   int i = 0;
@@ -132,10 +128,8 @@ void            AInt<T>::move()
 
   while (true)
     {
-      std::cout << "entrée dans le move" << std::endl;
       _AICondVar.wait();
       luaL_openlibs(L);
-      std::cout << "lib ouverte\n";
       if (luaL_loadfile(L, _path.c_str()) || lua_pcall(L, 0, 0, 0))
 	{
 	  std:: cout << lua_tostring(L, -1);
@@ -149,9 +143,7 @@ void            AInt<T>::move()
           error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
-      std::cout << "pré-merge\n";
       std::string map = mapMerge();
-      std::cout << "post-merge\n";
       lua_pushstring(L, map.c_str());
       lua_pushinteger(L, _width);
       lua_pushinteger(L, _height);
@@ -167,12 +159,10 @@ void            AInt<T>::move()
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
-      std::cout << "ACTION = " << action << " player = " << _player->getType() << std::endl;
       if (action == 101 || (action > 103 && action < 108))
 	{
 	  _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
 	  _eventCondVar.signal();
-	  std::cout << "signal émis!" << std::endl;
 	}
     }
 }

@@ -28,11 +28,6 @@ function move(sMap, width, height, selfx, selfy)
       map[i] = tonumber(chara)
    end
 
-   -- print("x = "..selfx)
-   -- print("y = "..selfy)
-
-   -- print("pos = "..pos)
-
    if (map[pos] == 6) then --Survie de l'IA
       if (map[pos + width] == 0 or (map[pos + width] == 4)) then
 	 return(104)
@@ -116,7 +111,6 @@ function move(sMap, width, height, selfx, selfy)
 	 return(101) --on bombe
       end
    end
-   print("on bombe pas :(")
    --fin posage de bombe
    
    --recolte de bonus
@@ -204,9 +198,6 @@ function move(sMap, width, height, selfx, selfy)
       end
    end
 
-   print("ON LE RUSH")
-   print("pos at "..pos)
-   print("closest at "..closest)
    if (pos - closest > 0) then -- au dessus ou a gauche
       if (pos - closest) then
 	 if (pos - closest < width) then
