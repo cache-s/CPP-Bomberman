@@ -9,6 +9,12 @@
     -- PPL = 5
     -- DANGER = 6
 
+-- UP = 104,
+-- DOWN = 105,
+-- LEFT = 106,
+-- RIGHT = 107,
+
+
 function move(sMap, width, height, selfx, selfy)
    
    local map = {}
@@ -32,18 +38,18 @@ function move(sMap, width, height, selfx, selfy)
    print("case = "..map[pos])
    if (map[pos] == 6) then --Survie de l'IA
       print("DANGER ZONE, GTFO")
-      print("au dessus : ".. map[pos + width])
+      print("au dessus : ".. map[pos - width])
       print("a gauche : ".. map[pos - 1])
       print("a droite : ".. map[pos + 1])
-      print("au dessous : ".. map[pos - width])
+      print("au dessous : ".. map[pos + width])
       if (map[pos + width] == 0 or (map[pos + width] == 4)) then
-	 return(104)
+	 return(105)
       elseif (map[pos + 1] == 0 or (map[pos + 1] == 4)) then
 	 return(107)	 --go right
       elseif (map[pos - 1] == 0 or (map[pos - 1] == 4)) then
 	 return(106)	 --go left
       elseif (map[pos - width] == 0 or (map[pos - width] == 4)) then
-	 return(105)	 -- go bot
+	 return(104)	 -- go bot
       end
       ret = math.floor((math.random()* 4) + 104)
       print("ret = "..ret)
@@ -122,33 +128,33 @@ function move(sMap, width, height, selfx, selfy)
    --recolte de bonus
    if (map[pos + (width)]) then 
       if (map[pos + width] == 5) then
-	 return(104) --on recolte
+	 return(105) --on recolte
       end
    end
    if (map[pos + (2 * width)]) then 
       if (map[pos + width] < 1 and (map[pos + (2 * width)] == 4)) then
-	 return(104)--on recolte
+	 return(105)--on recolte
       end
    end
    if (map[pos + (3 * width)]) then 
       if (map[pos + width] < 1 and map[pos + (2 * width)] < 1 and (map[pos + (3 * width)] == 4)) then
-	 return(104)--on recolte 
+	 return(105)--on recolte 
       end
    end
    
    if (map[pos - (width)]) then 
       if (map[pos - width] == 4) then
-	 return(105)--on recolte
+	 return(104)--on recolte
       end
    end
    if (map[pos - (2 * width)]) then 
       if (map[pos - width] < 1 and (map[pos - (2 * width)] == 4)) then
-	 return(105)--on recolte
+	 return(104)--on recolte
       end
    end
    if (map[pos - (3 * width)]) then 
       if (map[pos - width] < 1 and map[pos - (2 * width)] < 1 and (map[pos - (3 * width)] == 4)) then
-	 return(105)--on recolte
+	 return(104)--on recolte
       end
    end
    if (map[pos + 1]) then 
@@ -203,6 +209,8 @@ function move(sMap, width, height, selfx, selfy)
    	 end
       end
    end
+
+   print("ON LE RUSH")
    
    if (pos - closest > 0) then -- au dessus ou a gauche
       if (pos - closest) then

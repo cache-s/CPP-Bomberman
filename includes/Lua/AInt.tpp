@@ -148,7 +148,8 @@ void            AInt<T>::move()
           error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
-      std::cout << "CPP case = " << _gameMap[std::make_pair(_player->getPosX(), _player->getPosY())] << std::endl;
+       std::cout << "CPP case = " << _gameMap[std::make_pair(_player->getPosX(), _player->getPosY())] << std::endl;
+       std::cout << "Xpos = " << _player->getPosX() << " yPos = " << _player->getPosY() << std::endl;
       std::string map = mapMerge();
       lua_pushstring(L, map.c_str());
       lua_pushinteger(L, _width);
