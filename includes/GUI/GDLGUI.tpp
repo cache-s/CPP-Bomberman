@@ -64,7 +64,7 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _inputFct[3] = &GDLGUI<T>::inputDown;
   _inputFct[4] = &GDLGUI<T>::inputLeft;
   _inputFct[5] = &GDLGUI<T>::inputBomb;
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   initialize();
   _context.flush();
 }
@@ -691,7 +691,7 @@ void    GDLGUI<T>::drawHighScore()
       geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
       geometryNumber3.build();
 
-      if (texture.load(_numbers[score[2]]) == false)
+      if (texture.load(_numbers[score[0]]) == false)
         exit(0);//throw
       texture.bind();
       geometryNumber1.draw(_shader, transform, GL_QUADS);
@@ -699,7 +699,7 @@ void    GDLGUI<T>::drawHighScore()
         exit(0);//throw
       texture.bind();
       geometryNumber2.draw(_shader, transform, GL_QUADS);
-      if (texture.load(_numbers[score[0]]) == false)
+      if (texture.load(_numbers[score[2]]) == false)
         exit(0);//throw
       texture.bind();
       geometryNumber3.draw(_shader, transform, GL_QUADS);

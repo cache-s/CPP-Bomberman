@@ -47,8 +47,10 @@ public:
 
 private:
 
+  int				stringToInt(const std::string & nb);
   std::string			getString(int result);
   int				getNumber(int min, int max, int current);
+  void				fillScoreFile();
 
   eMenuEvent			callIntro();
   eMenuEvent			callStart();

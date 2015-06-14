@@ -1,6 +1,6 @@
 #include			"MenuManager.hpp"
 
-template <typename T>
+template <class T>
 MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) : _gui(gui), _settings(settings), _sM(sM)
 {
   _callMenuFct[INTRO] = &MenuManager<T>::callIntro;
@@ -13,13 +13,13 @@ MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) 
   _callMenuFct[LOSE] = &MenuManager<T>::callLose;
 }
 
-template <typename T>
+template <class T>
 MenuManager<T>::~MenuManager()
 {
 
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callMenu(eMenu menu)
 {
   _gui.menuInit();
@@ -27,7 +27,7 @@ eMenuEvent			MenuManager<T>::callMenu(eMenu menu)
   return ((this->*_callMenuFct[menu])());
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callIntro()
 {
   std::vector<std::string>	intro;
@@ -40,7 +40,7 @@ eMenuEvent			MenuManager<T>::callIntro()
   return (NOTHING);
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callStart()
 {
   _gui.menuLoadTexture(_menuStart.getScene());
@@ -80,25 +80,24 @@ eMenuEvent			MenuManager<T>::callStart()
   return (EXIT);
 }
 
-template <typename T>
+template <class T>
 std::string			MenuManager<T>::getString(int result)
 {
   std::string			str;
-  unsigned int			uvalue = result;
+  unsigned int			val = result;
   int				digits = 3;
 
   while (digits-- > 0)
     {
-      str += ('0' + uvalue % 10);
-      uvalue /= 10;
+      str += ('0' + val % 10);
+      val /= 10;
     }
-
   std::reverse(str.begin(), str.end());
-  return str;
+  return (str);
 }
 
 
-template <typename T>
+template <class T>
 int				MenuManager<T>::getNumber(int min, int max, int current)
 {
   int				result = current;
@@ -119,7 +118,7 @@ int				MenuManager<T>::getNumber(int min, int max, int current)
   return (result);
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callSettings()
 {
   _gui.menuLoadTexture(_menuSettings.getScene());
@@ -139,7 +138,7 @@ eMenuEvent			MenuManager<T>::callSettings()
 	      if (_menuSettings.getIndex() == 1)
 		_settings.setPlayerNumber(getNumber(1, 2, _settings.getPlayerNumber()));
 	      if (_menuSettings.getIndex() == 2)
-		_settings.setAINumber(getNumber(0, 5, _settings.getAINumber()));
+		_settings.setAINumber(getNumber(0, 42, _settings.getAINumber()));
 	      if (_menuSettings.getIndex() == 3)
 		_settings.setSoundVolume(getNumber(0, 10, _settings.getSoundVolume()));
 	    }
@@ -162,7 +161,7 @@ eMenuEvent			MenuManager<T>::callSettings()
   return (EXIT);
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callLoad()
 {
   _gui.menuLoadTexture(_menuLoad.getScene());
@@ -194,7 +193,7 @@ eMenuEvent			MenuManager<T>::callLoad()
   return (EXIT);
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callPause()
 {
   _gui.menuLoadTexture(_menuPause.getScene());
@@ -234,19 +233,31 @@ eMenuEvent			MenuManager<T>::callPause()
   return (EXIT);
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callWin()
 {
   return (callEnd(0));
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callLose()
 {
   return (callEnd(1));
 }
 
-template <typename T>
+template <class T>
+int				MenuManager<T>::stringToInt(const std::string& nb)
+{
+  int                           value;
+  std::stringstream             stream(nb);
+
+  stream >> value;
+  if (stream.fail())
+    return (0);
+  return (value);
+}
+
+template <class T>
 eMenuEvent			MenuManager<T>::callEnd(int index)
 {
   int				pos = 0;
@@ -274,10 +285,11 @@ eMenuEvent			MenuManager<T>::callEnd(int index)
       usleep(100000);
     }
   _settings.setName(name);
+  fillScoreFile();
   return (NOTHING);
 }
 
-template <typename T>
+template <class T>
 eMenuEvent			MenuManager<T>::callScore()
 {
   _gui.menuLoadTexture(_menuScore.getScene());
@@ -295,4 +307,32 @@ eMenuEvent			MenuManager<T>::callScore()
       usleep(100000);
     }
   return (EXIT);
+}
+
+template <class T>
+void				MenuManager<T>::fillScoreFile()
+{
+  std::string			name;
+  std::string			score;
+  std::vector<std::string>	names;
+  std::vector<int>		scores;
+  std::ofstream			file;
+
+  for (unsigned int i = 0; i < 3; ++i)
+    {
+      _gui.getHighScore(i, score, name);
+      names.push_back(name);
+      scores.push_back(stringToInt(score));
+    }
+  for (unsigned int j = 0; j < scores.size(); ++j)
+    if (_settings.getScore() > scores[j])
+      {
+	scores.insert(scores.begin() + j, _settings.getScore());
+	names.insert(names.begin() + j, name);
+      }
+  file.open (".highScore.txt");
+  if (file.is_open())
+    for (unsigned int k = 0; k < 3; ++k)
+      file << names[k] << scores[k] << "\n";
+  file.close();
 }
