@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:30:48 2015 Jordan Chazottes
-// Last update Sun Jun 14 21:30:50 2015 Jordan Chazottes
+// Last update Sun Jun 14 23:14:48 2015 Jordan Chazottes
 //
 
 #ifndef		GDLGUI_HPP_
@@ -63,8 +63,6 @@ public:
   void setEntitiesToDraw(std::vector<IEntity<T> *> ent);
   void drawInit();
   void drawBomb(IEntity<T> &ent);
-  void drawMonster(IEntity<T> &ent);
-  void drawAI(IEntity<T> &ent);
   void drawBombNumber(IEntity<T> &ent);
   void drawRadius(IEntity<T> &ent);
   void drawFlame(IEntity<T> &ent);

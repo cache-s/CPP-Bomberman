@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:23:50 2015 Jordan Chazottes
-// Last update Sun Jun 14 21:23:51 2015 Jordan Chazottes
+// Last update Sun Jun 14 22:56:20 2015 Jordan Chazottes
 //
 
 SoundManager::SoundManager()
@@ -50,7 +50,7 @@ void	SoundManager::initSound()
     }
   catch (const std::runtime_error& e)
     {
-      std::cout << "Exception : " << e.what() << std::endl;
+      std::cerr << "Exception : " << e.what() << std::endl;
     }
 }
 

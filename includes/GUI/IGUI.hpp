@@ -33,8 +33,6 @@ public:
 
   virtual void draw() = 0;
   virtual void drawBomb(IEntity<T> &ent) = 0;
-  virtual void drawMonster(IEntity<T> &ent) = 0;
-  virtual void drawAI(IEntity<T> &ent) = 0;
   virtual void drawBombNumber(IEntity<T> &ent) = 0;
   virtual void drawRadius(IEntity<T> &ent) = 0;
   virtual void drawFlame(IEntity<T> &ent) = 0;

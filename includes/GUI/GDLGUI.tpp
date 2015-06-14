@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:31:00 2015 Jordan Chazottes
-// Last update Sun Jun 14 22:00:36 2015 Martin Porrès
+// Last update Sun Jun 14 23:15:04 2015 Jordan Chazottes
 //
 
 template <typename T>
@@ -18,8 +18,6 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _time = 0;
   _updateCondVar = new CondVar(_updateMutex);
   _drawFct[BOMB] = &GDLGUI<T>::drawBomb;
-  _drawFct[MONSTER] = &GDLGUI<T>::drawMonster;
-  _drawFct[ARTINT] = &GDLGUI<T>::drawAI;
   _drawFct[BBOMBNUMBER] = &GDLGUI<T>::drawBombNumber;
   _drawFct[BRADIUS] = &GDLGUI<T>::drawRadius;
   _drawFct[FLAME] = &GDLGUI<T>::drawFlame;
@@ -301,9 +299,6 @@ void	GDLGUI<T>::objectInit()
 template <typename T>
 void    GDLGUI<T>::draw(void)
 {
-  //IEntity<T> *ent;
-  //_shader.bind();
-  //while ((_drawQueue.tryPop(&ent)) == true)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   if (_settings.getPlayerNumber() > 1)
   {
@@ -322,8 +317,15 @@ void    GDLGUI<T>::draw(void)
 template <typename T>
 void	GDLGUI<T>::windowInit()
 {
-  if (!_context.start(1280, 720, "My bomberman!"))
-    std::cout << "error window init" << std::endl;
+  try
+    {
+      if (!_context.start(1280, 720, "My bomberman!"))
+	throw std::runtime_error("Error window init");
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cerr << "Exception : " << e.what() << std::endl;
+    }
 }
 
 template <typename T>
@@ -362,7 +364,7 @@ void	GDLGUI<T>::assetsInit()
   _AM.init();
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::menuInit()
 {
   glm::mat4		projection;
@@ -387,7 +389,7 @@ void	GDLGUI<T>::menuInit()
   _geometryMenu.build();
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawString(const std::string & string, int pos)
 {
   glm::mat4		transform(1);
@@ -470,33 +472,38 @@ void	GDLGUI<T>::drawString(const std::string & string, int pos)
   geometryLetter3.pushUv(glm::vec2(0.0f, 1.0f));
   geometryLetter3.build();
 
-  /*DRAW DES FLECHES*/
-  if (texture.load("./assets/menu/UpArrow.tga") == false)
-    exit(0);//throw
-  texture.bind();
-  geometryUpArrow.draw(_shader, transform, GL_QUADS);
-  if (texture.load("./assets/menu/DownArrow.tga") == false)
-    exit(0);//throw
-  texture.bind();
-  geometryDownArrow.draw(_shader, transform, GL_QUADS);
-
-  /*DRAW DES LETTRES*/
-  if (texture.load(_letters[string[0]]) == false)
-    exit(0);//throw
-  texture.bind();
-  geometryLetter1.draw(_shader, transform, GL_QUADS);
-  if (texture.load(_letters[string[1]]) == false)
-    exit(0);//throw
-  texture.bind();
-  geometryLetter2.draw(_shader, transform, GL_QUADS);
-  if (texture.load(_letters[string[2]]) == false)
-    exit(0);//throw
+  try
+    {
+      if (texture.load("./assets/menu/UpArrow.tga") == false)
+        throw std::runtime_error("Error while loading Arrow");
+      texture.bind();
+      geometryUpArrow.draw(_shader, transform, GL_QUADS);
+      if (texture.load("./assets/menu/DownArrow.tga") == false)
+        throw std::runtime_error("Error while loading Arrow");
+      texture.bind();
+      geometryDownArrow.draw(_shader, transform, GL_QUADS);
+      
+      if (texture.load(_letters[string[0]]) == false)
+        throw std::runtime_error("Error while loading letters");
+      texture.bind();
+      geometryLetter1.draw(_shader, transform, GL_QUADS);
+      if (texture.load(_letters[string[1]]) == false)
+        throw std::runtime_error("Error while loading letters");
+      texture.bind();
+      geometryLetter2.draw(_shader, transform, GL_QUADS);
+      if (texture.load(_letters[string[2]]) == false)
+        throw std::runtime_error("Error while loading letters");
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cerr << "Exception : " << e.what() << std::endl;
+    }
   texture.bind();
   geometryLetter3.draw(_shader, transform, GL_QUADS);
   _context.flush();
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawNumber(const std::string & number)
 {
   glm::mat4		transformNumber(1);
@@ -557,30 +564,36 @@ void	GDLGUI<T>::drawNumber(const std::string & number)
   geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
   geometryNumber3.build();
 
-  if (textureNumber.load("./assets/menu/leftArrowSelected.tga") == false)
-    exit(0);//throw
-  textureNumber.bind();
-  geometryLeftArrow.draw(_shader, transformNumber, GL_QUADS);
-  if (textureNumber.load("./assets/menu/rightArrowSelected.tga") == false)
-    exit(0);//throw
-  textureNumber.bind();
-  geometryRightArrow.draw(_shader, transformNumber, GL_QUADS);
-
-  if (textureNumber.load(_numbers[number[2]]) == false)
-    exit(0);//throw
-  textureNumber.bind();
-  geometryNumber1.draw(_shader, transformNumber, GL_QUADS);
-  if (textureNumber.load(_numbers[number[1]]) == false)
-    exit(0);//throw
-  textureNumber.bind();
-  geometryNumber2.draw(_shader, transformNumber, GL_QUADS);
-  if (textureNumber.load(_numbers[number[0]]) == false)
-    exit(0);//throw
+  try
+    {
+      if (textureNumber.load("./assets/menu/leftArrowSelected.tga") == false)
+	throw std::runtime_error("Error while loading letters");
+      textureNumber.bind();
+      geometryLeftArrow.draw(_shader, transformNumber, GL_QUADS);
+      if (textureNumber.load("./assets/menu/rightArrowSelected.tga") == false)
+	throw std::runtime_error("Error while loading letters");
+      textureNumber.bind();
+      geometryRightArrow.draw(_shader, transformNumber, GL_QUADS);
+      if (textureNumber.load(_numbers[number[2]]) == false)
+	throw std::runtime_error("Error while loading letters");
+      textureNumber.bind();
+      geometryNumber1.draw(_shader, transformNumber, GL_QUADS);
+      if (textureNumber.load(_numbers[number[1]]) == false)
+	throw std::runtime_error("Error while loading letters");
+      textureNumber.bind();
+      geometryNumber2.draw(_shader, transformNumber, GL_QUADS);
+      if (textureNumber.load(_numbers[number[0]]) == false)
+	throw std::runtime_error("Error while loading letters");
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cerr << "Exception : " << e.what() << std::endl;
+    }
   textureNumber.bind();
   geometryNumber3.draw(_shader, transformNumber, GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void    GDLGUI<T>::drawScore(const std::string & score)
 {
   glm::mat4		transformNumber(1);
@@ -619,21 +632,28 @@ void    GDLGUI<T>::drawScore(const std::string & score)
   geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
   geometryNumber3.build();
 
-  if (textureNumber.load(_numbers[score[2]]) == false)
-    exit(0);//throw
-  textureNumber.bind();
-  geometryNumber1.draw(_shader, transformNumber, GL_QUADS);
-  if (textureNumber.load(_numbers[score[1]]) == false)
-    exit(0);//throw
-  textureNumber.bind();
-  geometryNumber2.draw(_shader, transformNumber, GL_QUADS);
-  if (textureNumber.load(_numbers[score[0]]) == false)
-    exit(0);//throw
+  try
+    {
+      if (textureNumber.load(_numbers[score[2]]) == false)
+	throw std::runtime_error("Error while loading letters");
+      textureNumber.bind();
+      geometryNumber1.draw(_shader, transformNumber, GL_QUADS);
+      if (textureNumber.load(_numbers[score[1]]) == false)
+	throw std::runtime_error("Error while loading letters");
+      textureNumber.bind();
+      geometryNumber2.draw(_shader, transformNumber, GL_QUADS);
+      if (textureNumber.load(_numbers[score[0]]) == false)
+	throw std::runtime_error("Error while loading letters");
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cerr << "Exception : " << e.what() << std::endl;
+    }
   textureNumber.bind();
   geometryNumber3.draw(_shader, transformNumber, GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void    GDLGUI<T>::getHighScore(int index, std::string & score, std::string & name)
 {
   std::ifstream file (".highScore.txt");
@@ -652,7 +672,7 @@ void    GDLGUI<T>::getHighScore(int index, std::string & score, std::string & na
     }
 }
 
-template <class T>
+template <typename T>
 void    GDLGUI<T>::drawHighScore()
 {
   glm::mat4             transform(1);
@@ -702,16 +722,23 @@ void    GDLGUI<T>::drawHighScore()
       geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
       geometryNumber3.build();
 
-      if (texture.load(_numbers[score[0]]) == false)
-        exit(0);//throw
-      texture.bind();
-      geometryNumber1.draw(_shader, transform, GL_QUADS);
-      if (texture.load(_numbers[score[1]]) == false)
-        exit(0);//throw
-      texture.bind();
-      geometryNumber2.draw(_shader, transform, GL_QUADS);
-      if (texture.load(_numbers[score[2]]) == false)
-        exit(0);//throw
+      try 
+	{
+	  if (texture.load(_numbers[score[0]]) == false)
+	    throw std::runtime_error("Error while loading letters");
+	  texture.bind();
+	  geometryNumber1.draw(_shader, transform, GL_QUADS);
+	  if (texture.load(_numbers[score[1]]) == false)
+	    throw std::runtime_error("Error while loading letters");
+	  texture.bind();
+	  geometryNumber2.draw(_shader, transform, GL_QUADS);
+	  if (texture.load(_numbers[score[2]]) == false)
+	    throw std::runtime_error("Error while loading letters");
+	}
+      catch (const std::runtime_error& e)
+	{
+	  std::cerr << "Exception : " << e.what() << std::endl;
+	}
       texture.bind();
       geometryNumber3.draw(_shader, transform, GL_QUADS);
 
@@ -744,17 +771,24 @@ void    GDLGUI<T>::drawHighScore()
       geometryLetter3.pushUv(glm::vec2(1.0f, 1.0f));
       geometryLetter3.pushUv(glm::vec2(0.0f, 1.0f));
       geometryLetter3.build();
-
-      if (texture.load(_letters[name[0]]) == false)
-        exit(0);//throw
-      texture.bind();
-      geometryLetter1.draw(_shader, transform, GL_QUADS);
-      if (texture.load(_letters[name[1]]) == false)
-        exit(0);//throw
-      texture.bind();
-      geometryLetter2.draw(_shader, transform, GL_QUADS);
-      if (texture.load(_letters[name[2]]) == false)
-        exit(0);//throw
+      
+      try
+	{
+	  if (texture.load(_letters[name[0]]) == false)
+	    throw std::runtime_error("Error while loading letters");
+	  texture.bind();
+	  geometryLetter1.draw(_shader, transform, GL_QUADS);
+	  if (texture.load(_letters[name[1]]) == false)
+	    throw std::runtime_error("Error while loading letters");
+	  texture.bind();
+	  geometryLetter2.draw(_shader, transform, GL_QUADS);
+	  if (texture.load(_letters[name[2]]) == false)
+	    throw std::runtime_error("Error while loading letters");
+	}
+      catch (const std::runtime_error& e)
+	{
+	  std::cerr << "Exception : " << e.what() << std::endl;
+	}
       texture.bind();
       geometryLetter3.draw(_shader, transform, GL_QUADS);
       y1 -= 3;
@@ -792,57 +826,40 @@ glm::vec3 GDLGUI<T>::setCamPos()
   return ret;
 }
 
-template <class T>
-void	GDLGUI<T>::drawMonster(IEntity<T> &ent)
-{
-  (void)ent;
-  std::cout << "draw Monster" << std::endl;
-}
-
-template <class T>
-void	GDLGUI<T>::drawAI(IEntity<T> &ent)
-{
-  (void)ent;
-  std::cout << "draw AI" << std::endl;
-}
-
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawBombNumber(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BBOMBNUMBER);
 
-  std::cout << "drawbombnumber" << std::endl;
   if (!ent.isDraw())
     _cube->build();
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawRadius(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BRADIUS);
 
-  std::cout << "drawRadius" << std::endl;
   if (!ent.isDraw())
     _cube->build();
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawSpeed(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BSPEED);
 
-  std::cout << "drawSpeed" << std::endl;
   if (!ent.isDraw())
     _cube->build();
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawFlame(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(FLAME);
@@ -853,7 +870,7 @@ void	GDLGUI<T>::drawFlame(IEntity<T> &ent)
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawFloor(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(FLOOR);
@@ -868,7 +885,7 @@ void	GDLGUI<T>::drawFloor(IEntity<T> &ent)
   _floor->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawBrkWall(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BRKWALL);
@@ -882,7 +899,7 @@ void	GDLGUI<T>::drawBrkWall(IEntity<T> &ent)
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawUbrkWall(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(UBRKWALL);
@@ -896,7 +913,7 @@ void	GDLGUI<T>::drawUbrkWall(IEntity<T> &ent)
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawBomb(IEntity<T> &ent)
 {
   gdl::Texture *  texture = _AM.getTexture(BOMB);
@@ -946,10 +963,10 @@ void	GDLGUI<T>::drawMap(int p)
   it_e = _entMap.begin();
   for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
-      if (it_e->second != NULL && checkRadius(-p, *it_e->second, 40) == true)
+      if (it_e->second != NULL && checkRadius(-p, *it_e->second, _settings.getMapSize() * 0.5) == true)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), 40))
+	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), _settings.getMapSize() * 0.5))
 	  (this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));
     }
   it_p = _charMap.begin();
@@ -1039,29 +1056,33 @@ void	GDLGUI<T>::rotate(T const &axis, float angle, IEntity<T> &ent) const
   ent.setRotation(ent.getRotation() + (axis * angle));
 }
 
-template <class T>
+template <typename T>
 void    GDLGUI<T>::menuLoadTexture(const std::vector<std::string> & images)
 {
-  //DELETE OLD VECTOR
   for (unsigned int i = 0; i < _textureMenu.size(); ++i)
     delete _textureMenu[i];
   _textureMenu.clear();
 
-  //LOAD TEXTURE
   for (unsigned int i = 0; i < images.size(); ++i)
     {
-      _textureMenu.push_back(new gdl::Texture());
-      if (_textureMenu[i]->load(images[i]) == false)
-        exit(0);//throw
+      try
+	{
+	  _textureMenu.push_back(new gdl::Texture());
+	  if (_textureMenu[i]->load(images[i]) == false)
+	    throw std::runtime_error("Error while loading image");
+	}
+      catch (const std::runtime_error& e)
+	{
+	  std::cerr << "Exception : " << e.what() << std::endl;
+	}
     }
 }
 
-template <class T>
+template <typename T>
 void	GDLGUI<T>::drawMenu(int i)
 {
   glm::mat4		transformMenu(1);
 
-  std::cout << "MENU" << std::endl;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _textureMenu[i]->bind();
   _geometryMenu.draw(_shader, transformMenu, GL_QUADS);
