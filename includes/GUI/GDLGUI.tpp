@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:31:00 2015 Jordan Chazottes
-// Last update Sun Jun 14 23:15:04 2015 Jordan Chazottes
+// Last update Sun Jun 14 23:21:44 2015 Jordan Chazottes
 //
 
 template <typename T>
@@ -949,6 +949,8 @@ bool	GDLGUI<T>::checkRadius(int p, int posX, int posY, int radius) const
 template <typename T>
 bool	GDLGUI<T>::checkRadius(int p, const IEntity<T> &ent, int radius) const
 {
+  if (_settings.getPlayerNumber() > 1)
+    return true;
   if (abs(ent.getPosX() - _charMap[std::make_pair(p, p)]->getPosX()) <= radius && abs(ent.getPosY() - _charMap[std::make_pair(p, p)]->getPosY()) <= radius)
     return (true);
   return (false);

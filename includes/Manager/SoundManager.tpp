@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:23:50 2015 Jordan Chazottes
-// Last update Sun Jun 14 22:56:20 2015 Jordan Chazottes
+// Last update Sun Jun 14 23:22:17 2015 Jordan Chazottes
 //
 
 SoundManager::SoundManager()
@@ -28,7 +28,7 @@ SoundManager::~SoundManager()
 
 void	SoundManager::initSound()
 {
-  _volume = 0;
+  _volume = 100;
   try
     {
       if (!_bIntro.LoadFromFile("assets/sound/Intro.wav"))
