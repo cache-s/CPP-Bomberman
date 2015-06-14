@@ -98,7 +98,7 @@ int				MenuManager<T>::getNumber(int min, int max, int current)
 
   _gui.drawMenu(_menuSettings.getIndex());
   _gui.drawNumber(getString(result));
-  while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1)
+  while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1 && _lastKeyPressed != BOMB2)
     {
       if ((_lastKeyPressed == LEFT1 || _lastKeyPressed == LEFT2) && result > min)
         result--;
@@ -123,14 +123,16 @@ eMenuEvent			MenuManager<T>::callSettings()
           if (_menuSettings.getIndex() == 4)
             return (callStart());
           else
-            if (_menuSettings.getIndex() == 0)
-              _settings.setMapSize(getNumber(5, 999, _settings.getMapSize()));
-	  if (_menuSettings.getIndex() == 1)
-	    _settings.setPlayerNumber(getNumber(1, 2, _settings.getPlayerNumber()));
-	  if (_menuSettings.getIndex() == 2)
-	    _settings.setAINumber(getNumber(0, 1, _settings.getAINumber()));
-	  if (_menuSettings.getIndex() == 3)
-	    _settings.setSoundVolume(getNumber(0, 10, _settings.getSoundVolume()));
+	    {
+	      if (_menuSettings.getIndex() == 0)
+		_settings.setMapSize(getNumber(5, 999, _settings.getMapSize()));
+	      if (_menuSettings.getIndex() == 1)
+		_settings.setPlayerNumber(getNumber(1, 2, _settings.getPlayerNumber()));
+	      if (_menuSettings.getIndex() == 2)
+		_settings.setAINumber(getNumber(0, 5, _settings.getAINumber()));
+	      if (_menuSettings.getIndex() == 3)
+		_settings.setSoundVolume(getNumber(0, 10, _settings.getSoundVolume()));
+	    }
 	}
       if (_menuSettings.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
 	_menuSettings.setIndex(_menuSettings.getMaxIndex());
