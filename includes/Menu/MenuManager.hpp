@@ -36,7 +36,7 @@ enum				eMenu
     LOSE = 8
   };
 
-template <class T>
+template <typename T>
 class				MenuManager
 {
 public:

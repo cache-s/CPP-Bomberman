@@ -3,7 +3,7 @@
 
 # include				"IWall.hpp"
 
-template <class T>
+template <typename T>
 class					MapWall : public IWall<T>
 {
 public:
@@ -15,7 +15,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 IEntity<T>				*MapWall<T>::clone(double x, double y)
 {
   MapWall<T> *brkwall = new MapWall<T>(*this);
@@ -30,7 +30,7 @@ IEntity<T>				*MapWall<T>::clone(double x, double y)
   return (brkwall);
 }
 
-template <class T>
+template <typename T>
 MapWall<T>::MapWall(MapWall const &other)
 {
   this->setPosX(other.getPosX());
@@ -43,7 +43,7 @@ MapWall<T>::MapWall(MapWall const &other)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 MapWall<T>::MapWall(double x, double y)
 {
   this->setPosX(x);
@@ -56,13 +56,13 @@ MapWall<T>::MapWall(double x, double y)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 eEntityType			MapWall<T>::getType() const
 {
   return (MAPWALL);
 }
 
-template <class T>
+template <typename T>
 MapWall<T>::~MapWall()
 {
 }

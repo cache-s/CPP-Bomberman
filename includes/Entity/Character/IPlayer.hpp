@@ -3,7 +3,7 @@
 
 # include			"ICharacter.hpp"
 
-template <class T>
+template <typename T>
 class				IPlayer : public ICharacter<T>
 {
 public:

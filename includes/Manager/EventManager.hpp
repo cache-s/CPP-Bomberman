@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sun Jun 14 14:56:31 2015 Martin Porrès
+// Last update Sun Jun 14 19:38:39 2015 Mathieu Bourmaud
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -28,10 +28,10 @@
 #include	"SoundManager.hpp"
 #include	"Settings.hpp"
 
-template <class T>
+template <typename T>
 class IGUI;
 
-template <class T>
+template <typename T>
 class AInt;
 
 // enum		eKey

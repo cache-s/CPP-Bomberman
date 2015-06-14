@@ -3,7 +3,7 @@
 
 # include			"IAI.hpp"
 
-template <class T>
+template <typename T>
 class				AI : public IAI<T>
 {
 public:
@@ -14,7 +14,7 @@ public:
   eEntityType			getType() const;
 };
 
-template <class T>
+template <typename T>
 AI<T>::AI(double x, double y)
 {
   this->setPosX(x);
@@ -23,13 +23,13 @@ AI<T>::AI(double x, double y)
   this->setHitboxSize(0.5);  
 }
 
-template <class T>
+template <typename T>
 eEntityType			AI<T>::getType() const
 {
   return (ARTINT);
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*AI<T>::clone(double x, double y)
 {
   AI<T> *ai = new AI<T>(*this);
@@ -38,7 +38,7 @@ IEntity<T>				*AI<T>::clone(double x, double y)
   return (ai);
 }
 
-template <class T>
+template <typename T>
 AI<T>::AI(AI const &other)
 {
   this->setPosX(other.getPosX());
@@ -50,7 +50,7 @@ AI<T>::AI(AI const &other)
   this->setScale(other.getScale());
 }
 
-template <class T>
+template <typename T>
 AI<T>::~AI()
 {
 }

@@ -3,7 +3,7 @@
 
 #include			"IEnvironment.hpp"
 
-template <class T>
+template <typename T>
 class				IWall : public  IEnvironment<T>
 {
 public:

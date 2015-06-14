@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Tue Jun  9 21:15:25 2015 Sebastien Cache-Delanos
+// Last update Sun Jun 14 19:36:28 2015 Mathieu Bourmaud
 //
 
 #ifndef		_CORE_HPP_
@@ -19,7 +19,7 @@
 #include	"MenuManager.hpp"
 #include	"Settings.hpp"
 
-template <class T>
+template <typename T>
 class		Core
 {
 public:
@@ -46,7 +46,7 @@ private:
   Settings						_settings;
 };
 
-template <class T>
+template <typename T>
 Core<T>::Core(void)
 {
   //generate map / load map
@@ -59,14 +59,14 @@ Core<T>::Core(void)
   _menuManager = new MenuManager<T>(*_gui, _settings);
 }
 
-template <class T>
+template <typename T>
 Core<T>::~Core(void)
 {
   delete _eventManager;
   delete _gui;
 }
 
-template <class T>
+template <typename T>
 void		Core<T>::gameLoop(void)
 {
   while(!(_eventManager->isEnd())) // while game is running
@@ -79,13 +79,13 @@ void		Core<T>::gameLoop(void)
     }
 }
 
-template <class T>
+template <typename T>
 void		Core<T>::signalDraw(void)
 {
   _drawCondVar->signal();
 }
 
-template <class T>
+template <typename T>
 MenuManager<T>	Core<T>::getMenuManager(void) const
 {
   return (*_menuManager);

@@ -3,7 +3,7 @@
 
 #include			"IEnvironment.hpp"
 
-template <class T>
+template <typename T>
 class				IFlame : public IEnvironment<T>
 {
 public:

@@ -3,7 +3,7 @@
 
 # include			"AEntity.hpp"
 
-template <class T>
+template <typename T>
 class				IEnvironment : public AEntity<T>
 {
 public:

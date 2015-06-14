@@ -3,7 +3,7 @@
 
 # include			"IBonus.hpp"
 
-template <class T>
+template <typename T>
 class				Speed : public IBonus<T>
 {
 public:
@@ -15,7 +15,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 Speed<T>::Speed(double x, double y)
 {
   this->setPosX(x);
@@ -28,18 +28,18 @@ Speed<T>::Speed(double x, double y)
   this->setIsCrossable(true);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Speed<T>::getType() const
 {
   return (BSPEED);
 }
 
-template <class T>
+template <typename T>
 Speed<T>::~Speed()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Speed<T>::clone(double x, double y)
 {
   Speed<T> *speed = new Speed<T>(*this);
@@ -54,7 +54,7 @@ IEntity<T>				*Speed<T>::clone(double x, double y)
   return (speed);
 }
 
-template <class T>
+template <typename T>
 Speed<T>::Speed(Speed const &other)
 {
   this->setPosX(other.getPosX());

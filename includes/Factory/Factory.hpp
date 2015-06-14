@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 //
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Sat Jun 13 11:29:14 2015 Mathieu Bourmaud
+// Last update Sun Jun 14 19:35:59 2015 Mathieu Bourmaud
 //
 
 #ifndef			_FACTORY_HPP_
@@ -24,7 +24,7 @@
 # include		"BrkWall.hpp"
 # include		"Player.hpp"
 
-template <class T>
+template <typename T>
 class			Factory
 {
 public:
@@ -35,7 +35,7 @@ private:
   std::map<eEntityType, IEntity<T> *>	_ents;
 };
 
-template <class T>
+template <typename T>
 Factory<T>::Factory()
 {
   _ents[BOMB] = new Bomb<T>;
@@ -52,12 +52,12 @@ Factory<T>::Factory()
   _ents[PLAYER] = new Player<T>;
 }
 
-template <class T>
+template <typename T>
 Factory<T>::~Factory()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>	*Factory<T>::createEntity(eEntityType type, int x, int y)
 {
   return (_ents[type]->clone(x, y));

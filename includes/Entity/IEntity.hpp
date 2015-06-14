@@ -29,7 +29,7 @@ enum			eEntityType
     BOMB = 32,
   };
 
-template <class T>
+template <typename T>
 class			IEntity
 {
 public:

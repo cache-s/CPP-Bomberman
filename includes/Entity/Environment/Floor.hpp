@@ -3,7 +3,7 @@
 
 # include			"IFloor.hpp"
 
-template <class T>
+template <typename T>
 class				Floor : public IFloor<T>
 {
 public:
@@ -15,7 +15,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 IEntity<T>			*Floor<T>::clone(double x, double y)
 {
   Floor<T> *floor = new Floor<T>(*this);
@@ -29,7 +29,7 @@ IEntity<T>			*Floor<T>::clone(double x, double y)
    return (floor);
 }
 
-template <class T>
+template <typename T>
 Floor<T>::Floor(Floor const&other)
 {
   this->setPosX(other.getPosX());
@@ -42,7 +42,7 @@ Floor<T>::Floor(Floor const&other)
   this->setIsCrossable(true);
 }
 
-template <class T>
+template <typename T>
 Floor<T>::Floor(double x, double y)
 {
   this->setPosX(x);
@@ -54,13 +54,13 @@ Floor<T>::Floor(double x, double y)
   this->setIsCrossable(true);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Floor<T>::getType() const
 {
   return (FLOOR);
 }
 
-template <class T>
+template <typename T>
 Floor<T>::~Floor()
 {
 }

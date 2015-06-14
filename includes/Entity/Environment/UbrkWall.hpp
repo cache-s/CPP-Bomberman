@@ -3,7 +3,7 @@
 
 # include			"IWall.hpp"
 
-template <class T>
+template <typename T>
 class				UbrkWall : public IWall<T>
 {
 public:
@@ -15,7 +15,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 UbrkWall<T>::UbrkWall(double x, double y)
 {
   this->setPosX(x);
@@ -28,18 +28,18 @@ UbrkWall<T>::UbrkWall(double x, double y)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 eEntityType			UbrkWall<T>::getType() const
 {
   return (UBRKWALL);
 }
 
-template <class T>
+template <typename T>
 UbrkWall<T>::~UbrkWall()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*UbrkWall<T>::clone(double x, double y)
 {
   UbrkWall<T> *ubrkWall = new UbrkWall<T>(*this);
@@ -54,7 +54,7 @@ IEntity<T>				*UbrkWall<T>::clone(double x, double y)
   return (ubrkWall);
 }
 
-template <class T>
+template <typename T>
 UbrkWall<T>::UbrkWall(UbrkWall const &other)
 {
   this->setPosX(other.getPosX());

@@ -1,6 +1,6 @@
 #include			"MenuManager.hpp"
 
-template <class T>
+template <typename T>
 MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) : _gui(gui), _settings(settings), _sM(sM)
 {
   _callMenuFct[INTRO] = &MenuManager<T>::callIntro;
@@ -13,13 +13,13 @@ MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) 
   _callMenuFct[LOSE] = &MenuManager<T>::callLose;
 }
 
-template <class T>
+template <typename T>
 MenuManager<T>::~MenuManager()
 {
 
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callMenu(eMenu menu)
 {
   _gui.menuInit();
@@ -27,7 +27,7 @@ eMenuEvent			MenuManager<T>::callMenu(eMenu menu)
   return ((this->*_callMenuFct[menu])());
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callIntro()
 {
   std::vector<std::string>	intro;
@@ -40,7 +40,7 @@ eMenuEvent			MenuManager<T>::callIntro()
   return (NOTHING);
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callStart()
 {
   _gui.menuLoadTexture(_menuStart.getScene());
@@ -80,7 +80,7 @@ eMenuEvent			MenuManager<T>::callStart()
   return (EXIT);
 }
 
-template <class T>
+template <typename T>
 std::string			MenuManager<T>::getString(int result)
 {
   std::string			str;
@@ -98,7 +98,7 @@ std::string			MenuManager<T>::getString(int result)
 }
 
 
-template <class T>
+template <typename T>
 int				MenuManager<T>::getNumber(int min, int max, int current)
 {
   int				result = current;
@@ -119,7 +119,7 @@ int				MenuManager<T>::getNumber(int min, int max, int current)
   return (result);
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callSettings()
 {
   _gui.menuLoadTexture(_menuSettings.getScene());
@@ -162,7 +162,7 @@ eMenuEvent			MenuManager<T>::callSettings()
   return (EXIT);
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callLoad()
 {
   _gui.menuLoadTexture(_menuLoad.getScene());
@@ -194,7 +194,7 @@ eMenuEvent			MenuManager<T>::callLoad()
   return (EXIT);
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callPause()
 {
   _gui.menuLoadTexture(_menuPause.getScene());
@@ -234,19 +234,19 @@ eMenuEvent			MenuManager<T>::callPause()
   return (EXIT);
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callWin()
 {
   return (callEnd(0));
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callLose()
 {
   return (callEnd(1));
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callEnd(int index)
 {
   int				pos = 0;
@@ -277,7 +277,7 @@ eMenuEvent			MenuManager<T>::callEnd(int index)
   return (NOTHING);
 }
 
-template <class T>
+template <typename T>
 eMenuEvent			MenuManager<T>::callScore()
 {
   _gui.menuLoadTexture(_menuScore.getScene());

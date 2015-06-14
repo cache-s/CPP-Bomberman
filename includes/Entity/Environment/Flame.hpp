@@ -3,7 +3,7 @@
 
 #include			"IFlame.hpp"
 
-template <class T>
+template <typename T>
 class				Flame : public IFlame<T>
 {
 public:
@@ -18,19 +18,19 @@ private:
   bool			_drop;
 };
 
-template<class T>
+template<typename T>
 void		Flame<T>::setDrop(bool drop)
 {
   _drop = drop;
 }
 
-template<class T>
+template<typename T>
 bool		Flame<T>::isDrop() const
 {
   return (_drop);
 }
 
-template <class T>
+template <typename T>
 Flame<T>::Flame(double x, double y)
 {
   this->setPosX(x);
@@ -44,18 +44,18 @@ Flame<T>::Flame(double x, double y)
   _drop = false;
 }
 
-template <class T>
+template <typename T>
 eEntityType			Flame<T>::getType() const
 {
   return (FLAME);
 }
 
-template <class T>
+template <typename T>
 Flame<T>::~Flame()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Flame<T>::clone(double x, double y)
 {
   Flame<T> *flame = new Flame<T>(*this);
@@ -71,7 +71,7 @@ IEntity<T>				*Flame<T>::clone(double x, double y)
   return (flame);
 }
 
-template <class T>
+template <typename T>
 Flame<T>::Flame(Flame const &other)
 {
   this->setPosX(other.getPosX());
