@@ -3,6 +3,9 @@
 MenuEnd::MenuEnd()
 {
   _index = 0;
+
+  _scene.push_back("./assets/menu/Win.tga");
+  _scene.push_back("./assets/menu/Lose.tga");
 }
 
 MenuEnd::~MenuEnd()
