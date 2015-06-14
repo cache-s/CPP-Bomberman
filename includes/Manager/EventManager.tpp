@@ -12,7 +12,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _pollEventThread->create(&poll_event<T>, reinterpret_cast<void *>(this));
   _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
   (void)AICondVar;
-  // _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
+  _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
   srand(time(NULL));
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
@@ -201,7 +201,7 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
       player->setPosX(player->getPosX() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
-      _drawQueue.push(player);
+  _drawQueue.push(player);
 }
 
 template	<typename T>
@@ -237,7 +237,6 @@ void		EventManager<T>::itemDrop(IEntity<T> *player, IEntity<T> *item)
 {
   std::cout << "PLAYER BOOST" << std::endl;
   (this->*_itemPtr[item->getType()])(player);
-  //add properties of item to player
   _entityMap[std::make_pair(item->getPosX(), item->getPosY())] = NULL;
   delete item;
 }
@@ -253,8 +252,6 @@ void		EventManager<T>::burn(int bombX, int bombY, int toX, int toY, double time,
     {
       if (_entityMap[std::make_pair(bombX + burnX, bombY + burnY)] == NULL)
 	burnEntity(bombX + burnX, bombY + burnY, time);
-	  /*if (_entityMap[std::make_pair(x2, y2)] == NULL)
-	    burnEntity(x2, y2, time);*/
       else
 	{
 	  if (_entityMap[std::make_pair(bombX + burnX, bombY + burnY)]->isBreakable() == true)
@@ -265,27 +262,7 @@ void		EventManager<T>::burn(int bombX, int bombY, int toX, int toY, double time,
       burnX += toX;
       burnY += toY;
     }
-  /*
-    }
-  if (_entityMap[std::make_pair(bombX + toX, bombY + toY)] == NULL)
-    {
-      burnEntity(x1, y1, time);
-      if (_entityMap[std::make_pair(x2, y2)] == NULL ||
-	  _entityMap[std::make_pair(x2, y2)]->isBreakable() == true)
-	burnEntity(x2, y2, time);
-    }
-  else
-    if (_entityMap[std::make_pair(x1, y1)]->isBreakable() == true)
-      burnEntity(x1, y1, time);*/
 }
-
-/*template	<typename T>
-void		EventManager<T>::burn(int x, int y, double time)
-{
-  if (_entityMap[std::make_pair(x, y)] == NULL ||
-      _entityMap[std::make_pair(x, y)]->isBreakable() == true)
-    burnEntity(x, y, time);
-    }*/
 
 template	<typename T>
 void		EventManager<T>::burnEntity(int x, int y, double time)

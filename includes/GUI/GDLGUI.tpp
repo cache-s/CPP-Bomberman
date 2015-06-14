@@ -309,7 +309,7 @@ template <typename T>
 void	GDLGUI<T>::cameraInit()
 {
   _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
-  _camTransf = glm::lookAt(glm::vec3(_p1->getPosX(), _p1->getPosY() + 10, -30), _p1->getPosition(), glm::vec3(0, 1, 0));
+  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.bind();
   _shader.setUniform("view", _camTransf);
   _shader.setUniform("projection", _camProj);

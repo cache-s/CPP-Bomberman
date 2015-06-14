@@ -19,7 +19,7 @@ SoundManager::SoundManager()
   _bExplosion.LoadFromFile("assets/sound/Explosion.wav");
   _bVictory.LoadFromFile("assets/sound/Victory.wav");
   _bDeath.LoadFromFile("assets/sound/Death.wav");
-  _volume = 100;
+  _volume = 0;
 }
 
 SoundManager::~SoundManager()

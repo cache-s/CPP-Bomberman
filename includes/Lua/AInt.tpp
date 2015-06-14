@@ -133,11 +133,8 @@ void            AInt<T>::move()
 
   while (true)
     {
-      std::cout << "Le Jeu!\n";
       _AICondVar.wait();
-      std::cout << "ouverture de lib!\n";
       luaL_openlibs(L);
-      std::cout << "lib ouverte!\n";
       if (luaL_loadfile(L, _path.c_str()) || lua_pcall(L, 0, 0, 0))
 	{
 	  std:: cout << lua_tostring(L, -1);
@@ -151,7 +148,7 @@ void            AInt<T>::move()
           error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
-      std::cout << "Mid le Jeu\n";
+      std::cout << "CPP case = " << _gameMap[std::make_pair(_player->getPosX(), _player->getPosY())] << std::endl;
       std::string map = mapMerge();
       lua_pushstring(L, map.c_str());
       lua_pushinteger(L, _width);
