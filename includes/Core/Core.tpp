@@ -2,7 +2,7 @@ template <typename T>
 Core<T>::Core(void)
 {
   _drawQueue = new SafeQueue<IEntity<T> *>();
-  _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap);
+  _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap, _settings);
   _AICondVar = new CondVar(_AIMutex);
   _soundManager = new SoundManager();
   _eventManager = new EventManager<T>(*_gui, *_drawQueue, _entityMap, _characterMap, _factory, *_AICondVar, *_soundManager, _settings);
