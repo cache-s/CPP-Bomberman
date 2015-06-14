@@ -5,12 +5,13 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:13:50 2015 Jordan Chazottes
-// Last update Sun Jun 14 21:13:51 2015 Jordan Chazottes
+// Last update Sun Jun 14 22:40:31 2015 Martin Porrès
 //
 
 template <typename T>
 Core<T>::Core(void)
 {
+  _exit = false;
   _drawQueue = new SafeQueue<IEntity<T> *>();
   _gui = new GDLGUI<T>(*_drawQueue, _entityMap, _characterMap, _settings);
   _AICondVar = new CondVar(_AIMutex);
@@ -66,12 +67,23 @@ void		Core<T>::gameLoop(void)
 	      _gui->draw();
 	      _AICondVar->broadcast();
 	    }
+	  if (_eventManager->isPause())
+	    callPauseMenu();
 	}
       if (_eventManager->isWin())
 	_menuManager->callMenu(WIN);
       else
 	_menuManager->callMenu(LOSE);
     }
+}
+
+template	<typename T>
+void		Core<T>::callPauseMenu(void)
+{
+  eMenuEvent ret;
+
+  if ((ret =_menuManager->callMenu(PAUSE)) != RESUME)
+    _eventManager->setWin(true);
 }
 
 template <typename T>

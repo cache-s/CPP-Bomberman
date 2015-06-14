@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sun Jun 14 21:52:09 2015 Martin Porrès
+// Last update Sun Jun 14 22:29:31 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -82,6 +82,8 @@ public:
   int		getNbAI() const;
   void		killPlayer(IEntity<T> *);
   bool		isWin() const;
+  void		setWin(bool win);
+  bool		isPause() const;
 private:
   IGUI<T>							&_gui;
   ISafeQueue<IEntity<T> *>					&_drawQueue;
@@ -107,6 +109,7 @@ private:
   bool								_p2Alive;
   int								_nbAI;
   bool								_win;
+  bool								_pause;
 };
 
 template <typename T>
