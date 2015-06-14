@@ -1,14 +1,5 @@
 -- aggressiveAI.lua
 
---MAP : 
-    -- FLOOR = 0,
-    -- BRKWALL = 1,
-    -- UBRKWALL = 2,
-    -- MAPWALL = 3,
-    -- Bonus : 10-19
-    -- Gens : 20-29
-    -- DANGER : 30
-
 --NEWMAP
     -- FLOOR = 0,
     -- BRKWALL = 1,
@@ -18,31 +9,24 @@
     -- PPL = 5
     -- DANGER = 6
 
--- 0 = on bombe
--- 8 = go up
--- 2 = go down
--- 4 = go left
--- 6 = go right
-
 function move(sMap, width, height, selfx, selfy)
    
    local map = {}
    local chara
    pos = (selfx * selfy) + selfx
 
-   print(map)
+   -- print(map)
    for i = 1, string.len(sMap) do
       chara = string.sub(sMap, i, i)
       map[i] = tonumber(chara)
    end
 
-   print("x = "..selfx)
-   print("y = "..selfy)
+   -- print("x = "..selfx)
+   -- print("y = "..selfy)
 
-   print("pos = "..pos)
+   -- print("pos = "..pos)
+
    print("map = "..map[pos])
-
-
    if (map[pos] == 6) then --Survie de l'IA
       if (map[pos + width] == 0 or (map[pos + width] == 4)) then
 	 return(104)

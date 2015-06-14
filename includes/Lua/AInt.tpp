@@ -75,7 +75,7 @@ std::string     AInt<T>::mapMerge()
 		    tmp = 6;
 		    break;
 		  case BOMB:
-		    tmp = 6;
+		    tmp = 7;
 		    break;
 		  }
 	      }
@@ -88,29 +88,31 @@ std::string     AInt<T>::mapMerge()
       x = 0;
     }
 
-  std::size_t found = result.find("32");
+  std::size_t found = result.find("7");
   int i = 0;
 
 
   while (found != std::string::npos)
     {
-      result[found - 1] = '3';
-      result[found - 2] = '3';
-      result[found - 3] = '3';
 
-      result[found - _width] = '3';
-      result[found - _width * 2] = '3';
-      result[found - _width * 3] = '3';
+      result[found] = '6';
+      result[found - 1] = '6';
+      result[found - 2] = '6';
+      result[found - 3] = '6';
 
-      result[found + 1] = '3';
-      result[found + 2] = '3';
-      result[found + 3] = '3';
+      result[found - _width] = '6';
+      result[found - _width * 2] = '6';
+      result[found - _width * 3] = '6';
 
-      result[found + _width] = '3';
-      result[found + _width * 2] = '3';
-      result[found + _width * 3] = '3';
+      result[found + 1] = '6';
+      result[found + 2] = '6';
+      result[found + 3] = '6';
+
+      result[found + _width] = '6';
+      result[found + _width * 2] = '6';
+      result[found + _width * 3] = '6';
       i++;
-      found = result.find("32", i);
+      found = result.find("7", i);
     }
 
   std::cout << "RESULT = " << result << std::endl;
