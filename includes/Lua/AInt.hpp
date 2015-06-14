@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 10 17:13:21 2015 Pierre Charie
-// Last update Sat Jun 13 13:58:33 2015 Pierre Charie
+// Last update Sun Jun 14 19:25:15 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -50,6 +50,7 @@ private:
   ICondVar      &_AICondVar;
 
   std::string   mapMerge();
+  void		checkMapPos(std::string &map, int pos);
 };
 
 #include "AInt.tpp"
