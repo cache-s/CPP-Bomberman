@@ -25,6 +25,7 @@ UbrkWall<T>::UbrkWall(double x, double y)
   this->setRotation(T(0, 0, 0));
   this->setHitboxSize(1);
   this->setIsBreakable(false);
+  this->setIsCrossable(false);
 }
 
 template <class T>
@@ -49,6 +50,7 @@ IEntity<T>				*UbrkWall<T>::clone(double x, double y)
   ubrkWall->setRotation(T(0, 0, 0));
   ubrkWall->setIsBreakable(false);
   ubrkWall->setHitboxSize(1);
+  ubrkWall->setIsCrossable(false);
   return (ubrkWall);
 }
 
@@ -62,6 +64,7 @@ UbrkWall<T>::UbrkWall(UbrkWall const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(false);
 }
 
 #endif				/* UBRKWALL_HPP_ */

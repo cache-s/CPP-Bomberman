@@ -37,6 +37,18 @@ void		AssetsManager::init()
   if (_texture[4].load("./assets/lava.tga") == false)
     std::cerr << "error loading fdp" << std::endl;
   _textures[FLAME] = &_texture[4];
+
+  if (_texture[5].load("./assets/lava.tga") == false)
+    std::cerr << "error loading fdp" << std::endl;
+  _textures[BSPEED] = &_texture[5];
+
+  if (_texture[6].load("./assets/lava.tga") == false)
+    std::cerr << "error loading fdp" << std::endl;
+  _textures[BBOMBNUMBER] = &_texture[6];
+
+  if (_texture[7].load("./assets/lava.tga") == false)
+    std::cerr << "error loading fdp" << std::endl;
+  _textures[BRADIUS] = &_texture[7];
 }
 
 gdl::Model*	AssetsManager::getModel(eEntityType type) const

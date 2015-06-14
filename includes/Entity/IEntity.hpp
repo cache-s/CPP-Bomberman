@@ -41,7 +41,9 @@ public:
   virtual T		getRotation() const = 0;
   virtual T		getScale() const = 0;
   virtual float		getSpeed() const = 0;
+  virtual bool		isCrossable() const = 0;
 
+  virtual void		setIsCrossable(bool isCrossable) = 0;
   virtual void		setHitboxSize(double hitbox) = 0;
   virtual void		setIsBreakable(bool breakable) = 0;
   virtual void		setPosition(const T &pos) = 0;

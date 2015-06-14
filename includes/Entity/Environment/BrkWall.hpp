@@ -25,6 +25,7 @@ IEntity<T>				*BrkWall<T>::clone(double x, double y)
   brkwall->setPosition(T(x, 0, y));
   brkwall->setRotation(T(0, 0, 0));
   brkwall->setIsBreakable(true);
+  brkwall->setIsCrossable(false);
   brkwall->setHitboxSize(1);
   return (brkwall);
 }
@@ -39,6 +40,7 @@ BrkWall<T>::BrkWall(BrkWall const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(false);
 }
 
 template <class T>
@@ -51,6 +53,7 @@ BrkWall<T>::BrkWall(double x, double y)
   this->setRotation(T(0, 0, 0));
   this->setIsBreakable(true);
   this->setHitboxSize(1);
+  this->setIsCrossable(false);
 }
 
 template <class T>

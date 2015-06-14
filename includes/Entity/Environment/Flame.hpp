@@ -12,8 +12,23 @@ public:
   Flame(Flame const &other);
   IEntity<T>		*clone(double x, double y);
   eEntityType		getType() const;
+  bool			isDrop() const;
+  void			setDrop(bool drop);
 private:
+  bool			_drop;
 };
+
+template<class T>
+void		Flame<T>::setDrop(bool drop)
+{
+  _drop = drop;
+}
+
+template<class T>
+bool		Flame<T>::isDrop() const
+{
+  return (_drop);
+}
 
 template <class T>
 Flame<T>::Flame(double x, double y)
@@ -25,6 +40,8 @@ Flame<T>::Flame(double x, double y)
   this->setRotation(T(0, 0, 0));
   this->setHitboxSize(1);
   this->setIsBreakable(false);
+  this->setIsCrossable(true);
+  _drop = false;
 }
 
 template <class T>
@@ -49,6 +66,8 @@ IEntity<T>				*Flame<T>::clone(double x, double y)
   flame->setRotation(T(0, 0, 0));
   flame->setIsBreakable(false);
   flame->setHitboxSize(1);
+  flame->_drop = false;
+  flame->setIsCrossable(true);
   return (flame);
 }
 
@@ -62,6 +81,8 @@ Flame<T>::Flame(Flame const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(true);
+  _drop = other._drop;
 }
 
 #endif				/* FLAME_HPP_ */

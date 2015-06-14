@@ -26,6 +26,7 @@ IEntity<T>				*MapWall<T>::clone(double x, double y)
   brkwall->setRotation(T(0, 0, 0));
   brkwall->setIsBreakable(false);
   brkwall->setHitboxSize(1);
+  brkwall->setIsCrossable(false);
   return (brkwall);
 }
 
@@ -39,6 +40,7 @@ MapWall<T>::MapWall(MapWall const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(false);
 }
 
 template <class T>
@@ -51,6 +53,7 @@ MapWall<T>::MapWall(double x, double y)
   this->setRotation(T(0, 0, 0));
   this->setHitboxSize(1);
   this->setIsBreakable(false);
+  this->setIsCrossable(false);
 }
 
 template <class T>

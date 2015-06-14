@@ -25,7 +25,8 @@ IEntity<T>			*Floor<T>::clone(double x, double y)
   floor->setPosition(T(x, 0, y));
   floor->setRotation(T(0, 0, 0));
   floor->setIsBreakable(false);
-  return (floor);
+  floor->setIsCrossable(true);
+   return (floor);
 }
 
 template <class T>
@@ -38,6 +39,7 @@ Floor<T>::Floor(Floor const&other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(true);
 }
 
 template <class T>
@@ -49,6 +51,7 @@ Floor<T>::Floor(double x, double y)
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
   this->setIsBreakable(true);
+  this->setIsCrossable(true);
 }
 
 template <class T>

@@ -463,15 +463,37 @@ void	GDLGUI<T>::drawAI(IEntity<T> &ent)
 template <class T>
 void	GDLGUI<T>::drawBombNumber(IEntity<T> &ent)
 {
-  (void)ent;
-  std::cout << "draw bomb number" << std::endl;
+  gdl::Texture *  texture = _AM.getTexture(BBOMBNUMBER);
+
+  std::cout << "drawbombnumber" << std::endl;
+  if (!ent.isDraw())
+    _cube->build();
+  texture->bind();
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
 void	GDLGUI<T>::drawRadius(IEntity<T> &ent)
 {
-  (void)ent;
-  std::cout << "draw Radius" << std::endl;
+  gdl::Texture *  texture = _AM.getTexture(BRADIUS);
+
+  std::cout << "drawRadius" << std::endl;
+  if (!ent.isDraw())
+    _cube->build();
+  texture->bind();
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
+}
+
+template <class T>
+void	GDLGUI<T>::drawSpeed(IEntity<T> &ent)
+{
+  gdl::Texture *  texture = _AM.getTexture(BSPEED);
+
+  std::cout << "drawSpeed" << std::endl;
+  if (!ent.isDraw())
+    _cube->build();
+  texture->bind();
+  _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
 }
 
 template <class T>
@@ -483,13 +505,6 @@ void	GDLGUI<T>::drawFlame(IEntity<T> &ent)
     _cube->build();
   texture->bind();
   _cube->draw((gdl::AShader&) _shader, getTransformation(ent), GL_QUADS);
-}
-
-template <class T>
-void	GDLGUI<T>::drawSpeed(IEntity<T> &ent)
-{
-  (void)ent;
-  std::cout << "draw Speed" << std::endl;
 }
 
 template <class T>

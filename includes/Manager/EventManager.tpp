@@ -13,6 +13,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
   (void)AICondVar;
   // _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
+  srand(time(NULL));
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
   _eventPtr[EventManager<T>::FLAMEDESTRUCTION] = &EventManager<T>::flameDestruction;
@@ -57,7 +58,6 @@ bool		EventManager<T>::update(void)
   bool							timeUpdate;
 
   _eventCondVar->timedwait(10000000);
-  std::cout << "update" << std::endl;
   _gui.update();
   while (_eventQueue->tryPop(&event) == true)
     {
@@ -149,7 +149,7 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 
 template	<typename T>
 bool		EventManager<T>::collider(IEntity<T> *p, IEntity<T> *obj, double toX, double toY)
-{
+{ // check bool isCrossable
   if (obj == NULL)
     return (true);
   else
@@ -215,6 +215,8 @@ void		EventManager<T>::flameDestruction(IEntity<T> *flame)
 {
   std::cout << "FLAME DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(flame->getPosX(), flame->getPosY())] = NULL;
+  if (reinterpret_cast<IFlame<T> *>(flame)->isDrop())
+    generateItem(flame->getPosX(), flame->getPosY());
   delete flame;
 }
 
@@ -258,26 +260,30 @@ void		EventManager<T>::burn(int x, int y, double time)
 template	<typename T>
 void		EventManager<T>::burnEntity(int x, int y, double time)
 {
+  bool drop = false;
+
   if (_entityMap[std::make_pair(x, y)] != NULL)
     {
       delete _entityMap[std::make_pair(x, y)];
       _entityMap[std::make_pair(x, y)] = NULL;
+      drop = true;
     }
   /*if (_characterMap[std::make_pair(x, y)] != NULL)
     {
       delete _characterMap[std::make_pair(x, y)];
       _characterMap[std::make_pair(x, y)] = NULL;
       }*/
-  flameCreation(x, y, time);
+  flameCreation(x, y, time, drop);
 }
 
 template	<typename T>
-void		EventManager<T>::flameCreation(int x, int y, double time)
+void		EventManager<T>::flameCreation(int x, int y, double time, bool drop)
 {
   IEntity<T>	*flame;
 
   std::cout << "FLAME CREATION" << std::endl;
   flame = _factory.createEntity(FLAME, x, y);
+  reinterpret_cast<IFlame<T> *>(flame)->setDrop(drop);
   _eventTime.push_back(std::make_pair(time, flame));
   std::sort(_eventTime.begin(), _eventTime.end());
   _entityMap[std::make_pair(x, y)] = flame;
@@ -299,15 +305,17 @@ bool		EventManager<T>::isEnd() const
 {
   return (_end);
 }
-/*
-template <class T>
-ICondVar        &EventManager<T>::getEventCondVar()
-{
-  return (_eventCondVar);
-}
 
-template <class T>
-ISafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >	&EventManager<T>::getEventCondVar()
+template	<typename T>
+void		EventManager<T>::generateItem(int x, int y)
 {
-  return (_eventCondVar);
-  }*/
+  IEntity<T>	*item;
+
+  if ((rand() % 100) < 30)
+    {
+      item = _factory.createEntity(static_cast<eEntityType>(rand() % 3 + 10), x, y);
+      _entityMap[std::make_pair(x, y)] = item;
+      _drawQueue.push(item);
+      std::cout << "ITEM DROP" << std::endl;
+    }
+}

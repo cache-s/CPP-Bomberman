@@ -17,6 +17,7 @@ public:
   virtual T			getRotation() const;
   virtual T			getScale() const;
   virtual float			getSpeed() const;
+  virtual bool			isCrossable() const;
 
   virtual void			setPosX(double x);
   virtual void			setPosY(double y);
@@ -27,6 +28,7 @@ public:
   virtual void			setScale(const T &pos);
   virtual void			setSpeed(float speed);
   virtual void			setIsDraw(bool isDraw);
+  virtual void			setIsCrossable(bool isCrossable);
 
   virtual IEntity<T>		*clone(double x, double y) = 0;
   virtual eEntityType		getType() const = 0;
@@ -41,6 +43,7 @@ private:
   T				_scale;
   float				_speed;
   bool				_isDraw;
+  bool				_isCrossable;
 };
 
 template <class T>
@@ -61,6 +64,18 @@ template <class T>
 void				AEntity<T>::setIsDraw(bool isDraw) 
 {
   _isDraw = isDraw;
+}
+
+template <class T>
+bool				AEntity<T>::isCrossable() const
+{
+  return (_isCrossable);
+}
+
+template <class T>
+void				AEntity<T>::setIsCrossable(bool isCrossable) 
+{
+  _isCrossable = isCrossable;
 }
 
 

@@ -21,6 +21,11 @@ Radius<T>::Radius(double x, double y)
   this->setPosX(x);
   this->setPosY(y);
   this->setIsBreakable(true);
+  this->setScale(T(10, 10, 10));
+  this->setPosition(T(x, 0, y));
+  this->setRotation(T(0, 0, 0));
+  this->setIsCrossable(true);
+  this->setHitboxSize(1);
 }
 
 template <class T>
@@ -43,7 +48,8 @@ IEntity<T>				*Radius<T>::clone(double x, double y)
   radius->setScale(T(10, 10, 10));
   radius->setPosition(T(x, 0, y));
   radius->setRotation(T(0, 0, 0));
-  radius->setIsBreakable(false);
+  radius->setIsBreakable(true);
+  radius->setIsCrossable(true);
   return (radius);
 }
 
@@ -57,6 +63,7 @@ Radius<T>::Radius(Radius const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(true);
 }
 
 #endif				/* RADIUS_HPP_ */

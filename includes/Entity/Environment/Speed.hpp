@@ -24,7 +24,8 @@ Speed<T>::Speed(double x, double y)
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
   this->setHitboxSize(1);
-  this->setIsBreakable(false);
+  this->setIsBreakable(true);
+  this->setIsCrossable(true);
 }
 
 template <class T>
@@ -47,8 +48,9 @@ IEntity<T>				*Speed<T>::clone(double x, double y)
   speed->setScale(T(10, 10, 10));
   speed->setPosition(T(x, 0, y));
   speed->setRotation(T(0, 0, 0));
-  speed->setIsBreakable(false);
+  speed->setIsBreakable(true);
   speed->setHitboxSize(1);
+  speed->setIsCrossable(true);
   return (speed);
 }
 
@@ -62,6 +64,7 @@ Speed<T>::Speed(Speed const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(other.isCrossable());
 }
 
 #endif				/* SPEED_HPP_ */

@@ -25,6 +25,7 @@ IEntity<T>				*Bomb<T>::clone(double x, double y)
   bomb->setPosition(T(x, 0, y));
   bomb->setRotation(T(0, 0, 0));
   bomb->setIsBreakable(false);
+  bomb->setIsCrossable(false);
   bomb->setHitboxSize(1);
   return (bomb);
 
@@ -40,6 +41,7 @@ Bomb<T>::Bomb(Bomb const &other)
   this->setPosition(other.getPosition());
   this->setRotation(other.getRotation());
   this->setScale(other.getScale());
+  this->setIsCrossable(false);
 }
 
 template <class T>
@@ -52,6 +54,7 @@ Bomb<T>::Bomb(double x, double y)
   this->setRotation(T(0, 0, 0));
   this->setIsBreakable(false);
   this->setHitboxSize(1);
+  this->setIsCrossable(false);
 }
 
 template <class T>

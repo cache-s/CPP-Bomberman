@@ -36,7 +36,7 @@ IEntity<T>				*BombNumber<T>::clone(double x, double y)
   bomb->setScale(T(10, 10, 10));
   bomb->setPosition(T(x, 0, y));
   bomb->setRotation(T(0, 0, 0));
-  bomb->setIsBreakable(false);
+  bomb->setIsBreakable(true);
   bomb->setHitboxSize(1);
   return (bomb);
 }
