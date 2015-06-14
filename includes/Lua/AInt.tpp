@@ -22,8 +22,6 @@ std::string     AInt<T>::mapMerge()
 
   int x = 0, y = 0;
 
-  std::cout << "on merge!\n";
-
   while (y < _height)
     {
       while (x < _width)
@@ -87,8 +85,6 @@ std::string     AInt<T>::mapMerge()
       y++;
       x = 0;
     }
-  std::cout << "premier while finit!\n";
-
   std::size_t found = result.find("7");
   int i = 0;
 
@@ -127,7 +123,6 @@ std::string     AInt<T>::mapMerge()
       i++;
       found = result.find("7", i);
     }
-  std::cout << "deuxieme check finit\n";
   return result;
 }
 
@@ -136,13 +131,15 @@ void            AInt<T>::move()
 {
   lua_State*            L = luaL_newstate();
   int                   action;
+  int			x = _player->getPosX();
+  int			y = _player->getPosY();
 
   while (true)
     {
-      std::cout << "entrée dans le move" << std::endl;
       _AICondVar.wait();
+      if (_playerMap[std::make_pair(x, y)] == NULL)
+	return ;
       luaL_openlibs(L);
-      std::cout << "lib ouverte\n";
       if (luaL_loadfile(L, _path.c_str()) || lua_pcall(L, 0, 0, 0))
 	{
 	  std:: cout << lua_tostring(L, -1);
@@ -156,30 +153,24 @@ void            AInt<T>::move()
           error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
-      std::cout << "pré-merge\n";
       std::string map = mapMerge();
-      std::cout << "post-merge\n";
       lua_pushstring(L, map.c_str());
       lua_pushinteger(L, _width);
       lua_pushinteger(L, _height);
       lua_pushinteger(L, _player->getPosX());
       lua_pushinteger(L, _player->getPosY());
-
       if (lua_pcall(L, 5, 1, 0) != 0)
         {
 	  std::string error;
-	  std::cout << "lua FAIL : " << lua_tostring(L, -1) << std::endl;
           error = "Error running LUA function";
 	  throw std::runtime_error(error);
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
-      std::cout << "ACTION = " << action << " player = " << _player->getType() << std::endl;
       if (action == 101 || (action > 103 && action < 108))
 	{
 	  _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
 	  _eventCondVar.signal();
-	  std::cout << "signal émis!" << std::endl;
 	}
     }
 }

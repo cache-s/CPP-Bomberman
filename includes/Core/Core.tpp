@@ -12,12 +12,13 @@ Core<T>::Core(void)
 template <typename T>
 Core<T>::~Core(void)
 {
-  delete _eventManager;
-  delete _gui;
-  delete _drawQueue;
-  delete _AICondVar;
-  delete _soundManager;
-  delete _menuManager;
+      delete _eventManager;
+      delete _gui;
+      delete _drawQueue;
+      _AICondVar->broadcast();
+      delete _AICondVar;
+      delete _soundManager;
+      delete _menuManager;
 }
 
 template <typename T>
@@ -48,19 +49,19 @@ void		Core<T>::gameLoop(void)
       _eventManager->init();
       _gui->init();
       _soundManager->playSound(S_GAME, true);
-      //_gui->cameraInit();
-      //_gui->draw();
       while(!(_eventManager->isEnd()))
 	{
-	  if (_eventManager->update())
+	  if (_eventManager->update() && !(_eventManager->isEnd()))
 	    {
 	      _gui->draw();
 	      _AICondVar->broadcast();
 	    }
 	}
+      if (_eventManager->isWin())
+	_menuManager->callMenu(WIN);
+      else
+	_menuManager->callMenu(LOSE);
     }
-  else
-    exit (0);
 }
 
 template <typename T>

@@ -6,6 +6,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 			      Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM, Settings &settings) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory), _AICondVar(AICondVar), _sM(sM), _settings(settings)
 {
   _end = false;
+  _win = false;
   _eventCondVar = new CondVar(_eventMutex);
   _eventQueue = new SafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >();
   _pollEventThread = new Thread();
@@ -48,6 +49,7 @@ EventManager<T>::~EventManager(void)
     delete _AIPool;
   delete _eventCondVar;
   delete _eventQueue;
+  _pollEventThread->cancel();
   delete _pollEventThread;
 }
 
@@ -58,6 +60,12 @@ void		EventManager<T>::init()
   int x = 0;
   int y = 0;
 
+  _p1Alive = true;
+  if (_settings.getPlayerNumber() == 2)
+    _p2Alive = true;
+  else
+    _p2Alive = false;
+  _nbAI = _settings.getAINumber();
   _AIPool = new ThreadPool<AInt<T>, T>(_settings.getAINumber());
   if (_settings.getPlayerNumber() == 1 && _settings.getAINumber() > 0)
     {
@@ -91,17 +99,13 @@ bool		EventManager<T>::update(void)
   bool							pollEventUpdate = false;
   bool							timeUpdate;
 
-  std::cout << "on update!\n";
   _eventCondVar->timedwait(10000000);
   _gui.update();
-  while (_eventQueue->tryPop(&event) == true)
+  while (!_end && _eventQueue->tryPop(&event) == true)
     {
-      std::cout << "entrée eventQueue\n";
-      std::cout << "event == " << std::get<0>(event) << std::endl;
       (this->*_eventPtr[std::get<0>(event)])(std::get<1>(event));
       pollEventUpdate = true;
     }
-  std::cout << "sortie du eventQueue\n";
   timeUpdate = timeCheck();
   return (pollEventUpdate || timeUpdate);
 }
@@ -111,7 +115,7 @@ bool		EventManager<T>::timeCheck(void)
 {
   bool		update = false;
 
-  while (!_eventTime.empty() && std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
+  while (!_end && !_eventTime.empty() && std::get<0>(_eventTime[0]) <= _gui.getElapsedTime())
     {
       _eventQueue->push(std::make_pair(_timeMap[(std::get<1>(_eventTime[0]))->getType()], std::get<1>(_eventTime[0])));
       _eventTime.erase(_eventTime.begin());
@@ -137,7 +141,7 @@ void		EventManager<T>::pollEvent(void)
   while (!_end)
     {
       key = _gui.pollEvent();
-      if (key != NONE || (key >= UP2 && key <= BOMB2 && _settings.getPlayerNumber() == 2))
+      if (key != NONE && !(key >= UP2 && key <= BOMB2 && _settings.getPlayerNumber() == 1))
 	{
 	  if (key == QUIT)
 	    _end = true;
@@ -158,7 +162,6 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
 
   if (reinterpret_cast<IPlayer<T> *>(player)->getBombStock() == 0)
     return;
-  std::cout << "BOMB CREATION" << std::endl;
   reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() - 1);
   bomb = _factory.createEntity(BOMB, player->getPosX(), player->getPosY());
   reinterpret_cast<IBomb<T> *>(bomb)->setRadius(reinterpret_cast<IPlayer<T> *>(player)->getRadius());
@@ -175,7 +178,6 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 {
   double	time;
 
-  std::cout << "BOMB DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(bomb->getPosX(), bomb->getPosY())] = NULL;
   time = _gui.getElapsedTime() + 1;
   burn(bomb->getPosX(), bomb->getPosY(), 1, 0, time, reinterpret_cast<IBomb<T> *>(bomb)->getRadius());
@@ -187,7 +189,7 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
 }
 
 template	<typename T>
-bool		EventManager<T>::collider(IEntity<T> *p, double toX, double toY)
+bool		EventManager<T>::collider(IEntity<T> *player, double toX, double toY)
 {
   if (_entityMap[std::make_pair(toX, toY)] == NULL && _characterMap[std::make_pair(toX, toY)] == NULL)
     return (true);
@@ -195,11 +197,18 @@ bool		EventManager<T>::collider(IEntity<T> *p, double toX, double toY)
     {
       if ((_entityMap[std::make_pair(toX, toY)])->getType() >= BBOMBNUMBER && (_entityMap[std::make_pair(toX, toY)])->getType() <= BRADIUS)
 	{
-	  itemDrop(p, _entityMap[std::make_pair(toX, toY)]);
+	  itemDrop(player, _entityMap[std::make_pair(toX, toY)]);
 	  return (true);
 	}
       if ((_entityMap[std::make_pair(toX, toY)])->isCrossable())
-	return (true);
+	{
+	  if ((_entityMap[std::make_pair(toX, toY)])->getType() == FLAME)
+	    {
+	      killPlayer(player);
+	      return (false);
+	    }
+	  return (true);
+	}
     }
   return (false);
 }
@@ -214,8 +223,8 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
       player->setRotation(T(0, 0, 0));
       player->setPosY(player->getPosY() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
+      _drawQueue.push(player);
     }
-  _drawQueue.push(player);
 }
 
 template	<typename T>
@@ -228,8 +237,8 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
       player->setRotation(T(0, 180, 0));
       player->setPosY(player->getPosY() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
+      _drawQueue.push(player);
     }
-  _drawQueue.push(player);
 }
 
 template	<typename T>
@@ -242,8 +251,8 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
       player->setRotation(T(0, 90, 0));
       player->setPosX(player->getPosX() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
+      _drawQueue.push(player);
     }
-  _drawQueue.push(player);
 }
 
 template	<typename T>
@@ -256,8 +265,8 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
       player->setRotation(T(0, 270, 0));
       player->setPosX(player->getPosX() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
+      _drawQueue.push(player);
     }
-  _drawQueue.push(player);
 }
 
 template	<typename T>
@@ -278,7 +287,6 @@ void		EventManager<T>::increaseBombStock(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::itemDrop(IEntity<T> *player, IEntity<T> *item)
 {
-  std::cout << "PLAYER BOOST" << std::endl;
   (this->*_itemPtr[item->getType()])(player);
   _entityMap[std::make_pair(item->getPosX(), item->getPosY())] = NULL;
   delete item;
@@ -318,12 +326,40 @@ void		EventManager<T>::burnEntity(int x, int y, double time)
       _entityMap[std::make_pair(x, y)] = NULL;
       drop = true;
     }
-  /*if (_characterMap[std::make_pair(x, y)] != NULL)
-    {
-      delete _characterMap[std::make_pair(x, y)];
-      _characterMap[std::make_pair(x, y)] = NULL;
-      }*/
+  if (_characterMap[std::make_pair(x, y)] != NULL)
+    killPlayer(_characterMap[std::make_pair(x, y)]);
   flameCreation(x, y, time, drop);
+}
+
+template	<typename T>
+void		EventManager<T>::killPlayer(IEntity<T> *player)
+{
+  if (player->getPosX() == (_characterMap[std::make_pair(-1, -1)])->getPosX() && player->getPosY() == (_characterMap[std::make_pair(-1, -1)])->getPosY())
+      _p1Alive = false;
+  else
+    if (player->getPosX() == (_characterMap[std::make_pair(-1, -1)])->getPosX() && player->getPosY() == (_characterMap[std::make_pair(-2, -2)])->getPosY())
+      {
+	if (_settings.getPlayerNumber() == 2)
+	  _p2Alive = false;
+	else
+	  _nbAI -= 1;
+      }
+    else
+      _nbAI -= 1;
+    }
+  _characterMap[std::make_pair(player->getPosX(), player->getPosY())] = NULL;
+  usleep(1000);
+  delete player;
+  if (!_p1Alive && !_p2Alive)
+    {
+      _end = true;
+      _win = false;
+    }
+  if (((_p1Alive && !_p2Alive) || (!_p1Alive && _p2Alive)) && _nbAI == 0)
+    {
+      _end = true;
+      _win = true;
+    }
 }
 
 template	<typename T>
@@ -331,7 +367,6 @@ void		EventManager<T>::flameCreation(int x, int y, double time, bool drop)
 {
   IEntity<T>	*flame;
 
-  std::cout << "FLAME CREATION" << std::endl;
   flame = _factory.createEntity(FLAME, x, y);
   reinterpret_cast<IFlame<T> *>(flame)->setDrop(drop);
   _eventTime.push_back(std::make_pair(time, flame));
@@ -366,27 +401,47 @@ void		EventManager<T>::generateItem(int x, int y)
       item = _factory.createEntity(static_cast<eEntityType>(rand() % 3 + 10), x, y);
       _entityMap[std::make_pair(x, y)] = item;
       _drawQueue.push(item);
-      std::cout << "ITEM DROP" << std::endl;
     }
 }
 
 template	<typename T>
 void		EventManager<T>::itemBombNumber(IEntity<T> *player)
 {
-  std::cout << "BOMB NUMBER" << std::endl;
   reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() + 1);
 }
 
 template	<typename T>
-void		EventManager<T>::itemSpeed(IEntity<T> *player)
+void		EventManager<T>::itemSpeed(__attribute__((unused)) IEntity<T> *player)
 {
-  std::cout << "T'AS LE SEUM" << std::endl;
-  (void)player;
+
 }
 
 template	<typename T>
 void		EventManager<T>::itemRadius(IEntity<T> *player)
 {
-  std::cout << "RADIUS" << std::endl;
   reinterpret_cast<IPlayer<T> *>(player)->setRadius(reinterpret_cast<IPlayer<T> *>(player)->getRadius() + 1);
+}
+
+template	<typename T>
+bool		EventManager<T>::isP1Alive() const
+{
+  return (_p1Alive);
+}
+
+template	<typename T>
+bool		EventManager<T>::isP2Alive() const
+{
+  return (_p2Alive);
+}
+
+template	<typename T>
+int		EventManager<T>::getNbAI() const
+{
+  return (_nbAI);
+}
+
+template	<typename T>
+bool		EventManager<T>::isWin() const
+{
+  return (_win);
 }

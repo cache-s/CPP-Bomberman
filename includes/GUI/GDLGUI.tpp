@@ -204,7 +204,10 @@ GDLGUI<T>::~GDLGUI()
   delete _floor;
   delete _cube;
   delete _factory;
+  std::cout << "AAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
+  _updateCondVar->broadcast();
   delete _updateCondVar;
+  std::cout << "AAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 }
 
 template <class T>
