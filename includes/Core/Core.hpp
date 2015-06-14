@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 //
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Sun Jun 14 22:12:42 2015 Mathieu Bourmaud
+// Last update Sun Jun 14 22:56:22 2015 Mathieu Bourmaud
 //
 
 #ifndef		_CORE_HPP_
@@ -31,6 +31,7 @@ public:
   eMenuEvent	loadMenu();
   void		gameLoop(void);
   void		signalDraw(void);
+  void		callPauseMenu(void);
 
   MenuManager<T>	getMenuManager(void) const;
 
@@ -49,6 +50,7 @@ private:
   Mutex                                                 _AIMutex;
   ICondVar                                              *_AICondVar;
   XMLWriter<T>						*_XMLWriter;
+  bool							_exit;
 };
 
 #include	"Core.tpp"

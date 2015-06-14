@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:23:35 2015 Jordan Chazottes
-// Last update Sun Jun 14 21:55:28 2015 Martin Porrès
+// Last update Sun Jun 14 22:36:25 2015 Martin Porrès
 //
 
 template	<typename T>
@@ -16,6 +16,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 {
   _end = false;
   _win = false;
+  _pause = false;
   _eventCondVar = new CondVar(_eventMutex);
   _eventQueue = new SafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >();
   _pollEventThread = new Thread();
@@ -153,7 +154,7 @@ void		EventManager<T>::pollEvent(void)
       if (key != NONE && !(key >= UP2 && key <= BOMB2 && _settings.getPlayerNumber() == 1))
 	{
 	  if (key == QUIT)
-	    _end = true;
+	    _pause = true;
 	  else if (key <= BOMB1)
 	    _eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-1, -1)]));
 	  else
@@ -452,4 +453,16 @@ template	<typename T>
 bool		EventManager<T>::isWin() const
 {
   return (_win);
+}
+
+template	<typename T>
+bool		EventManager<T>::isPause() const
+{
+  return (_pause);
+}
+
+template	<typename T>
+void		EventManager<T>::setWin(bool win)
+{
+  _win = win;
 }
