@@ -405,6 +405,6 @@ void				MenuManager<T>::fillScoreFile()
   file.open (".highScore.txt");
   if (file.is_open())
     for (unsigned int k = 0; k < 3; ++k)
-      file << names[k] << scores[k] << "\n";
+      file << names[k] << getString(scores[k]) << "\n";
   file.close();
 }

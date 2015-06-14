@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:31:00 2015 Jordan Chazottes
-// Last update Sun Jun 14 23:21:44 2015 Jordan Chazottes
+// Last update Sun Jun 14 23:35:42 2015 Jordan Chazottes
 //
 
 template <typename T>
@@ -965,10 +965,10 @@ void	GDLGUI<T>::drawMap(int p)
   it_e = _entMap.begin();
   for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
-      if (it_e->second != NULL && checkRadius(-p, *it_e->second, _settings.getMapSize() * 0.5) == true)
+      if (it_e->second != NULL && checkRadius(-p, *it_e->second, _settings.getMapSize() * 0.3) == true)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), _settings.getMapSize() * 0.5))
+	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), _settings.getMapSize() * 0.3))
 	  (this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));
     }
   it_p = _charMap.begin();

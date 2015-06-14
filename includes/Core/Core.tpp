@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:13:50 2015 Jordan Chazottes
-// Last update Sun Jun 14 22:57:38 2015 Mathieu Bourmaud
+// Last update Sun Jun 14 23:36:48 2015 Jordan Chazottes
 // Last update Sun Jun 14 22:40:31 2015 Martin Porrès
 //
 
@@ -70,8 +70,6 @@ void		Core<T>::gameLoop(void)
 	      _gui->draw();
 	      _AICondVar->broadcast();
 	    }
-	  if (_eventManager->isPause())
-	    callPauseMenu();
 	}
       if (_eventManager->isWin())
 	_menuManager->callMenu(WIN);

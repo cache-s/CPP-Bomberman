@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Sun Jun 14 21:23:35 2015 Jordan Chazottes
-// Last update Sun Jun 14 22:36:25 2015 Martin Porrès
+// Last update Sun Jun 14 23:37:03 2015 Jordan Chazottes
 //
 
 template	<typename T>
@@ -154,7 +154,7 @@ void		EventManager<T>::pollEvent(void)
       if (key != NONE && !(key >= UP2 && key <= BOMB2 && _settings.getPlayerNumber() == 1))
 	{
 	  if (key == QUIT)
-	    _pause = true;
+	    _end = true;
 	  else if (key <= BOMB1)
 	    _eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-1, -1)]));
 	  else
@@ -339,6 +339,7 @@ void		EventManager<T>::burnEntity(int x, int y, double time)
   if (_characterMap[std::make_pair(x, y)] != NULL)
     killPlayer(_characterMap[std::make_pair(x, y)]);
   flameCreation(x, y, time, drop);
+  _settings.setScore(_settings.getScore() + 1);
 }
 
 template	<typename T>
