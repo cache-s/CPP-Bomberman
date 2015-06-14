@@ -298,12 +298,12 @@ void    GDLGUI<T>::draw(void)
   if (_settings.getPlayerNumber() > 1)
   {
     glViewport(0, 200, 630, 400);
-    drawMap();
+    drawMap(1);
     _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+50, _p1->getPosition().z*10-20), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
     _shader.setUniform("view", _camTransf);
     glViewport(650, 200, 630, 400);
   }
-  drawMap();
+  drawMap(2);
   _camTransf = glm::lookAt(glm::vec3((_p2->getPosition().x*10)+1, (_p2->getPosition().y*10)+50, _p2->getPosition().z*10-20), glm::vec3(_p2->getPosition().x * 10+0, _p2->getPosition().y, _p2->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
   _context.flush();
@@ -753,6 +753,7 @@ void    GDLGUI<T>::drawHighScore()
 }
 
 
+
 template <typename T>
 gdl::SdlContext		GDLGUI<T>::getContext() const
 {
@@ -911,7 +912,23 @@ void	GDLGUI<T>::drawPlayer(IEntity<T> &ent)
 }
 
 template <typename T>
-void	GDLGUI<T>::drawMap()
+bool	GDLGUI<T>::checkRadius(int p, int posX, int posY, int radius) const
+{
+  if (abs(posX - _charMap[std::make_pair(p, p)]->getPosX()) <= radius && abs(posY - _charMap[std::make_pair(p, p)]->getPosY()) <= radius)
+    return (true);
+  return (false);
+}
+
+template <typename T>
+bool	GDLGUI<T>::checkRadius(int p, const IEntity<T> &ent, int radius) const
+{
+  if (abs(ent.getPosX() - _charMap[std::make_pair(p, p)]->getPosX()) <= radius && abs(ent.getPosY() - _charMap[std::make_pair(p, p)]->getPosY()) <= radius)
+    return (true);
+  return (false);
+}
+
+template <typename T>
+void	GDLGUI<T>::drawMap(int p)
 {
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_e;
   typename std::map<std::pair<int, int>, IEntity<T> *>::const_iterator it_p;
@@ -919,10 +936,11 @@ void	GDLGUI<T>::drawMap()
   it_e = _entMap.begin();
   for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
-      if (it_e->second != NULL)
+      if (it_e->second != NULL && checkRadius(-p, *it_e->second, 7) == true)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	(this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));
+	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), 7))
+	  (this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));
     }
   it_p = _charMap.begin();
   for (it_p = _charMap.begin(); it_p != _charMap.end(); it_p++)

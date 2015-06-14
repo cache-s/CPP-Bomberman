@@ -63,12 +63,15 @@ public:
   void drawUbrkWall(IEntity<T> &ent);
   void drawPlayer(IEntity<T> &ent);
   void drawFloor(IEntity<T> &ent);
-  void drawMap();
+  void drawMap(int p);
   void drawMenu(int index);
   void drawNumber(const std::string & number);
   void drawString(const std::string & string, int pos);
   void drawScore(const std::string & score);
   void drawHighScore();
+
+  bool checkRadius(int p, int posX, int posY, int radius) const;
+  bool checkRadius(int p, const IEntity<T> &ent, int radius) const;
 
   void createCube();
   void createFloor();

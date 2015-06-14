@@ -42,7 +42,7 @@ public:
   virtual void drawUbrkWall(IEntity<T> &ent) = 0;
   virtual void drawPlayer(IEntity<T> &ent) = 0;
   virtual void drawFloor(IEntity<T> &ent) = 0;
-  virtual void drawMap() = 0;
+  virtual void drawMap(int p) = 0;
   virtual void drawMenu(int i) = 0;
   virtual void drawNumber(const std::string & number) = 0;
   virtual void drawString(const std::string & string, int pos) = 0;
