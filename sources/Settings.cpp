@@ -3,8 +3,8 @@
 Settings::Settings()
 {
   _playerNumber = 1;
-  _aiNumber = 1;
-  _mapSize = 50;
+  _aiNumber = 0;
+  _mapSize = 10;
   _soundVolume = 5;
   _name = "AAA";
   _score = 0;
