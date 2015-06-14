@@ -21,6 +21,7 @@
 # include	"IEntity.hpp"
 # include	"EventManager.hpp"
 # include	"AssetsManager.hpp"
+# include	"Settings.hpp"
 
 template <typename T>
 class	EventManager;
@@ -29,7 +30,7 @@ template <typename T>
 class GDLGUI : public IGUI<T>, public gdl::Game
 {
 public:
-  GDLGUI(ISafeQueue<IEntity <T> *> &_drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &_entityMap, std::map<std::pair<int, int>, IEntity<T> *> &_characterMap);
+  GDLGUI(ISafeQueue<IEntity <T> *> &_drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &_entityMap, std::map<std::pair<int, int>, IEntity<T> *> &_characterMap, Settings &settings);
   ~GDLGUI();
 
   void init();
@@ -89,6 +90,7 @@ public:
   eKey menuPollEvent();
   void pause();
 private:
+  Settings				&_settings;
   gdl::Geometry				_geometryMenu;
   std::vector<gdl::Texture*>		_textureMenu;
   std::vector<IEntity<T> *>		_ents;

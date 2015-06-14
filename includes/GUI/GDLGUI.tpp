@@ -1,5 +1,5 @@
 template <typename T>
-GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap) : _drawQueue(drawQueue), _charMap(characterMap), _entMap(entityMap)
+GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap, Settings &settings) : _settings(settings), _drawQueue(drawQueue), _charMap(characterMap), _entMap(entityMap)
 {
   _floor = new gdl::Geometry();
   _cube = new gdl::Geometry();
@@ -295,14 +295,14 @@ void    GDLGUI<T>::draw(void)
   //_shader.bind();
   //while ((_drawQueue.tryPop(&ent)) == true)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  // if (Mode multi == true)
-  //{
-  // glViewport(0, 200, 630, 400);
-  // drawMap();
-  // _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+50, _p1->getPosition().z*10-20), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
-  // _shader.setUniform("view", _camTransf);
-  // glViewport(650, 200, 630, 400);
-  //}
+  if (_settings.getPlayerNumber() > 1)
+  {
+    glViewport(0, 200, 630, 400);
+    drawMap();
+    _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+50, _p1->getPosition().z*10-20), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
+    _shader.setUniform("view", _camTransf);
+    glViewport(650, 200, 630, 400);
+  }
   drawMap();
   _camTransf = glm::lookAt(glm::vec3((_p2->getPosition().x*10)+1, (_p2->getPosition().y*10)+50, _p2->getPosition().z*10-20), glm::vec3(_p2->getPosition().x * 10+0, _p2->getPosition().y, _p2->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
