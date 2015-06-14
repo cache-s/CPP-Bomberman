@@ -286,14 +286,15 @@ void    GDLGUI<T>::draw(void)
   //_shader.bind();
   //while ((_drawQueue.tryPop(&ent)) == true)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  // glViewport(0, 0, 640, 360);
+  glViewport(0, 0, 640, 360);
   drawMap();
   _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
-  // glViewport(640, 360, 640, 360);
-  // drawMap();
+  glViewport(480, 0, 640, 360);
+  drawMap();
+  _camTransf = glm::lookAt(glm::vec3((_p2->getPosition().x*10)+1, (_p2->getPosition().y*10)+100, _p2->getPosition().z*10-50), glm::vec3(_p2->getPosition().x * 10+0, _p2->getPosition().y, _p2->getPosition().z * 10), glm::vec3(0, 1, 0));
   // _camTransf = glm::lookAt(glm::vec3(_p2->getPosX(), _p2->getPosY() + 100, -100), _p2->getPosition(), glm::vec3(0, 1, 0));
-  // _shader.setUniform("view", _camTransf);
+  _shader.setUniform("view", _camTransf);
   _context.flush();
   //_context.flush();
 }
@@ -713,8 +714,8 @@ void	GDLGUI<T>::drawPlayer(IEntity<T> &ent)
   gdl::Model	model;
 
   _texture.bind();
-  _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
   _AM.getModel(PLAYER)->setCurrentAnim(1, false);
+  _AM.getModel(PLAYER)->draw((gdl::AShader&) _shader, getTransformation(ent), _clock.getElapsed());
 }
 
 template <typename T>

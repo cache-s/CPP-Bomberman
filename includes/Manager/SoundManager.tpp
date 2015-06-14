@@ -10,16 +10,6 @@ SoundManager::SoundManager()
   _soundFct[S_EXPLOSION] = &SoundManager::playExplosion;
   _soundFct[S_VICTORY] = &SoundManager::playVictory;
   _soundFct[S_DEATH] = &SoundManager::playDeath;
-
-  _bIntro.LoadFromFile("assets/sound/Intro.wav");
-  _bTick.LoadFromFile("assets/sound/Tick.wav");
-  _bPause.LoadFromFile("assets/sound/Pause.wav");
-  _bBonus.LoadFromFile("assets/sound/Bonus.wav");
-  _bBomb.LoadFromFile("assets/sound/Bomb.wav");
-  _bExplosion.LoadFromFile("assets/sound/Explosion.wav");
-  _bVictory.LoadFromFile("assets/sound/Victory.wav");
-  _bDeath.LoadFromFile("assets/sound/Death.wav");
-  _volume = 0;
 }
 
 SoundManager::~SoundManager()
@@ -28,6 +18,30 @@ SoundManager::~SoundManager()
 
 void	SoundManager::initSound()
 {
+  _volume = 0;
+  try
+    {
+      if (!_bIntro.LoadFromFile("assets/sound/Intro.wav"))
+	throw std::runtime_error("Error while loading Intro.wav");
+      if (!_bTick.LoadFromFile("assets/sound/Tick.wav"))
+	throw std::runtime_error("Error while loading Tick.wav");
+      if (!_bPause.LoadFromFile("assets/sound/Pause.wav"))
+	throw std::runtime_error("Error while loading Pause.wav");
+      if (!_bBonus.LoadFromFile("assets/sound/Bonus.wav"))
+	throw std::runtime_error("Error while loading Bonus.wav");
+      if (!_bBomb.LoadFromFile("assets/sound/Bomb.wav"))
+	throw std::runtime_error("Error while loading Bomb.wav");
+      if (!_bExplosion.LoadFromFile("assets/sound/Explosion.wav"))
+	throw std::runtime_error("Error while loading Explosion.wav");
+      if (!_bVictory.LoadFromFile("assets/sound/Victory.wav"))
+	throw std::runtime_error("Error while loading Victory.wav");
+      if (!_bDeath.LoadFromFile("assets/sound/Death.wav"))
+	throw std::runtime_error("Error while loading Death.wav");
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cout << "Exception : " << e.what() << std::endl;
+    }
 }
 
 void	SoundManager::playSound(eSoundType sound, bool loop)
@@ -60,20 +74,34 @@ void	SoundManager::playTick(bool loop)
 
 void	SoundManager::playMenu(bool loop)
 {
-  if (!_music.OpenFromFile("assets/sound/Music.wav"))
-    return;
-  _music.SetLoop(loop);
-  _music.SetVolume(_volume);
-  _music.Play();
+  try
+    {
+      if (!_music.OpenFromFile("assets/sound/Music.wav"))
+	throw std::runtime_error("Error while opening Music.wav");
+      _music.SetLoop(loop);
+      _music.SetVolume(_volume);
+      _music.Play();    
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cout << "Exception : " << e.what() << std::endl;
+    }
 }
 
 void	SoundManager::playGame(bool loop)
 {
-  if (!_music.OpenFromFile("assets/sound/Game.wav"))
-    return;
-  _music.SetLoop(loop);
-  _music.SetVolume(_volume);
-  _music.Play();
+  try
+    {
+      if (!_music.OpenFromFile("assets/sound/Game.wav"))
+	throw std::runtime_error("Error while opening Game.wav");
+      _music.SetLoop(loop);
+      _music.SetVolume(_volume);
+      _music.Play();
+    }
+  catch (const std::runtime_error& e)
+    {
+      std::cout << "Exception : " << e.what() << std::endl;
+    }
 }
 
 void	SoundManager::playPause(bool loop)
