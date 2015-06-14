@@ -22,8 +22,6 @@ std::string     AInt<T>::mapMerge()
 
   int x = 0, y = 0;
 
-  std::cout << "x = " << _width << " y= " << _height << std::endl;
-
   while (y < _height)
     {
       while (x < _width)
@@ -115,21 +113,14 @@ std::string     AInt<T>::mapMerge()
       found = result.find("7", i);
     }
 
-  std::cout << "RESULT = " << result << std::endl;
-
   return result;
-} // DZ = 33, BMB = 32
+}
 
 template <typename T>
 void            AInt<T>::move()
 {
   lua_State*            L = luaL_newstate();
   int                   action;
-
-
-  // int                        oldPosX = 0;
-  // int                        oldPosY = 0;
-  // int                        oldAction
 
   while (true)
     {
@@ -148,8 +139,6 @@ void            AInt<T>::move()
           error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
-       std::cout << "CPP case = " << _gameMap[std::make_pair(_player->getPosX(), _player->getPosY())] << std::endl;
-       std::cout << "Xpos = " << _player->getPosX() << " yPos = " << _player->getPosY() << std::endl;
       std::string map = mapMerge();
       lua_pushstring(L, map.c_str());
       lua_pushinteger(L, _width);
@@ -166,9 +155,27 @@ void            AInt<T>::move()
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
-      if (action != 404)
+      std::cout << "ACTION = " << action << std::endl;
+      if (action == 101 || (action > 103 && action < 108))
 	{
-	  std::cout << "action :" << action << std::endl;
+	  // switch (action)
+	  //   {
+	  //   case 102:
+	  //     std::cout << "on bombe " << std::endl;
+	  //     break;
+	  //   case 104:
+	  //     std::cout << "on monte" << std::endl;
+	  //     break;
+	  //   case 105:
+	  //     std::cout << "on descend" << std::endl;
+	  //     break;
+	  //   case 106:
+	  //     std::cout << "on va a gauche" << std::endl;
+	  //     break;
+	  //   case 107:
+	  //     std::cout << "on va a droite" << std::endl;
+	  //     break;
+	  //   }
 	  _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
 	  _eventCondVar.signal();
 	}
