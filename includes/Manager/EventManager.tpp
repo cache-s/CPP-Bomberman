@@ -58,7 +58,7 @@ void		EventManager<T>::init()
   int x = 0;
   int y = 0;
 
-  _AIPool = new ThreadPool<AInt<T>, T>(_settings.getAINumber()); // nb AI
+  _AIPool = new ThreadPool<AInt<T>, T>(_settings.getAINumber());
   if (_settings.getPlayerNumber() == 1 && _settings.getAINumber() > 0)
     {
       _AIPool->addTask(new AInt<T>(_settings.getMapSize(), _settings.getMapSize(), _characterMap, _entityMap, _characterMap[std::make_pair(-2, -2)], *_eventQueue, *_eventCondVar, _AICondVar));
@@ -68,16 +68,19 @@ void		EventManager<T>::init()
     {
       while (_characterMap[std::make_pair(x, y)] == NULL)
 	{
+	  y++;
 	  if (y == _settings.getMapSize())
 	    {
 	      y = 0;
 	      x++;
 	    }
-	  else
-	    y++;
 	}
-      _AIPool->addTask(new AInt<T>(_settings.getMapSize(), _settings.getMapSize(), _characterMap, _entityMap, _characterMap[std::make_pair(x, y)], *_eventQueue, *_eventCondVar, _AICondVar));
-      nb++;
+      if ((x != (_characterMap[std::make_pair(-1, -1)])->getPosX() || y != (_characterMap[std::make_pair(-1, -1)])->getPosY()) && (x != (_characterMap[std::make_pair(-2, -2)])->getPosX() || y != (_characterMap[std::make_pair(-2, -2)])->getPosY()))
+	{
+	  _AIPool->addTask(new AInt<T>(_settings.getMapSize(), _settings.getMapSize(), _characterMap, _entityMap, _characterMap[std::make_pair(x, y)], *_eventQueue, *_eventCondVar, _AICondVar));
+	  nb++;
+	}
+      y++;
     }
 }
 

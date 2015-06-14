@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Tue Apr 14 17:34:34 2015 Martin Porrès
-// Last update Sun Jun 14 00:43:55 2015 Jordan Chazottes
+// Last update Sun Jun 14 17:23:15 2015 Martin Porrès
 //
 
 #include	"Thread.hpp"
@@ -51,9 +51,11 @@ void		*Thread::join()
 void		Thread::exit(void *retValue)
 {
   pthread_exit(retValue);
+  isRunning = false;
 }
 
 void		Thread::cancel(void)
 {
   pthread_cancel(thread);
+  isRunning = false;
 }
