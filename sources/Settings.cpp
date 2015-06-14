@@ -6,6 +6,8 @@ Settings::Settings()
   _aiNumber = 1;
   _mapSize = 50;
   _soundVolume = 5;
+  _name = "AAA";
+  _score = 0;
 }
 
 Settings::~Settings()
@@ -14,6 +16,16 @@ Settings::~Settings()
 }
 
 //GETTERS
+int			Settings::getScore() const
+{
+  return (_score);
+}
+
+std::string		Settings::getName() const
+{
+  return (_name);
+}
+
 int			Settings::getMapSize() const
 {
   return (_mapSize);
@@ -35,6 +47,16 @@ int			Settings::getSoundVolume() const
 }
 
 //SETTERS
+void			Settings::setScore(int score)
+{
+  _score = score;
+}
+
+void			Settings::setName(const std::string & name)
+{
+  _name = name;
+}
+
 void			Settings::setMapSize(int size)
 {
   _mapSize = size;

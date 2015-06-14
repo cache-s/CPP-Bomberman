@@ -30,7 +30,8 @@ enum				eMenu
     SETTINGS = 3,
     LOAD = 4,
     PAUSE = 5,
-    END = 6
+    WIN = 7,
+    LOSE = 6
   };
 
 template <class T>
@@ -52,7 +53,9 @@ private:
   eMenuEvent			callLoad();
   eMenuEvent			callSettings();
   eMenuEvent			callPause();
-  eMenuEvent			callEnd();
+  eMenuEvent			callWin();
+  eMenuEvent			callLose();
+  eMenuEvent			callEnd(int index);
 
   typedef eMenuEvent (MenuManager<T>::*callMenuFct)();
   std::map<eMenu, callMenuFct> _callMenuFct;

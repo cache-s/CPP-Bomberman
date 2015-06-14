@@ -8,7 +8,8 @@ MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) 
   _callMenuFct[SETTINGS] = &MenuManager<T>::callSettings;
   _callMenuFct[LOAD] = &MenuManager<T>::callLoad;
   _callMenuFct[PAUSE] = &MenuManager<T>::callPause;
-  _callMenuFct[END] = &MenuManager<T>::callEnd;
+  _callMenuFct[WIN] = &MenuManager<T>::callWin;
+  _callMenuFct[LOSE] = &MenuManager<T>::callLose;
 }
 
 template <class T>
@@ -33,6 +34,7 @@ eMenuEvent			MenuManager<T>::callIntro()
   intro.push_back("./assets/menu/Intro.tga");
   _gui.menuLoadTexture(intro);
   _gui.drawMenu(0);
+  _gui.getContext().flush();
   usleep(7000000);
   return (NOTHING);
 }
@@ -42,6 +44,7 @@ eMenuEvent			MenuManager<T>::callStart()
 {
   _gui.menuLoadTexture(_menuStart.getScene());
   _gui.drawMenu(_menuStart.getIndex());
+  _gui.getContext().flush();
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
@@ -68,6 +71,7 @@ eMenuEvent			MenuManager<T>::callStart()
 	    _menuStart.setIndex(_menuStart.getIndex() + 1);
 	}
       _gui.drawMenu(_menuStart.getIndex());
+      _gui.getContext().flush();
       usleep(100000);
     }
   return (EXIT);
@@ -106,6 +110,7 @@ int				MenuManager<T>::getNumber(int min, int max, int current)
         result++;
       _gui.drawMenu(_menuSettings.getIndex());
       _gui.drawNumber(getString(result));
+      _gui.getContext().flush();
     }
   return (result);
 }
@@ -115,6 +120,7 @@ eMenuEvent			MenuManager<T>::callSettings()
 {
   _gui.menuLoadTexture(_menuSettings.getScene());
   _gui.drawMenu(_menuSettings.getIndex());
+  _gui.getContext().flush();
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
@@ -146,6 +152,7 @@ eMenuEvent			MenuManager<T>::callSettings()
 	    _menuSettings.setIndex(_menuSettings.getIndex() + 1);
 	}
       _gui.drawMenu(_menuSettings.getIndex());
+      _gui.getContext().flush();
       usleep(100000);
     }
   return (EXIT);
@@ -156,6 +163,7 @@ eMenuEvent			MenuManager<T>::callLoad()
 {
   _gui.menuLoadTexture(_menuLoad.getScene());
   _gui.drawMenu(_menuLoad.getIndex());
+  _gui.getContext().flush();
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
@@ -176,6 +184,7 @@ eMenuEvent			MenuManager<T>::callLoad()
 	    _menuLoad.setIndex(_menuLoad.getIndex() + 1);
 	}
       _gui.drawMenu(_menuLoad.getIndex());
+      _gui.getContext().flush();
       usleep(100000);
     }
   return (EXIT);
@@ -186,6 +195,7 @@ eMenuEvent			MenuManager<T>::callPause()
 {
   _gui.menuLoadTexture(_menuPause.getScene());
   _gui.drawMenu(_menuPause.getIndex());
+  _gui.getContext().flush();
   while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
     {
       _sM.playSound(S_TICK);
@@ -214,32 +224,49 @@ eMenuEvent			MenuManager<T>::callPause()
 	    _menuPause.setIndex(_menuPause.getIndex() + 1);
 	}
       _gui.drawMenu(_menuPause.getIndex());
+      _gui.getContext().flush();
       usleep(100000);
     }
   return (EXIT);
 }
 
 template <class T>
-eMenuEvent			MenuManager<T>::callEnd()
+eMenuEvent			MenuManager<T>::callWin()
+{
+  return (callEnd(0));
+}
+
+template <class T>
+eMenuEvent			MenuManager<T>::callLose()
+{
+  return (callEnd(1));
+}
+
+template <class T>
+eMenuEvent			MenuManager<T>::callEnd(int index)
 {
   int				pos = 0;
-  std::string			name = "aaa";
+  std::string			name = "AAA";
 
   _gui.menuLoadTexture(_menuEnd.getScene());
-  _gui.drawMenu(_menuEnd.getIndex());
-  while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1)
+  _gui.drawMenu(index);
+  _gui.drawString(name, pos);
+  _gui.getContext().flush();
+  while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1 && _lastKeyPressed != BOMB2)
     {
       if ((_lastKeyPressed == LEFT1 || _lastKeyPressed == LEFT2) && pos != 0)
 	pos--;
       if ((_lastKeyPressed == RIGHT1 || _lastKeyPressed == RIGHT2) && pos != 2)
 	pos++;
-      if ((_lastKeyPressed == UP1 || _lastKeyPressed == UP2) && name[pos] != 'z')
+      if ((_lastKeyPressed == UP1 || _lastKeyPressed == UP2) && name[pos] != 'Z')
 	name[pos] = name[pos] + 1;
-      if ((_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2) && name[pos] != 'a')
+      if ((_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2) && name[pos] != 'A')
 	name[pos] = name[pos] - 1;
-
-      _gui.drawMenu(_menuEnd.getIndex());
+      _gui.drawMenu(index);
+      _gui.drawString(name, pos);
+      _gui.getContext().flush();
       usleep(100000);
     }
-  return (EXIT);
+  _settings.setName(name);
+  return (NOTHING);
 }

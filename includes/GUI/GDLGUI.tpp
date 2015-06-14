@@ -19,6 +19,7 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _drawFct[MAPWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[UBRKWALL] = &GDLGUI<T>::drawUbrkWall;
   _drawFct[PLAYER] = &GDLGUI<T>::drawPlayer;
+
   _numbers['0'] = "./assets/menu/0.tga";
   _numbers['1'] = "./assets/menu/1.tga";
   _numbers['2'] = "./assets/menu/2.tga";
@@ -29,6 +30,34 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _numbers['7'] = "./assets/menu/7.tga";
   _numbers['8'] = "./assets/menu/8.tga";
   _numbers['9'] = "./assets/menu/9.tga";
+
+  _letters['A'] = "./assets/menu/a.tga";
+  _letters['B'] = "./assets/menu/b.tga";
+  _letters['C'] = "./assets/menu/c.tga";
+  _letters['D'] = "./assets/menu/d.tga";
+  _letters['E'] = "./assets/menu/e.tga";
+  _letters['F'] = "./assets/menu/f.tga";
+  _letters['G'] = "./assets/menu/g.tga";
+  _letters['H'] = "./assets/menu/h.tga";
+  _letters['I'] = "./assets/menu/i.tga";
+  _letters['J'] = "./assets/menu/j.tga";
+  _letters['K'] = "./assets/menu/k.tga";
+  _letters['L'] = "./assets/menu/l.tga";
+  _letters['M'] = "./assets/menu/m.tga";
+  _letters['N'] = "./assets/menu/n.tga";
+  _letters['O'] = "./assets/menu/o.tga";
+  _letters['P'] = "./assets/menu/p.tga";
+  _letters['Q'] = "./assets/menu/q.tga";
+  _letters['R'] = "./assets/menu/r.tga";
+  _letters['S'] = "./assets/menu/s.tga";
+  _letters['T'] = "./assets/menu/t.tga";
+  _letters['U'] = "./assets/menu/u.tga";
+  _letters['V'] = "./assets/menu/v.tga";
+  _letters['W'] = "./assets/menu/w.tga";
+  _letters['X'] = "./assets/menu/x.tga";
+  _letters['Y'] = "./assets/menu/y.tga";
+  _letters['Z'] = "./assets/menu/z.tga";
+
   _inputFct[0] = &GDLGUI<T>::inputUp;
   _inputFct[1] = &GDLGUI<T>::inputQuit;
   _inputFct[2] = &GDLGUI<T>::inputRight;
@@ -339,6 +368,115 @@ void	GDLGUI<T>::menuInit()
 }
 
 template <class T>
+void	GDLGUI<T>::drawString(const std::string & string, int pos)
+{
+  glm::mat4		transform(1);
+  gdl::Texture		texture;
+
+  gdl::Geometry		geometryUpArrow;
+  gdl::Geometry		geometryDownArrow;
+
+  gdl::Geometry		geometryLetter1;
+
+  gdl::Geometry		geometryLetter2;
+
+  gdl::Geometry		geometryLetter3;
+
+  int			x1;
+  int			x2;
+
+  if (pos == 0)
+    {
+      x1 = 13;
+      x2 = 11;
+    }
+  if (pos == 1)
+    {
+      x1 = 11;
+      x2 = 9;
+    }
+  if (pos == 2)
+    {
+      x1 = 9;
+      x2 = 7;
+    }
+  geometryUpArrow.pushVertex(glm::vec3(x1, 11, -1));
+  geometryUpArrow.pushVertex(glm::vec3(x2, 11, -1));
+  geometryUpArrow.pushVertex(glm::vec3(x2, 13, -1));
+  geometryUpArrow.pushVertex(glm::vec3(x1, 13, -1));
+  geometryUpArrow.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryUpArrow.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryUpArrow.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryUpArrow.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryUpArrow.build();
+
+  geometryDownArrow.pushVertex(glm::vec3(x1, 7, -1));
+  geometryDownArrow.pushVertex(glm::vec3(x2, 7, -1));
+  geometryDownArrow.pushVertex(glm::vec3(x2, 9, -1));
+  geometryDownArrow.pushVertex(glm::vec3(x1, 9, -1));
+  geometryDownArrow.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryDownArrow.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryDownArrow.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryDownArrow.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryDownArrow.build();
+
+  geometryLetter1.pushVertex(glm::vec3(13, 9, -1));
+  geometryLetter1.pushVertex(glm::vec3(11, 9, -1));
+  geometryLetter1.pushVertex(glm::vec3(11, 11, -1));
+  geometryLetter1.pushVertex(glm::vec3(13, 11, -1));
+  geometryLetter1.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryLetter1.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryLetter1.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryLetter1.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryLetter1.build();
+
+  geometryLetter2.pushVertex(glm::vec3(11, 9, -1));
+  geometryLetter2.pushVertex(glm::vec3(9, 9, -1));
+  geometryLetter2.pushVertex(glm::vec3(9, 11, -1));
+  geometryLetter2.pushVertex(glm::vec3(11, 11, -1));
+  geometryLetter2.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryLetter2.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryLetter2.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryLetter2.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryLetter2.build();
+
+  geometryLetter3.pushVertex(glm::vec3(9, 9, -1));
+  geometryLetter3.pushVertex(glm::vec3(7, 9, -1));
+  geometryLetter3.pushVertex(glm::vec3(7, 11, -1));
+  geometryLetter3.pushVertex(glm::vec3(9, 11, -1));
+  geometryLetter3.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryLetter3.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryLetter3.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryLetter3.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryLetter3.build();
+
+  /*DRAW DES FLECHES*/
+  if (texture.load("./assets/menu/UpArrow.tga") == false)
+    exit(0);//throw
+  texture.bind();
+  geometryUpArrow.draw(_shader, transform, GL_QUADS);
+  if (texture.load("./assets/menu/DownArrow.tga") == false)
+    exit(0);//throw
+  texture.bind();
+  geometryDownArrow.draw(_shader, transform, GL_QUADS);
+
+  /*DRAW DES LETTRES*/
+  if (texture.load(_letters[string[0]]) == false)
+    exit(0);//throw
+  texture.bind();
+  geometryLetter1.draw(_shader, transform, GL_QUADS);
+  if (texture.load(_letters[string[1]]) == false)
+    exit(0);//throw
+  texture.bind();
+  geometryLetter2.draw(_shader, transform, GL_QUADS);
+  if (texture.load(_letters[string[2]]) == false)
+    exit(0);//throw
+  texture.bind();
+  geometryLetter3.draw(_shader, transform, GL_QUADS);
+  _context.flush();
+}
+
+template <class T>
 void	GDLGUI<T>::drawNumber(const std::string & number)
 {
   glm::mat4		transformNumber(1);
@@ -420,8 +558,12 @@ void	GDLGUI<T>::drawNumber(const std::string & number)
     exit(0);//throw
   textureNumber.bind();
   geometryNumber3.draw(_shader, transformNumber, GL_QUADS);
+}
 
-  _context.flush();
+template <typename T>
+gdl::SdlContext		GDLGUI<T>::getContext() const
+{
+  return (_context);
 }
 
 template <typename T>
@@ -702,7 +844,6 @@ void	GDLGUI<T>::drawMenu(int i)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   _textureMenu[i]->bind();
   _geometryMenu.draw(_shader, transformMenu, GL_QUADS);
-  _context.flush();
 }
 
 

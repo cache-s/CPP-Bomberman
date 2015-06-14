@@ -61,6 +61,7 @@ public:
   void drawMap();
   void drawMenu(int index);
   void drawNumber(const std::string & number);
+  void drawString(const std::string & string, int pos);
 
   void createCube();
   void createFloor();
@@ -74,6 +75,7 @@ public:
   bool inputLeft(int p);
   bool inputBomb(int p);
 
+  gdl::SdlContext	getContext() const;
   double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;
   eKey pollEvent();
@@ -97,6 +99,7 @@ private:
   eKey					_lastKeyPressed;
   double				_time;
   std::map<char, std::string>		_numbers;
+  std::map<char, std::string>		_letters;
   gdl::Geometry				*_cube;
   gdl::Geometry				*_floor;
   IEntity<T>				*_p1;

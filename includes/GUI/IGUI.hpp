@@ -27,6 +27,7 @@ public:
   virtual void translate(T const &v, IEntity<T> &ent) const = 0;
   virtual void rotate(T const &axis, float angle, IEntity<T> &ent) const = 0;
   virtual void menuLoadTexture(const std::vector<std::string> & images) = 0;
+  virtual gdl::SdlContext getContext() const = 0;
 
   virtual void draw() = 0;
   virtual void drawBomb(IEntity<T> &ent) = 0;
@@ -43,6 +44,7 @@ public:
   virtual void drawMap() = 0;
   virtual void drawMenu(int i) = 0;
   virtual void drawNumber(const std::string & number) = 0;
+  virtual void drawString(const std::string & string, int pos) = 0;
 
   virtual double getElapsedTime() = 0;
   virtual ~IGUI() {};
