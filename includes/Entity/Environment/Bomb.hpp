@@ -12,7 +12,10 @@ public:
   Bomb(Bomb const &other);
   IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
+  int                           getRadius() const;
+  void                          setRadius(int nb);
 private:
+  int				_radius;
 };
 
 template <class T>
@@ -66,6 +69,18 @@ eEntityType			Bomb<T>::getType() const
 template <class T>
 Bomb<T>::~Bomb()
 {
+}
+
+template <class T>
+int             Bomb<T>::getRadius() const
+{
+  return (_radius);
+}
+
+template <class T>
+void            Bomb<T>::setRadius(int nb)
+{
+  _radius = nb;
 }
 
 #endif				/* BOMB_HPP_ */

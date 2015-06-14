@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sun Jun 14 04:15:50 2015 Martin Porrès
+// Last update Sun Jun 14 12:49:03 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -63,8 +63,7 @@ public:
       DOWN = 105,
       LEFT = 106,
       RIGHT = 107,
-      ITEMDROP = 108,
-      MUTE = 109
+      MUTE = 108
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
@@ -81,15 +80,18 @@ public:
   void		moveRight(IEntity<T> *player);
   void		flameDestruction(IEntity<T> *flame);
   void		increaseBombStock(IEntity<T> *player);
-  void		itemDrop(IEntity<T> *item);
-  void		burn(int x1, int y1, int x2, int y2, double time);
-  void		burn(int x, int y, double time);
+  void		itemDrop(IEntity<T> *player, IEntity<T> *item);
+  void		burn(int bombX, int bombY, int toX, int toY, double time, int bombRadius);
+  //void		burn(int x, int y, double time);
   void		burnEntity(int x, int y, double time);
   void		flameCreation(int x, int y, double time, bool drop);
   bool		isEnd() const;
   void		mute(IEntity<T> *player);
-  bool		collider(IEntity<T> *p, IEntity<T> *obj, double toX, double toY);
+  bool		collider(IEntity<T> *p, double toX, double toY);
   void		generateItem(int x, int y);
+  void		itemBombNumber(IEntity<T> *player);
+  void		itemSpeed(IEntity<T> *player);
+  void		itemRadius(IEntity<T> *player);
 private:
   IGUI<T>							&_gui;
   ISafeQueue<IEntity<T> *>					&_drawQueue;
@@ -98,12 +100,13 @@ private:
   IThread							*_pollEventThread;
   Mutex								_eventMutex;
   std::vector<std::pair<int, IEntity<T> *> >			_eventTime;
-  typedef void (EventManager<T>::*Func)(IEntity<T> *);
-  std::map<EventManager<T>::eEvent, Func>			_eventPtr;
+  typedef void (EventManager<T>::*fonc)(IEntity<T> *);
+  std::map<EventManager<T>::eEvent, fonc>			_eventPtr;
   std::map<std::pair<int, int>, IEntity<T> *>			&_entityMap;
   std::map<std::pair<int, int>, IEntity<T> *>			&_characterMap;
   std::map<eEntityType, EventManager<T>::eEvent>		_timeMap;
   std::map<eKey, EventManager<T>::eEvent>			_keyMap;
+  std::map<eEntityType, fonc>					_itemPtr;
   Factory<T>							&_factory;
   IThreadPool<AInt<T>, T>					*_AIPool;
   bool								_end;

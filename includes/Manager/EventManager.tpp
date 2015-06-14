@@ -22,7 +22,6 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _eventPtr[EventManager<T>::DOWN] = &EventManager<T>::moveDown;
   _eventPtr[EventManager<T>::LEFT] = &EventManager<T>::moveLeft;
   _eventPtr[EventManager<T>::RIGHT] = &EventManager<T>::moveRight;
-  _eventPtr[EventManager<T>::ITEMDROP] = &EventManager<T>::itemDrop;
   _eventPtr[EventManager<T>::MUTE] = &EventManager<T>::mute;
   _timeMap[BOMB] = EventManager<T>::BOMBDESTRUCTION;
   _timeMap[FLAME] = EventManager<T>::FLAMEDESTRUCTION;
@@ -38,6 +37,9 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _keyMap[RIGHT2] = EventManager<T>::RIGHT;
   _keyMap[BOMB2] = EventManager<T>::BOMBCREATION;
   _keyMap[MUTEGAME] = EventManager<T>::MUTE;
+  _itemPtr[BBOMBNUMBER] = &EventManager<T>::itemBombNumber;
+  _itemPtr[BSPEED] = &EventManager<T>::itemSpeed;
+  _itemPtr[BRADIUS] = &EventManager<T>::itemRadius;
 }
 
 template	<typename T>
@@ -123,6 +125,7 @@ void		EventManager<T>::bombCreation(IEntity<T> *player)
   std::cout << "BOMB CREATION" << std::endl;
   reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() - 1);
   bomb = _factory.createEntity(BOMB, player->getPosX(), player->getPosY());
+  reinterpret_cast<IBomb<T> *>(bomb)->setRadius(reinterpret_cast<IPlayer<T> *>(player)->getRadius());
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, bomb));
   _eventTime.push_back(std::make_pair(_gui.getElapsedTime() + 3, player));
   std::sort(_eventTime.begin(), _eventTime.end());
@@ -139,36 +142,39 @@ void		EventManager<T>::bombDestruction(IEntity<T> *bomb)
   std::cout << "BOMB DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(bomb->getPosX(), bomb->getPosY())] = NULL;
   time = _gui.getElapsedTime() + 1;
-  burn(bomb->getPosX() + 1, bomb->getPosY(), bomb->getPosX() + 2, bomb->getPosY(), time);
-  burn(bomb->getPosX() - 1, bomb->getPosY(), bomb->getPosX() - 2, bomb->getPosY(), time);
-  burn(bomb->getPosX(), bomb->getPosY() + 1, bomb->getPosX(), bomb->getPosY() + 2, time);
-  burn(bomb->getPosX(), bomb->getPosY() - 1, bomb->getPosX(), bomb->getPosY() - 2, time);
-  burn(bomb->getPosX(), bomb->getPosY(), time);
+  burn(bomb->getPosX(), bomb->getPosY(), 1, 0, time, reinterpret_cast<IBomb<T> *>(bomb)->getRadius());
+  burn(bomb->getPosX(), bomb->getPosY(), -1, 0, time, reinterpret_cast<IBomb<T> *>(bomb)->getRadius());
+  burn(bomb->getPosX(), bomb->getPosY(), 0, 1, time, reinterpret_cast<IBomb<T> *>(bomb)->getRadius());
+  burn(bomb->getPosX(), bomb->getPosY(), 0, -1, time, reinterpret_cast<IBomb<T> *>(bomb)->getRadius());
+  burn(bomb->getPosX(), bomb->getPosY(), 0, 0, time, 1);
   _sM.playSound(S_EXPLOSION);
 }
 
 template	<typename T>
-bool		EventManager<T>::collider(IEntity<T> *p, IEntity<T> *obj, double toX, double toY)
-{ // check bool isCrossable
-  if (obj == NULL)
+bool		EventManager<T>::collider(IEntity<T> *p, double toX, double toY)
+{
+  if (_entityMap[std::make_pair(toX, toY)] == NULL && _characterMap[std::make_pair(toX, toY)] == NULL)
     return (true);
-  else
+  if (_entityMap[std::make_pair(toX, toY)] != NULL)
     {
-      if ((p->getPosX() + toX + p->getHitboxSize()) > (obj->getPosX() - obj->getHitboxSize()) || (p->getPosY() + toY + p->getHitboxSize()) > (obj->getPosY() - obj->getHitboxSize()))
-  	return (false);
-      else
-  	return (true);
+      if ((_entityMap[std::make_pair(toX, toY)])->getType() >= BBOMBNUMBER && (_entityMap[std::make_pair(toX, toY)])->getType() <= BRADIUS)
+	{
+	  itemDrop(p, _entityMap[std::make_pair(toX, toY)]);
+	  return (true);
+	}
+      if ((_entityMap[std::make_pair(toX, toY)])->isCrossable())
+	return (true);
     }
-  return false;
+  return (false);
 }
 
 template	<typename T>
 void		EventManager<T>::moveUp(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() + 0.3))], 0, 0.3) == true)
+  if (collider(player, player->getPosX(), player->getPosY() + 1) == true)
     {
       player->setRotation(T(0, 0, 0));
-      player->setPosY(player->getPosY() + 0.3);
+      player->setPosY(player->getPosY() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
   _drawQueue.push(player);
@@ -177,10 +183,10 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::moveDown(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() - 0.3))], 0, 0.3) == true)
+  if (collider(player, player->getPosX(), player->getPosY() - 1) == true)
     {
       player->setRotation(T(0, 180, 0));
-      player->setPosY(player->getPosY() - 0.3);
+      player->setPosY(player->getPosY() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
   _drawQueue.push(player);
@@ -189,10 +195,10 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::moveLeft(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() + 0.3), static_cast<int>(player->getPosY()))], 0.3, 0) == true)
+  if (collider(player, player->getPosX() + 1, player->getPosY()) == true)
     {
       player->setRotation(T(0, 90, 0));
-      player->setPosX(player->getPosX() + 0.3);
+      player->setPosX(player->getPosX() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
       _drawQueue.push(player);
@@ -201,10 +207,10 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::moveRight(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() - 0.3), static_cast<int>(player->getPosY()))], 0.3, 0) == true)
+  if (collider(player, player->getPosX() - 1, player->getPosY()) == true)
     {
       player->setRotation(T(0, 270, 0));
-      player->setPosX(player->getPosX() - 0.3);
+      player->setPosX(player->getPosX() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
   _drawQueue.push(player);
@@ -227,17 +233,41 @@ void		EventManager<T>::increaseBombStock(IEntity<T> *player)
 }
 
 template	<typename T>
-void		EventManager<T>::itemDrop(IEntity<T> *item)
+void		EventManager<T>::itemDrop(IEntity<T> *player, IEntity<T> *item)
 {
+  std::cout << "PLAYER BOOST" << std::endl;
+  (this->*_itemPtr[item->getType()])(player);
   //add properties of item to player
   _entityMap[std::make_pair(item->getPosX(), item->getPosY())] = NULL;
   delete item;
 }
 
 template	<typename T>
-void		EventManager<T>::burn(int x1, int y1, int x2, int y2, double time)
+void		EventManager<T>::burn(int bombX, int bombY, int toX, int toY, double time, int bombRadius)
 {
-  if (_entityMap[std::make_pair(x1, y1)] == NULL)
+  int		radius = 1;
+  int		burnX = toX;
+  int		burnY = toY;
+
+  while (radius <= bombRadius)
+    {
+      if (_entityMap[std::make_pair(bombX + burnX, bombY + burnY)] == NULL)
+	burnEntity(bombX + burnX, bombY + burnY, time);
+	  /*if (_entityMap[std::make_pair(x2, y2)] == NULL)
+	    burnEntity(x2, y2, time);*/
+      else
+	{
+	  if (_entityMap[std::make_pair(bombX + burnX, bombY + burnY)]->isBreakable() == true)
+	    burnEntity(bombX + burnX, bombY + burnY, time);
+	  return ;
+	}
+      radius++;
+      burnX += toX;
+      burnY += toY;
+    }
+  /*
+    }
+  if (_entityMap[std::make_pair(bombX + toX, bombY + toY)] == NULL)
     {
       burnEntity(x1, y1, time);
       if (_entityMap[std::make_pair(x2, y2)] == NULL ||
@@ -246,16 +276,16 @@ void		EventManager<T>::burn(int x1, int y1, int x2, int y2, double time)
     }
   else
     if (_entityMap[std::make_pair(x1, y1)]->isBreakable() == true)
-      burnEntity(x1, y1, time);
+      burnEntity(x1, y1, time);*/
 }
 
-template	<typename T>
+/*template	<typename T>
 void		EventManager<T>::burn(int x, int y, double time)
 {
   if (_entityMap[std::make_pair(x, y)] == NULL ||
       _entityMap[std::make_pair(x, y)]->isBreakable() == true)
     burnEntity(x, y, time);
-}
+    }*/
 
 template	<typename T>
 void		EventManager<T>::burnEntity(int x, int y, double time)
@@ -318,4 +348,25 @@ void		EventManager<T>::generateItem(int x, int y)
       _drawQueue.push(item);
       std::cout << "ITEM DROP" << std::endl;
     }
+}
+
+template	<typename T>
+void		EventManager<T>::itemBombNumber(IEntity<T> *player)
+{
+  std::cout << "BOMB NUMBER" << std::endl;
+  reinterpret_cast<IPlayer<T> *>(player)->setBombStock(reinterpret_cast<IPlayer<T> *>(player)->getBombStock() + 1);
+}
+
+template	<typename T>
+void		EventManager<T>::itemSpeed(IEntity<T> *player)
+{
+  std::cout << "T'AS LE SEUM" << std::endl;
+  (void)player;
+}
+
+template	<typename T>
+void		EventManager<T>::itemRadius(IEntity<T> *player)
+{
+  std::cout << "RADIUS" << std::endl;
+  reinterpret_cast<IPlayer<T> *>(player)->setRadius(reinterpret_cast<IPlayer<T> *>(player)->getRadius() + 1);
 }
