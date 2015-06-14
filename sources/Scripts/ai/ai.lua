@@ -22,9 +22,7 @@ function move(sMap, width, height, selfx, selfy)
    local pos
 
    pos = (width * selfy) + selfx + 1
-   print("pos = "..pos)
 
-   -- print(map)
    for i = 1, string.len(sMap) do
       chara = string.sub(sMap, i, i)
       map[i] = tonumber(chara)
@@ -35,31 +33,26 @@ function move(sMap, width, height, selfx, selfy)
 
    -- print("pos = "..pos)
 
-   print("case = "..map[pos])
    if (map[pos] == 6) then --Survie de l'IA
-      print("DANGER ZONE, GTFO")
-      print("au dessus : ".. map[pos - width])
-      print("a gauche : ".. map[pos - 1])
-      print("a droite : ".. map[pos + 1])
-      print("au dessous : ".. map[pos + width])
       if (map[pos + width] == 0 or (map[pos + width] == 4)) then
-	 return(105)
+	 return(104)
       elseif (map[pos + 1] == 0 or (map[pos + 1] == 4)) then
-	 return(107)	 --go right
+	 return(106)	 --go right
       elseif (map[pos - 1] == 0 or (map[pos - 1] == 4)) then
-	 return(106)	 --go left
+	 return(107)	 --go left
       elseif (map[pos - width] == 0 or (map[pos - width] == 4)) then
-	 return(104)	 -- go bot
+	 return(105)	 -- go bot
       end
       ret = math.floor((math.random()* 4) + 104)
-      print("ret = "..ret)
       return (ret)
    end -- Survie
 
+   if ((map[pos + width] ~= 0 and map[pos + width] ~= 4) and (map[pos - width] ~= 0 and map[pos - width] ~= 4) and (map[pos + 1] ~= 0 and map[pos + 1] ~= 4) and (map[pos - 1] ~= 0 and map[pos - 1] ~= 4)) then
+      return (404) --on bouge pas!
+   end
 
    --posage de bombe
    if (map[pos + (width)]) then 
-      print("EN MAP!")
       if (map[pos + width] == 5) then
 	 return(101) --on bombe
       end
@@ -123,6 +116,7 @@ function move(sMap, width, height, selfx, selfy)
 	 return(101) --on bombe
       end
    end
+   print("on bombe pas :(")
    --fin posage de bombe
    
    --recolte de bonus
@@ -159,34 +153,34 @@ function move(sMap, width, height, selfx, selfy)
    end
    if (map[pos + 1]) then 
       if (map[pos + 1] == 4) then
-	 return(107)--on recolte
+	 return(106)--on recolte
       end
    end
    if (map[pos + 2]) then 
       if (map[pos + 1] < 1 and (map[pos + (2 * 1)] == 4)) then
-	 return(107)--on recolte
+	 return(106)--on recolte
       end
    end
    if (map[pos + 3]) then 
       if (map[pos + 1] < 1 and map[pos + (2 * 1)] < 1 and (map[pos + (3 * 1)] == 4)) then
-	 return(107)--on recolte 
+	 return(106)--on recolte 
       end
    end
     
    if (map[pos - 1]) then 
       if (map[pos - 1] == 4) then
-	 return(106)--on recolte
+	 return(107)--on recolte
       end
    end
    if (map[pos - 2]) then 
       if (map[pos - 1] < 1 and (map[pos - (2 * 1)] == 4)) then
-	 return(106)--on recolte
+	 return(107)--on recolte
       end
    end
 
    if (map[pos - 2]) then 
       if (map[pos - 1] < 1 and map[pos - (2 * 1)] < 1 and (map[pos - (3 * 1)] == 4)) then
-	 return(106)--on recolte
+	 return(107)--on recolte
       end
    end
    
@@ -211,12 +205,13 @@ function move(sMap, width, height, selfx, selfy)
    end
 
    print("ON LE RUSH")
-   
+   print("pos at "..pos)
+   print("closest at "..closest)
    if (pos - closest > 0) then -- au dessus ou a gauche
       if (pos - closest) then
 	 if (pos - closest < width) then
 	    if (map[pos - 1] == 0) then
-	       return(106)
+	       return(107)
 	    end
 	 end
 	 if (map[pos - 1]) then
@@ -227,7 +222,7 @@ function move(sMap, width, height, selfx, selfy)
 	 if (map[pos - 1]) then
 	    if (map[pos - 1] == 2) then
 	       if (map[pos - width] == 0) then
-		  return(104)-- go top pour contourner
+		  return(105)-- go top pour contourner
 	       end
 	    end
 	    if (map[pos - width] ) then
@@ -237,7 +232,7 @@ function move(sMap, width, height, selfx, selfy)
 	    end
 	    if (map[pos + width] ) then
 	       if (map[pos + width] == 0) then
-		  return(105)-- go bot pour contourner
+		  return(104)-- go bot pour contourner
 	       end
 	    end
 	    if (map[pos + width] ) then
@@ -248,20 +243,20 @@ function move(sMap, width, height, selfx, selfy)
 	 end --end gauche
       else -- au dessus!
 	 if (map[pos - width] == 0) then
-	    return(104)-- go top
+	    return(105)-- go top
 	 end
 	 if (map[pos - width] == 1) then
 	    return(101) --on bombe le mur!
 	 end
 	 if (map[pos - width] == 2) then
 	    if (map[pos - 1] == 0) then
-               return(106)-- go left pour contourner
+               return(107)-- go left pour contourner
             end
             if (map[pos - 1] == 1) then
                return(101) --on bombe le mur pour contourner l'obstacle indestructible
             end
             if (map[pos + 1] == 0) then
-               return(107)-- go right pour contourner
+               return(106)-- go right pour contourner
             end
             if (map[pos + 1] == 1) then
                return(101) --on bombe le mur pour contourner l'obstacle indestructible
@@ -271,20 +266,20 @@ function move(sMap, width, height, selfx, selfy)
    else -- en dessous ou a droite!
       if (closest - pos < width) then -- a droite!
 	 if (map[pos + 1] == 0) then
-	    return(107)--go right
+	    return(106)--go right
 	 end
 	 if (map[pos + 1] == 1) then
 	    return(101) --on bombe le mur!
 	 end
 	 if (map[pos + 1] == 2) then
 	    if (map[pos - width] == 0) then
-	       return(104)-- go top pour contourner
+	       return(105)-- go top pour contourner
 	    end
 	    if (map[pos - width] == 1) then
 	       return(101) --on bombe le mur pour contourner l'obstacle indestructible
 	    end
 	    if (map[pos + width] == 0) then
-	       return(105)-- go bot pour contourner
+	       return(104)-- go bot pour contourner
 	    end
 	    if (map[pos + width] == 1) then
 	       return(101) --on bombe le mur pour contourner l'obstacle indestructible
@@ -292,20 +287,20 @@ function move(sMap, width, height, selfx, selfy)
 	 end --end gauche
       else -- en dessous!
 	 if (map[pos + width] == 0) then
-	    return(105)-- go bot
+	    return(104)-- go bot
 	 end
 	 if (map[pos + width] == 1) then
 	    return(101) --on bombe le mur!
 	 end
 	 if (map[pos + width] == 2) then
 	    if (map[pos - 1] == 0) then
-               return(106)-- go left pour contourner
+               return(107)-- go left pour contourner
             end
             if (map[pos - 1] == 1) then
                return(101) --on bombe le mur pour contourner l'obstacle indestructible
             end
             if (map[pos + 1] == 0) then
-               return(107)-- go right pour contourner
+               return(106)-- go right pour contourner
             end
             if (map[pos + 1] == 1) then
                return(101) --on bombe le mur pour contourner l'obstacle indestructible
@@ -316,7 +311,7 @@ function move(sMap, width, height, selfx, selfy)
    
    --fin mouvement
 
-   return(404)
+   return(101)
 
    --deltapos / largeur - 2 + deltapos % largeur;
 end

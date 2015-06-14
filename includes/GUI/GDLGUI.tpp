@@ -295,17 +295,18 @@ void    GDLGUI<T>::draw(void)
   //_shader.bind();
   //while ((_drawQueue.tryPop(&ent)) == true)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glViewport(0, 0, 640, 360);
+  // if (Mode multi == true)
+  //{
+  // glViewport(0, 200, 630, 400);
+  // drawMap();
+  // _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+50, _p1->getPosition().z*10-20), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
+  // _shader.setUniform("view", _camTransf);
+  // glViewport(650, 200, 630, 400);
+  //}
   drawMap();
-  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
-  _shader.setUniform("view", _camTransf);
-  glViewport(480, 0, 640, 360);
-  drawMap();
-  _camTransf = glm::lookAt(glm::vec3((_p2->getPosition().x*10)+1, (_p2->getPosition().y*10)+100, _p2->getPosition().z*10-50), glm::vec3(_p2->getPosition().x * 10+0, _p2->getPosition().y, _p2->getPosition().z * 10), glm::vec3(0, 1, 0));
-  // _camTransf = glm::lookAt(glm::vec3(_p2->getPosX(), _p2->getPosY() + 100, -100), _p2->getPosition(), glm::vec3(0, 1, 0));
+  _camTransf = glm::lookAt(glm::vec3((_p2->getPosition().x*10)+1, (_p2->getPosition().y*10)+50, _p2->getPosition().z*10-20), glm::vec3(_p2->getPosition().x * 10+0, _p2->getPosition().y, _p2->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.setUniform("view", _camTransf);
   _context.flush();
-  //_context.flush();
 }
 
 template <typename T>
