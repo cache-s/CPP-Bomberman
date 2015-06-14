@@ -172,8 +172,17 @@ eMenuEvent			MenuManager<T>::callLoad()
       _sM.playSound(S_TICK);
       if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
 	{
-	  if (_menuSettings.getIndex() == 0)
-	    return (callStart());
+          if (_menuLoad.getIndex() == 3)
+            return (callStart());
+          else
+	    {
+	      if (_menuLoad.getIndex() == 0)
+		return (LOADSLOT1);
+	      if (_menuLoad.getIndex() == 1)
+		return (LOADSLOT2);
+	      if (_menuLoad.getIndex() == 2)
+		return (LOADSLOT3);
+	    }
 	}
       if (_menuLoad.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
 	_menuLoad.setIndex(_menuLoad.getMaxIndex());
@@ -194,6 +203,47 @@ eMenuEvent			MenuManager<T>::callLoad()
 }
 
 template <class T>
+eMenuEvent			MenuManager<T>::callSave()
+{
+  _gui.menuLoadTexture(_menuSave.getScene());
+  _gui.drawMenu(_menuSave.getIndex());
+  _gui.getContext().flush();
+  while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
+    {
+      _sM.playSound(S_TICK);
+      if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
+	{
+          if (_menuSave.getIndex() == 3)
+            return (callStart());
+          else
+	    {
+	      if (_menuSave.getIndex() == 0)
+		return (SAVESLOT1);
+	      if (_menuSave.getIndex() == 1)
+		return (SAVESLOT2);
+	      if (_menuSave.getIndex() == 2)
+		return (SAVESLOT3);
+	    }
+	}
+      if (_menuSave.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
+	_menuSave.setIndex(_menuSave.getMaxIndex());
+      else if (_menuSave.getIndex() == _menuSave.getMaxIndex() && (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2))
+	_menuSave.setIndex(0);
+      else
+	{
+	  if (_lastKeyPressed == UP1 || _lastKeyPressed == UP2)
+	    _menuSave.setIndex(_menuSave.getIndex() - 1);
+	  if (_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2)
+	    _menuSave.setIndex(_menuSave.getIndex() + 1);
+	}
+      _gui.drawMenu(_menuSave.getIndex());
+      _gui.getContext().flush();
+      usleep(100000);
+    }
+  return (EXIT);
+}
+
+template <class T>
 eMenuEvent			MenuManager<T>::callPause()
 {
   _gui.menuLoadTexture(_menuPause.getScene());
@@ -207,11 +257,11 @@ eMenuEvent			MenuManager<T>::callPause()
 	  if (_menuStart.getIndex() == 0)
 	    return (RESUME);
 	  if (_menuStart.getIndex() == 1)
-	    return (SAVE);
+	    return (callSave());
 	  if (_menuStart.getIndex() == 2)
 	    return (callSettings());
 	  if (_menuStart.getIndex() == 3)
-	    return (MAIN);
+	    return (callStart());
 	  if (_menuStart.getIndex() == 4)
 	    return (EXIT);
 	}

@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Sun Jun 14 11:51:01 2015 Sebastien Cache-Delanos
+## Last update Sun Jun 14 20:55:12 2015 Sebastien Cache-Delanos
 ##
 
 NAME	= bomberman
@@ -19,6 +19,7 @@ SRCS	= ./sources/main.cpp				\
 	  ./sources/Menu/MenuStart.cpp			\
 	  ./sources/Menu/MenuSettings.cpp		\
 	  ./sources/Menu/MenuLoad.cpp			\
+	  ./sources/Menu/MenuSave.cpp			\
 	  ./sources/Menu/MenuPause.cpp			\
 	  ./sources/Menu/MenuScore.cpp			\
 	  ./sources/Menu/MenuEnd.cpp			\
