@@ -7,16 +7,16 @@ template <class T>
 class					BrkWall : public IWall<T>
 {
 public:
-  BrkWall(int x = 0, int y = 0);
+  BrkWall(double x = 0, double y = 0);
   ~BrkWall();
   BrkWall(BrkWall const &other);
-  IEntity<T>				*clone(int x, int y);
+  IEntity<T>				*clone(double x, double y);
   eEntityType				getType() const;
 private:
 };
 
 template <class T>
-IEntity<T>				*BrkWall<T>::clone(int x, int y)
+IEntity<T>				*BrkWall<T>::clone(double x, double y)
 {
   BrkWall<T> *brkwall = new BrkWall<T>(*this);
   brkwall->setPosX(x);
@@ -42,7 +42,7 @@ BrkWall<T>::BrkWall(BrkWall const &other)
 }
 
 template <class T>
-BrkWall<T>::BrkWall(int x, int y)
+BrkWall<T>::BrkWall(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
@@ -50,6 +50,7 @@ BrkWall<T>::BrkWall(int x, int y)
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
   this->setIsBreakable(true);
+  this->setHitboxSize(1);
 }
 
 template <class T>

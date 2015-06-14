@@ -7,10 +7,10 @@ template <class T>
 class				Player : public IPlayer<T>
 {
 public:
-  Player(int x = 0, int y = 0);
+  Player(double x = 0, double y = 0);
   Player(Player const &other);
   ~Player();
-  IEntity<T>			*clone(int x, int y);
+  IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
   int				getBombStock() const;
   void				setBombStock(int nb);
@@ -19,7 +19,7 @@ private:
 };
 
 template <class T>
-Player<T>::Player(int x, int y) : _bombStock(1)
+Player<T>::Player(double x, double y) : _bombStock(1)
 {
   this->setPosX(x);
   this->setPosY(y);
@@ -27,6 +27,7 @@ Player<T>::Player(int x, int y) : _bombStock(1)
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 180, 0));
   this->setIsBreakable(true);
+  this->setHitboxSize(0.2);
   this->setSpeed(10.0f);
 }
 
@@ -56,7 +57,7 @@ Player<T>::~Player()
 }
 
 template <class T>
-IEntity<T>				*Player<T>::clone(int x, int y)
+IEntity<T>				*Player<T>::clone(double x, double y)
 {
   Player<T> *player = new Player<T>(*this);
 
@@ -67,6 +68,7 @@ IEntity<T>				*Player<T>::clone(int x, int y)
   player->setRotation(T(0, 180, 0));
   player->setIsBreakable(true);
   player->setSpeed(10.0f);
+  player->setHitboxSize(0.2);
   player->_bombStock = 1;
   return (player);
 }

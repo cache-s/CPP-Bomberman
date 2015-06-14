@@ -7,16 +7,16 @@ template <class T>
 class				Radius : public IBonus<T>
 {
 public:
-  Radius(int x = 0, int y = 0);
+  Radius(double x = 0, double y = 0);
   ~Radius();
   Radius(Radius const &other);
-  IEntity<T>			*clone(int x, int y);
+  IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-Radius<T>::Radius(int x, int y)
+Radius<T>::Radius(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
@@ -35,7 +35,7 @@ Radius<T>::~Radius()
 }
 
 template <class T>
-IEntity<T>				*Radius<T>::clone(int x, int y)
+IEntity<T>				*Radius<T>::clone(double x, double y)
 {
   Radius<T> *radius = new Radius<T>(*this);
   radius->setPosX(x);

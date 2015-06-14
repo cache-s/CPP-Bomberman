@@ -7,16 +7,16 @@ template <class T>
 class				Bomb : public IBomb<T>
 {
 public:
-  Bomb(int x = 0, int y = 0);
+  Bomb(double x = 0, double y = 0);
   ~Bomb();
   Bomb(Bomb const &other);
-  IEntity<T>			*clone(int x, int y);
+  IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-IEntity<T>				*Bomb<T>::clone(int x, int y)
+IEntity<T>				*Bomb<T>::clone(double x, double y)
 {
   Bomb<T> *bomb = new Bomb<T>(*this);
   bomb->setPosX(x);
@@ -25,6 +25,7 @@ IEntity<T>				*Bomb<T>::clone(int x, int y)
   bomb->setPosition(T(x, 0, y));
   bomb->setRotation(T(0, 0, 0));
   bomb->setIsBreakable(false);
+  bomb->setHitboxSize(1);
   return (bomb);
 
 }
@@ -42,7 +43,7 @@ Bomb<T>::Bomb(Bomb const &other)
 }
 
 template <class T>
-Bomb<T>::Bomb(int x, int y)
+Bomb<T>::Bomb(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
@@ -50,6 +51,7 @@ Bomb<T>::Bomb(int x, int y)
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
   this->setIsBreakable(false);
+  this->setHitboxSize(1);
 }
 
 template <class T>

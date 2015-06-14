@@ -33,28 +33,28 @@ template <class T>
 class			IEntity
 {
 public:
-  virtual int		getPosX() const = 0;
-  virtual int		getPosY() const = 0;
-  virtual int		getHitboxSize() const = 0;
+  virtual double	getPosX() const = 0;
+  virtual double	getPosY() const = 0;
+  virtual double	getHitboxSize() const = 0;
   virtual bool		isBreakable() const = 0;
   virtual T		getPosition() const = 0;
   virtual T		getRotation() const = 0;
   virtual T		getScale() const = 0;
   virtual float		getSpeed() const = 0;
 
-  virtual void		setHitboxSize(int hitbox) = 0;
+  virtual void		setHitboxSize(double hitbox) = 0;
   virtual void		setIsBreakable(bool breakable) = 0;
   virtual void		setPosition(const T &pos) = 0;
   virtual void		setRotation(const T &pos) = 0;
   virtual void		setScale(const T &pos) = 0;
-  virtual void		setPosX(int x) = 0;
-  virtual void		setPosY(int y) = 0;
+  virtual void		setPosX(double x) = 0;
+  virtual void		setPosY(double y) = 0;
   virtual void		setSpeed(float speed) = 0;
 
   virtual bool		isDraw() const = 0;
   virtual void		setIsDraw(bool isDraw) = 0;
   virtual eEntityType	getType() const = 0;
-  virtual IEntity<T>	*clone(int x, int y) = 0;
+  virtual IEntity<T>	*clone(double x, double y) = 0;
 
   virtual ~IEntity() {};
 };

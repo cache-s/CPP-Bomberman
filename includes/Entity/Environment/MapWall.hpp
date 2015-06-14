@@ -7,16 +7,16 @@ template <class T>
 class					MapWall : public IWall<T>
 {
 public:
-  MapWall(int x = 0, int y = 0);
+  MapWall(double x = 0, double y = 0);
   ~MapWall();
   MapWall(MapWall const &other);
-  IEntity<T>				*clone(int x, int y);
+  IEntity<T>				*clone(double x, double y);
   eEntityType				getType() const;
 private:
 };
 
 template <class T>
-IEntity<T>				*MapWall<T>::clone(int x, int y)
+IEntity<T>				*MapWall<T>::clone(double x, double y)
 {
   MapWall<T> *brkwall = new MapWall<T>(*this);
   brkwall->setPosX(x);
@@ -42,13 +42,14 @@ MapWall<T>::MapWall(MapWall const &other)
 }
 
 template <class T>
-MapWall<T>::MapWall(int x, int y)
+MapWall<T>::MapWall(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
   this->setScale(T(10, 10, 10));
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
+  this->setHitboxSize(1);
   this->setIsBreakable(false);
 }
 

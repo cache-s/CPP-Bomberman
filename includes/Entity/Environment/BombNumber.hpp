@@ -7,27 +7,28 @@ template <class T>
 class				BombNumber : public IBonus<T>
 {
 public:
-  BombNumber(int x = 0, int y = 0);
+  BombNumber(double x = 0, double y = 0);
   ~BombNumber();
   BombNumber(BombNumber const &other);
-  IEntity<T>			*clone(int x, int y);
+  IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-BombNumber<T>::BombNumber(int x, int y)
+BombNumber<T>::BombNumber(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
   this->setScale(T(10, 10, 10));
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
+  this->setHitboxSize(1);
   this->setIsBreakable(true);
 }
 
 template <class T>
-IEntity<T>				*BombNumber<T>::clone(int x, int y)
+IEntity<T>				*BombNumber<T>::clone(double x, double y)
 {
   BombNumber<T> *bomb = new BombNumber<T>(*this);
   bomb->setPosX(x);
@@ -36,6 +37,7 @@ IEntity<T>				*BombNumber<T>::clone(int x, int y)
   bomb->setPosition(T(x, 0, y));
   bomb->setRotation(T(0, 0, 0));
   bomb->setIsBreakable(false);
+  bomb->setHitboxSize(1);
   return (bomb);
 }
 

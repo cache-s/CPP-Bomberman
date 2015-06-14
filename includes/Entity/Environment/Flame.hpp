@@ -7,22 +7,23 @@ template <class T>
 class				Flame : public IFlame<T>
 {
 public:
-  Flame(int x = 0, int y = 0);
+  Flame(double x = 0, double y = 0);
   ~Flame();
   Flame(Flame const &other);
-  IEntity<T>		*clone(int x, int y);
+  IEntity<T>		*clone(double x, double y);
   eEntityType		getType() const;
 private:
 };
 
 template <class T>
-Flame<T>::Flame(int x, int y)
+Flame<T>::Flame(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
   this->setScale(T(10, 10, 10));
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
+  this->setHitboxSize(1);
   this->setIsBreakable(false);
 }
 
@@ -38,7 +39,7 @@ Flame<T>::~Flame()
 }
 
 template <class T>
-IEntity<T>				*Flame<T>::clone(int x, int y)
+IEntity<T>				*Flame<T>::clone(double x, double y)
 {
   Flame<T> *flame = new Flame<T>(*this);
   flame->setPosX(x);
@@ -47,6 +48,7 @@ IEntity<T>				*Flame<T>::clone(int x, int y)
   flame->setPosition(T(x, 0, y));
   flame->setRotation(T(0, 0, 0));
   flame->setIsBreakable(false);
+  flame->setHitboxSize(1);
   return (flame);
 }
 

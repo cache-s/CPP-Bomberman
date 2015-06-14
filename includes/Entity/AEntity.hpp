@@ -8,19 +8,19 @@ template<class T>
 class				AEntity : public IEntity<T>
 {
 public:
-  AEntity(int x = 0, int y = 0);
-  virtual int			getPosX() const; 
-  virtual int			getPosY() const;
-  virtual int			getHitboxSize() const;
+  AEntity(double x = 0, double y = 0);
+  virtual double		getPosX() const; 
+  virtual double		getPosY() const;
+  virtual double		getHitboxSize() const;
   virtual bool			isBreakable() const;
   virtual T			getPosition() const;
   virtual T			getRotation() const;
   virtual T			getScale() const;
   virtual float			getSpeed() const;
 
-  virtual void			setPosX(int x);
-  virtual void			setPosY(int y);
-  virtual void			setHitboxSize(int hitbox);
+  virtual void			setPosX(double x);
+  virtual void			setPosY(double y);
+  virtual void			setHitboxSize(double hitbox);
   virtual void			setIsBreakable(bool breakable);
   virtual void			setPosition(const T &pos);
   virtual void			setRotation(const T &pos);
@@ -28,13 +28,13 @@ public:
   virtual void			setSpeed(float speed);
   virtual void			setIsDraw(bool isDraw);
 
-  virtual IEntity<T>		*clone(int x, int y) = 0;
+  virtual IEntity<T>		*clone(double x, double y) = 0;
   virtual eEntityType		getType() const = 0;
   virtual bool			isDraw() const;
 private:
-  int				_x;
-  int				_y;
-  int				_hitboxSize;
+  double			_x;
+  double			_y;
+  double				_hitboxSize;
   bool				_isBreakable;
   T				_position;
   T				_rotation;
@@ -44,7 +44,7 @@ private:
 };
 
 template <class T>
-AEntity<T>::AEntity(int x, int y)
+AEntity<T>::AEntity(double x, double y)
 {
   this->_x = x;
   this->_y = y;
@@ -65,7 +65,7 @@ void				AEntity<T>::setIsDraw(bool isDraw)
 
 
 template <class T>
-void				AEntity<T>::setHitboxSize(int hitbox)
+void				AEntity<T>::setHitboxSize(double hitbox)
 {
   _hitboxSize = hitbox;
 }
@@ -95,7 +95,7 @@ void				AEntity<T>::setScale(const T &pos)
 }
 
 template <class T>
-int				AEntity<T>::getHitboxSize() const
+double				AEntity<T>::getHitboxSize() const
 {
   return (_hitboxSize);
 }
@@ -125,13 +125,13 @@ T				AEntity<T>::getScale() const
 }
 
 template <class T>
-int				AEntity<T>::getPosX() const
+double				AEntity<T>::getPosX() const
 {
   return (_x);
 }
 
 template <class T>
-int				AEntity<T>::getPosY() const
+double				AEntity<T>::getPosY() const
 {
   return (_y);
 }
@@ -143,13 +143,13 @@ float				AEntity<T>::getSpeed() const
 }
 
 template <class T>
-void				AEntity<T>::setPosX(int x)
+void				AEntity<T>::setPosX(double x)
 {
   this->_x = x;
 }
 
 template <class T>
-void				AEntity<T>::setPosY(int y)
+void				AEntity<T>::setPosY(double y)
 {
   this->_y = y;
 }

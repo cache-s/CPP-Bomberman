@@ -7,16 +7,16 @@ template <class T>
 class				Floor : public IFloor<T>
 {
 public:
-  Floor(int x = 0, int y = 0);
+  Floor(double x = 0, double y = 0);
   ~Floor();
   Floor(Floor const& other);
-  IEntity<T>			*clone(int x, int y);
+  IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-IEntity<T>			*Floor<T>::clone(int x, int y)
+IEntity<T>			*Floor<T>::clone(double x, double y)
 {
   Floor<T> *floor = new Floor<T>(*this);
   floor->setPosX(x);
@@ -41,7 +41,7 @@ Floor<T>::Floor(Floor const&other)
 }
 
 template <class T>
-Floor<T>::Floor(int x, int y)
+Floor<T>::Floor(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);

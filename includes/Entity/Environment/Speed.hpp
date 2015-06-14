@@ -7,22 +7,23 @@ template <class T>
 class				Speed : public IBonus<T>
 {
 public:
-  Speed(int x = 0, int y = 0);
+  Speed(double x = 0, double y = 0);
   ~Speed();
   Speed(Speed const &other);
-  IEntity<T>			*clone(int x, int y);
+  IEntity<T>			*clone(double x, double y);
   eEntityType			getType() const;
 private:
 };
 
 template <class T>
-Speed<T>::Speed(int x, int y)
+Speed<T>::Speed(double x, double y)
 {
   this->setPosX(x);
   this->setPosY(y);
   this->setScale(T(10, 10, 10));
   this->setPosition(T(x, 0, y));
   this->setRotation(T(0, 0, 0));
+  this->setHitboxSize(1);
   this->setIsBreakable(false);
 }
 
@@ -38,7 +39,7 @@ Speed<T>::~Speed()
 }
 
 template <class T>
-IEntity<T>				*Speed<T>::clone(int x, int y)
+IEntity<T>				*Speed<T>::clone(double x, double y)
 {
   Speed<T> *speed = new Speed<T>(*this);
   speed->setPosX(x);
@@ -47,6 +48,7 @@ IEntity<T>				*Speed<T>::clone(int x, int y)
   speed->setPosition(T(x, 0, y));
   speed->setRotation(T(0, 0, 0));
   speed->setIsBreakable(false);
+  speed->setHitboxSize(1);
   return (speed);
 }
 
