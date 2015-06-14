@@ -1,3 +1,13 @@
+//
+// IEntity.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman/includes
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:24:23 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:24:24 2015 Jordan Chazottes
+//
+
 #ifndef			IENTITY_HPP_
 # define		IENTITY_HPP_
 
@@ -10,7 +20,6 @@
 #include		<Model.hh>
 #include		<glm/glm.hpp>
 #include		 <glm/gtc/matrix_transform.hpp>
-#include		"IObs.hpp"
 
 enum			eEntityType
   {

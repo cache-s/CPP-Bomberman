@@ -1,3 +1,13 @@
+//
+// Core.tpp for bomberman in /home/chazot_a/rendu/cpp_bomberman/includes
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:13:50 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:13:51 2015 Jordan Chazottes
+//
+
 template <typename T>
 Core<T>::Core(void)
 {

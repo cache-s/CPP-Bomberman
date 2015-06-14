@@ -1,3 +1,12 @@
+//
+// EventManager.tpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman/includes/Manager
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:23:35 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:23:36 2015 Jordan Chazottes
+//
 
 template	<typename T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,

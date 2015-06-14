@@ -1,3 +1,13 @@
+//
+// UbrkWall.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:33:33 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:33:34 2015 Jordan Chazottes
+//
+
 #ifndef				UBRKWALL_HPP_
 # define			UBRKWALL_HPP_
 

@@ -1,3 +1,13 @@
+//
+// GDLGUI.tpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:00 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:01 2015 Jordan Chazottes
+//
+
 template <typename T>
 GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap, Settings &settings) : _settings(settings), _drawQueue(drawQueue), _charMap(characterMap), _entMap(entityMap)
 {
@@ -935,10 +945,10 @@ void	GDLGUI<T>::drawMap(int p)
   it_e = _entMap.begin();
   for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
-      if (it_e->second != NULL && checkRadius(-p, *it_e->second, 7) == true)
+      if (it_e->second != NULL && checkRadius(-p, *it_e->second, _settings.getMapSize() / 2) == true)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), 7))
+	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), _settings.getMapSize() / 2))
 	  (this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));
     }
   it_p = _charMap.begin();

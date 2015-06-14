@@ -1,3 +1,13 @@
+//
+// AssetsManager.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:29:48 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:29:49 2015 Jordan Chazottes
+//
+
 #ifndef		ASSETSMANAGER_HPP_
 # define	ASSETSMANAGER_HPP_
 

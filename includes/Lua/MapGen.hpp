@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Sun Jun 14 21:15:17 2015 Pierre Charie
+// Last update Sun Jun 14 21:27:19 2015 Jordan Chazottes
 //
 
 #ifndef		MAPGEN_HPP_
@@ -19,9 +19,7 @@ extern "C"
 }
 
 # include	<complex>
-# include	<stdlib.h>     /* srand, rand */
-
-# include	"Bomberman.hpp"
+# include	<stdlib.h>
 # include	"AEntity.hpp"
 # include	"Factory.hpp"
 # include	"IEntity.hpp"

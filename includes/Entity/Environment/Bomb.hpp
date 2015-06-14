@@ -1,3 +1,13 @@
+//
+// Bomb.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:28 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:29 2015 Jordan Chazottes
+//
+
 #ifndef				BOMB_HPP_
 # define			BOMB_HPP_
 

@@ -1,3 +1,13 @@
+//
+// SoundManager.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman/includes/Manager
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:23:56 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:23:57 2015 Jordan Chazottes
+//
+
 #ifndef			SOUNDMANAGER_HPP_
 # define		SOUNDMANAGER_HPP_
 

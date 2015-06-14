@@ -1,3 +1,13 @@
+//
+// AEntity.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman/includes
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:24:34 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:24:36 2015 Jordan Chazottes
+//
+
 #ifndef				AENTITY_HPP_
 # define			AENTITY_HPP_
 

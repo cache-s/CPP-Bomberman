@@ -1,3 +1,13 @@
+//
+// MapWall.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:33:10 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:33:11 2015 Jordan Chazottes
+//
+
 #ifndef					MAPWALL_HPP_
 # define				MAPWALL_HPP_
 

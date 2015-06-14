@@ -1,3 +1,13 @@
+//
+// Radius.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:33:25 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:33:26 2015 Jordan Chazottes
+//
+
 #ifndef				RADIUS_HPP_
 # define			RADIUS_HPP_
 

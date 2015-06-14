@@ -5,7 +5,7 @@
 // Login   <bourma_m@epitech.net>
 //
 // Started on  Mon May 25 11:56:52 2015 Mathieu Bourmaud
-// Last update Sun Jun 14 19:35:59 2015 Mathieu Bourmaud
+// Last update Sun Jun 14 21:11:29 2015 Jordan Chazottes
 //
 
 #ifndef			_FACTORY_HPP_
@@ -30,7 +30,7 @@ class			Factory
 public:
   Factory();
   ~Factory();
-  IEntity<T>		*createEntity(eEntityType type, int x, int y);
+  IEntity<T>	*createEntity(eEntityType type, int x, int y);
 private:
   std::map<eEntityType, IEntity<T> *>	_ents;
 };

@@ -1,3 +1,13 @@
+//
+// AI.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:28:34 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:28:35 2015 Jordan Chazottes
+//
+
 #ifndef				AI_HPP_
 # define			AI_HPP_
 

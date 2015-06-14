@@ -1,3 +1,13 @@
+//
+// Player.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:29:17 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:29:18 2015 Jordan Chazottes
+//
+
 #ifndef				PLAYER_HPP_
 # define			PLAYER_HPP_
 

@@ -1,3 +1,13 @@
+//
+// eKey.hpp for Manager in /home/chazot_a/rendu/cpp_bomberman/includes
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:24:44 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:24:45 2015 Jordan Chazottes
+//
+
 #ifndef		_EKEY_HPP_
 # define	_EKEY_HPP_
 

@@ -1,3 +1,13 @@
+//
+// BrkWall.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:40 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:41 2015 Jordan Chazottes
+//
+
 #ifndef					BRKWALL_HPP_
 # define				BRKWALL_HPP_
 

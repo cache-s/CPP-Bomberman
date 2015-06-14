@@ -1,3 +1,13 @@
+//
+// Speed.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:33:29 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:33:30 2015 Jordan Chazottes
+//
+
 #ifndef				SPEED_HPP_
 # define			SPEED_HPP_
 

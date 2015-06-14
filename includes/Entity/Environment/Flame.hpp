@@ -1,3 +1,13 @@
+//
+// Flame.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:45 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:46 2015 Jordan Chazottes
+//
+
 #ifndef				FLAME_HPP_
 # define			FLAME_HPP_
 

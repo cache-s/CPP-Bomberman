@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 //
 // Started on  Sun May 24 18:03:35 2015 Martin Porrès
-// Last update Sun Jun 14 14:29:00 2015 Martin Porrès
+// Last update Sun Jun 14 21:09:17 2015 Jordan Chazottes
 //
 
 #ifndef		_CORE_HPP_
@@ -47,7 +47,6 @@ private:
   Settings						_settings;
   Mutex                                                 _AIMutex;
   ICondVar                                              *_AICondVar;
-  //SoundManager						*_soundManager;
 };
 
 #include	"Core.tpp"
