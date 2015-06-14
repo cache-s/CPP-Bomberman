@@ -12,7 +12,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _pollEventThread->create(&poll_event<T>, reinterpret_cast<void *>(this));
   _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
   (void)AICondVar;
-  _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
+  //_AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
   srand(time(NULL));
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
@@ -173,6 +173,8 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
 {
   if (collider(player, player->getPosX(), player->getPosY() + 1) == true)
     {
+      _characterMap[std::make_pair(player->getPosX(), player->getPosY())] = NULL;
+      _characterMap[std::make_pair(player->getPosX(), player->getPosY() + 1)] = player;
       player->setRotation(T(0, 0, 0));
       player->setPosY(player->getPosY() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
@@ -185,6 +187,8 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
 {
   if (collider(player, player->getPosX(), player->getPosY() - 1) == true)
     {
+      _characterMap[std::make_pair(player->getPosX(), player->getPosY())] = NULL;
+      _characterMap[std::make_pair(player->getPosX(), player->getPosY() - 1)] = player;
       player->setRotation(T(0, 180, 0));
       player->setPosY(player->getPosY() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
@@ -197,6 +201,8 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
 {
   if (collider(player, player->getPosX() + 1, player->getPosY()) == true)
     {
+      _characterMap[std::make_pair(player->getPosX(), player->getPosY())] = NULL;
+      _characterMap[std::make_pair(player->getPosX() + 1, player->getPosY())] = player;
       player->setRotation(T(0, 90, 0));
       player->setPosX(player->getPosX() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
@@ -209,6 +215,8 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
 {
   if (collider(player, player->getPosX() - 1, player->getPosY()) == true)
     {
+      _characterMap[std::make_pair(player->getPosX(), player->getPosY())] = NULL;
+      _characterMap[std::make_pair(player->getPosX() - 1, player->getPosY())] = player;
       player->setRotation(T(0, 270, 0));
       player->setPosX(player->getPosX() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
