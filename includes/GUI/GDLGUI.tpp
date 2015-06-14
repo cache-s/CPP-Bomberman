@@ -561,6 +561,189 @@ void	GDLGUI<T>::drawNumber(const std::string & number)
   geometryNumber3.draw(_shader, transformNumber, GL_QUADS);
 }
 
+template <class T>
+void    GDLGUI<T>::drawScore(const std::string & score)
+{
+  glm::mat4		transformNumber(1);
+  gdl::Geometry		geometryNumber1;
+  gdl::Geometry		geometryNumber2;
+  gdl::Geometry		geometryNumber3;
+  gdl::Texture		textureNumber;
+
+  geometryNumber1.pushVertex(glm::vec3(13, 13, -1));
+  geometryNumber1.pushVertex(glm::vec3(11, 13, -1));
+  geometryNumber1.pushVertex(glm::vec3(11, 15, -1));
+  geometryNumber1.pushVertex(glm::vec3(13, 15, -1));
+  geometryNumber1.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryNumber1.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryNumber1.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryNumber1.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryNumber1.build();
+
+  geometryNumber2.pushVertex(glm::vec3(11, 13, -1));
+  geometryNumber2.pushVertex(glm::vec3(9, 13, -1));
+  geometryNumber2.pushVertex(glm::vec3(9, 15, -1));
+  geometryNumber2.pushVertex(glm::vec3(11, 15, -1));
+  geometryNumber2.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryNumber2.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryNumber2.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryNumber2.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryNumber2.build();
+
+  geometryNumber3.pushVertex(glm::vec3(9, 13, -1));
+  geometryNumber3.pushVertex(glm::vec3(7, 13, -1));
+  geometryNumber3.pushVertex(glm::vec3(7, 15, -1));
+  geometryNumber3.pushVertex(glm::vec3(9, 15, -1));
+  geometryNumber3.pushUv(glm::vec2(0.0f, 0.0f));
+  geometryNumber3.pushUv(glm::vec2(1.0f, 0.0f));
+  geometryNumber3.pushUv(glm::vec2(1.0f, 1.0f));
+  geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
+  geometryNumber3.build();
+
+  if (textureNumber.load(_numbers[score[2]]) == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryNumber1.draw(_shader, transformNumber, GL_QUADS);
+  if (textureNumber.load(_numbers[score[1]]) == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryNumber2.draw(_shader, transformNumber, GL_QUADS);
+  if (textureNumber.load(_numbers[score[0]]) == false)
+    exit(0);//throw
+  textureNumber.bind();
+  geometryNumber3.draw(_shader, transformNumber, GL_QUADS);
+}
+
+template <class T>
+void    GDLGUI<T>::getHighScore(int index, std::string & score, std::string & name)
+{
+  std::ifstream file (".highScore.txt");
+  std::ostringstream    oss117;
+  std::string           line;
+
+  if (file.is_open())
+    {
+      while (getline(file,line) && index-- != 0);
+      oss117 << line[0] << line[1] << line[2];
+      name = oss117.str();
+      oss117.str("");
+      oss117 << line[3] << line[4] << line[5];
+      score = oss117.str();
+      file.close();
+    }
+}
+
+template <class T>
+void    GDLGUI<T>::drawHighScore()
+{
+  glm::mat4             transform(1);
+  gdl::Texture          texture;
+  int                   y1 = 13;
+  int                   y2 = 15;
+  std::string           name;
+  std::string           score;
+
+  for (unsigned int i = 0; i < 3; ++i)
+    {
+      gdl::Geometry             geometryLetter1;
+      gdl::Geometry             geometryLetter2;
+      gdl::Geometry             geometryLetter3;
+      gdl::Geometry             geometryNumber1;
+      gdl::Geometry             geometryNumber2;
+      gdl::Geometry             geometryNumber3;
+
+      getHighScore(i, score, name);
+      geometryNumber1.pushVertex(glm::vec3(18, y1, -1));
+      geometryNumber1.pushVertex(glm::vec3(16, y1, -1));
+      geometryNumber1.pushVertex(glm::vec3(16, y2, -1));
+      geometryNumber1.pushVertex(glm::vec3(18, y2, -1));
+      geometryNumber1.pushUv(glm::vec2(0.0f, 0.0f));
+      geometryNumber1.pushUv(glm::vec2(1.0f, 0.0f));
+      geometryNumber1.pushUv(glm::vec2(1.0f, 1.0f));
+      geometryNumber1.pushUv(glm::vec2(0.0f, 1.0f));
+      geometryNumber1.build();
+
+      geometryNumber2.pushVertex(glm::vec3(16, y1, -1));
+      geometryNumber2.pushVertex(glm::vec3(14, y1, -1));
+      geometryNumber2.pushVertex(glm::vec3(14, y2, -1));
+      geometryNumber2.pushVertex(glm::vec3(16, y2, -1));
+      geometryNumber2.pushUv(glm::vec2(0.0f, 0.0f));
+      geometryNumber2.pushUv(glm::vec2(1.0f, 0.0f));
+      geometryNumber2.pushUv(glm::vec2(1.0f, 1.0f));
+      geometryNumber2.pushUv(glm::vec2(0.0f, 1.0f));
+      geometryNumber2.build();
+
+      geometryNumber3.pushVertex(glm::vec3(14, y1, -1));
+      geometryNumber3.pushVertex(glm::vec3(12, y1, -1));
+      geometryNumber3.pushVertex(glm::vec3(12, y2, -1));
+      geometryNumber3.pushVertex(glm::vec3(14, y2, -1));
+      geometryNumber3.pushUv(glm::vec2(0.0f, 0.0f));
+      geometryNumber3.pushUv(glm::vec2(1.0f, 0.0f));
+      geometryNumber3.pushUv(glm::vec2(1.0f, 1.0f));
+      geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
+      geometryNumber3.build();
+
+      if (texture.load(_numbers[score[2]]) == false)
+        exit(0);//throw
+      texture.bind();
+      geometryNumber1.draw(_shader, transform, GL_QUADS);
+      if (texture.load(_numbers[score[1]]) == false)
+        exit(0);//throw
+      texture.bind();
+      geometryNumber2.draw(_shader, transform, GL_QUADS);
+      if (texture.load(_numbers[score[0]]) == false)
+        exit(0);//throw
+      texture.bind();
+      geometryNumber3.draw(_shader, transform, GL_QUADS);
+
+      geometryLetter1.pushVertex(glm::vec3(27, y1, -1));
+      geometryLetter1.pushVertex(glm::vec3(25, y1, -1));
+      geometryLetter1.pushVertex(glm::vec3(25, y2, -1));
+      geometryLetter1.pushVertex(glm::vec3(27, y2, -1));
+      geometryLetter1.pushUv(glm::vec2(0.0f, 0.0f));
+      geometryLetter1.pushUv(glm::vec2(1.0f, 0.0f));
+      geometryLetter1.pushUv(glm::vec2(1.0f, 1.0f));
+      geometryLetter1.pushUv(glm::vec2(0.0f, 1.0f));
+      geometryLetter1.build();
+
+      geometryLetter2.pushVertex(glm::vec3(25, y1, -1));
+      geometryLetter2.pushVertex(glm::vec3(23, y1, -1));
+      geometryLetter2.pushVertex(glm::vec3(23, y2, -1));
+      geometryLetter2.pushVertex(glm::vec3(25, y2, -1));
+      geometryLetter2.pushUv(glm::vec2(0.0f, 0.0f));
+      geometryLetter2.pushUv(glm::vec2(1.0f, 0.0f));
+      geometryLetter2.pushUv(glm::vec2(1.0f, 1.0f));
+      geometryLetter2.pushUv(glm::vec2(0.0f, 1.0f));
+      geometryLetter2.build();
+
+      geometryLetter3.pushVertex(glm::vec3(23, y1, -1));
+      geometryLetter3.pushVertex(glm::vec3(21, y1, -1));
+      geometryLetter3.pushVertex(glm::vec3(21, y2, -1));
+      geometryLetter3.pushVertex(glm::vec3(23, y2, -1));
+      geometryLetter3.pushUv(glm::vec2(0.0f, 0.0f));
+      geometryLetter3.pushUv(glm::vec2(1.0f, 0.0f));
+      geometryLetter3.pushUv(glm::vec2(1.0f, 1.0f));
+      geometryLetter3.pushUv(glm::vec2(0.0f, 1.0f));
+      geometryLetter3.build();
+
+      if (texture.load(_letters[name[0]]) == false)
+        exit(0);//throw
+      texture.bind();
+      geometryLetter1.draw(_shader, transform, GL_QUADS);
+      if (texture.load(_letters[name[1]]) == false)
+        exit(0);//throw
+      texture.bind();
+      geometryLetter2.draw(_shader, transform, GL_QUADS);
+      if (texture.load(_letters[name[2]]) == false)
+        exit(0);//throw
+      texture.bind();
+      geometryLetter3.draw(_shader, transform, GL_QUADS);
+      y1 -= 3;
+      y2 -= 3;
+    }
+}
+
+
 template <typename T>
 gdl::SdlContext		GDLGUI<T>::getContext() const
 {

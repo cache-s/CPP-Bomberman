@@ -4,6 +4,8 @@
 # include	<map>
 # include	<vector>
 # include	<iostream>
+# include	<fstream>
+# include	<sstream>
 # include	<Game.hh>
 # include       <glm/glm.hpp>
 # include       <glm/gtc/matrix_transform.hpp>
@@ -11,6 +13,7 @@
 # include	<SdlContext.hh>
 # include       <Geometry.hh>
 # include	<unistd.h>
+
 # include	"IThread.hpp"
 # include	"ISafeQueue.hpp"
 # include	"ICondVar.hpp"
@@ -62,6 +65,8 @@ public:
   void drawMenu(int index);
   void drawNumber(const std::string & number);
   void drawString(const std::string & string, int pos);
+  void drawScore(const std::string & score);
+  void drawHighScore();
 
   void createCube();
   void createFloor();
@@ -75,6 +80,7 @@ public:
   bool inputLeft(int p);
   bool inputBomb(int p);
 
+  void			getHighScore(int index, std::string & score, std::string & name);
   gdl::SdlContext	getContext() const;
   double    getElapsedTime();
   glm::mat4 getTransformation(const IEntity<T> &ent) const;

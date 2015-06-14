@@ -45,6 +45,8 @@ public:
   virtual void drawMenu(int i) = 0;
   virtual void drawNumber(const std::string & number) = 0;
   virtual void drawString(const std::string & string, int pos) = 0;
+  virtual void drawScore(const std::string & score) = 0;
+  virtual void drawHighScore() = 0;
 
   virtual double getElapsedTime() = 0;
   virtual ~IGUI() {};

@@ -5,6 +5,7 @@
 # include			"MenuLoad.hpp"
 # include			"MenuSettings.hpp"
 # include			"MenuPause.hpp"
+# include			"MenuScore.hpp"
 # include			"MenuEnd.hpp"
 
 # include			"IGUI.hpp"
@@ -30,8 +31,9 @@ enum				eMenu
     SETTINGS = 3,
     LOAD = 4,
     PAUSE = 5,
+    SCORE = 6,
     WIN = 7,
-    LOSE = 6
+    LOSE = 8
   };
 
 template <class T>
@@ -55,6 +57,7 @@ private:
   eMenuEvent			callPause();
   eMenuEvent			callWin();
   eMenuEvent			callLose();
+  eMenuEvent			callScore();
   eMenuEvent			callEnd(int index);
 
   typedef eMenuEvent (MenuManager<T>::*callMenuFct)();
@@ -69,6 +72,7 @@ private:
   MenuLoad			_menuLoad;
   MenuPause			_menuPause;
   MenuEnd			_menuEnd;
+  MenuScore			_menuScore;
 };
 
 # include			"MenuManager.tpp"

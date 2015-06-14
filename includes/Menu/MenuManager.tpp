@@ -8,6 +8,7 @@ MenuManager<T>::MenuManager(IGUI<T> &gui, Settings &settings, SoundManager &sM) 
   _callMenuFct[SETTINGS] = &MenuManager<T>::callSettings;
   _callMenuFct[LOAD] = &MenuManager<T>::callLoad;
   _callMenuFct[PAUSE] = &MenuManager<T>::callPause;
+  _callMenuFct[SCORE] = &MenuManager<T>::callScore;
   _callMenuFct[WIN] = &MenuManager<T>::callWin;
   _callMenuFct[LOSE] = &MenuManager<T>::callLose;
 }
@@ -55,8 +56,10 @@ eMenuEvent			MenuManager<T>::callStart()
 	  if (_menuStart.getIndex() == 1)
 	    return (callLoad());
 	  if (_menuStart.getIndex() == 2)
-	    return (callSettings());
+	    return (callScore());
 	  if (_menuStart.getIndex() == 3)
+	    return (callSettings());
+	  if (_menuStart.getIndex() == 4)
 	    return (EXIT);
 	}
       if (_menuStart.getIndex() == 0 && (_lastKeyPressed == UP1 || _lastKeyPressed == UP2))
@@ -102,6 +105,7 @@ int				MenuManager<T>::getNumber(int min, int max, int current)
 
   _gui.drawMenu(_menuSettings.getIndex());
   _gui.drawNumber(getString(result));
+  _gui.getContext().flush();
   while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1 && _lastKeyPressed != BOMB2)
     {
       if ((_lastKeyPressed == LEFT1 || _lastKeyPressed == LEFT2) && result > min)
@@ -250,6 +254,7 @@ eMenuEvent			MenuManager<T>::callEnd(int index)
 
   _gui.menuLoadTexture(_menuEnd.getScene());
   _gui.drawMenu(index);
+  _gui.drawScore(getString(_settings.getScore()));
   _gui.drawString(name, pos);
   _gui.getContext().flush();
   while ((_lastKeyPressed = _gui.menuPollEvent()) != BOMB1 && _lastKeyPressed != BOMB2)
@@ -263,10 +268,31 @@ eMenuEvent			MenuManager<T>::callEnd(int index)
       if ((_lastKeyPressed == DOWN1 || _lastKeyPressed == DOWN2) && name[pos] != 'A')
 	name[pos] = name[pos] - 1;
       _gui.drawMenu(index);
+      _gui.drawScore(getString(_settings.getScore()));
       _gui.drawString(name, pos);
       _gui.getContext().flush();
       usleep(100000);
     }
   _settings.setName(name);
   return (NOTHING);
+}
+
+template <class T>
+eMenuEvent			MenuManager<T>::callScore()
+{
+  _gui.menuLoadTexture(_menuScore.getScene());
+  _gui.drawMenu(_menuScore.getIndex());
+  _gui.drawHighScore();
+  _gui.getContext().flush();
+  while ((_lastKeyPressed = _gui.menuPollEvent()) != QUIT)
+    {
+      _sM.playSound(S_TICK);
+      if (_lastKeyPressed == BOMB1 || _lastKeyPressed == BOMB2)
+	return (callStart());
+      _gui.drawMenu(_menuScore.getIndex());
+      _gui.drawHighScore();
+      _gui.getContext().flush();
+      usleep(100000);
+    }
+  return (EXIT);
 }

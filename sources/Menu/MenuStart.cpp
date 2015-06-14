@@ -6,6 +6,7 @@ MenuStart::MenuStart()
 
   _scene.push_back("./assets/menu/Start_Play.tga");
   _scene.push_back("./assets/menu/Start_Load.tga");
+  _scene.push_back("./assets/menu/Start_Score.tga");
   _scene.push_back("./assets/menu/Start_Settings.tga");
   _scene.push_back("./assets/menu/Start_Exit.tga");
 }
