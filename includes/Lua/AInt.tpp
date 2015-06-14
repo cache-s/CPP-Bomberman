@@ -22,6 +22,8 @@ std::string     AInt<T>::mapMerge()
 
   int x = 0, y = 0;
 
+  std::cout << "on merge!\n";
+
   while (y < _height)
     {
       while (x < _width)
@@ -85,6 +87,7 @@ std::string     AInt<T>::mapMerge()
       y++;
       x = 0;
     }
+  std::cout << "premier while finit!\n";
 
   std::size_t found = result.find("7");
   int i = 0;
@@ -92,27 +95,39 @@ std::string     AInt<T>::mapMerge()
 
   while (found != std::string::npos)
     {
+      if (found > 0)
+	result[found] = '6';
+      if (found - 1 > 0)
+	result[found - 1] = '6';
+      if (found - 2 > 0)
+	result[found - 2] = '6';
+      if (found - 3 > 0)
+	result[found - 3] = '6';
 
-      result[found] = '6';
-      result[found - 1] = '6';
-      result[found - 2] = '6';
-      result[found - 3] = '6';
+      if (found - _width > 0)
+	result[found - _width] = '6';
+      if (found - (_width * 2) > 0)
+	result[found - _width * 2] = '6';
+      if (found - (_width * 3) > 0)
+	result[found - _width * 3] = '6';
 
-      result[found - _width] = '6';
-      result[found - _width * 2] = '6';
-      result[found - _width * 3] = '6';
-
-      result[found + 1] = '6';
-      result[found + 2] = '6';
+      if (found + 1 != 3)
+	result[found + 1] = '6';
+      if (found + 1 != 3 && found + 2 != 3)
+	result[found + 2] = '6';
+      if (found + 1 != 3 && found + 2 != 3 && found + 3 != 3)
       result[found + 3] = '6';
 
-      result[found + _width] = '6';
-      result[found + _width * 2] = '6';
-      result[found + _width * 3] = '6';
+      if (found + _width != 3)
+	result[found + _width] = '6';
+      if (found + _width != 3 && found + (2 * _width) != 3)
+	result[found + _width * 2] = '6';
+      if (found + _width != 3 && found + (2 * _width) != 3 && found + (3 * _width) != 3)
+	result[found + _width * 3] = '6';
       i++;
       found = result.find("7", i);
     }
-
+  std::cout << "deuxieme check finit\n";
   return result;
 }
 
@@ -124,8 +139,10 @@ void            AInt<T>::move()
 
   while (true)
     {
+      std::cout << "entrée dans le move" << std::endl;
       _AICondVar.wait();
       luaL_openlibs(L);
+      std::cout << "lib ouverte\n";
       if (luaL_loadfile(L, _path.c_str()) || lua_pcall(L, 0, 0, 0))
 	{
 	  std:: cout << lua_tostring(L, -1);
@@ -139,7 +156,9 @@ void            AInt<T>::move()
           error = "Error, function doesn't exist";
           throw std::runtime_error(error);
         }
+      std::cout << "pré-merge\n";
       std::string map = mapMerge();
+      std::cout << "post-merge\n";
       lua_pushstring(L, map.c_str());
       lua_pushinteger(L, _width);
       lua_pushinteger(L, _height);
@@ -155,29 +174,12 @@ void            AInt<T>::move()
         }
       action = lua_tointeger(L, -1);
       lua_pop(L, 1);
-      std::cout << "ACTION = " << action << std::endl;
+      std::cout << "ACTION = " << action << " player = " << _player->getType() << std::endl;
       if (action == 101 || (action > 103 && action < 108))
 	{
-	  // switch (action)
-	  //   {
-	  //   case 102:
-	  //     std::cout << "on bombe " << std::endl;
-	  //     break;
-	  //   case 104:
-	  //     std::cout << "on monte" << std::endl;
-	  //     break;
-	  //   case 105:
-	  //     std::cout << "on descend" << std::endl;
-	  //     break;
-	  //   case 106:
-	  //     std::cout << "on va a gauche" << std::endl;
-	  //     break;
-	  //   case 107:
-	  //     std::cout << "on va a droite" << std::endl;
-	  //     break;
-	  //   }
 	  _eventQueue.push(std::make_pair(static_cast<typename EventManager<T>::eEvent>(action), _player));
 	  _eventCondVar.signal();
+	  std::cout << "signal émis!" << std::endl;
 	}
     }
 }

@@ -91,13 +91,17 @@ bool		EventManager<T>::update(void)
   bool							pollEventUpdate = false;
   bool							timeUpdate;
 
+  std::cout << "on update!\n";
   _eventCondVar->timedwait(10000000);
   _gui.update();
   while (_eventQueue->tryPop(&event) == true)
     {
+      std::cout << "entrée eventQueue\n";
+      std::cout << "event == " << std::get<0>(event) << std::endl;
       (this->*_eventPtr[std::get<0>(event)])(std::get<1>(event));
       pollEventUpdate = true;
     }
+  std::cout << "sortie du eventQueue\n";
   timeUpdate = timeCheck();
   return (pollEventUpdate || timeUpdate);
 }
@@ -259,7 +263,6 @@ void		EventManager<T>::moveRight(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::flameDestruction(IEntity<T> *flame)
 {
-  std::cout << "FLAME DESTRUCTION" << std::endl;
   _entityMap[std::make_pair(flame->getPosX(), flame->getPosY())] = NULL;
   if (reinterpret_cast<IFlame<T> *>(flame)->isDrop())
     generateItem(flame->getPosX(), flame->getPosY());
