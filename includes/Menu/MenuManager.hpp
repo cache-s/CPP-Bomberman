@@ -6,6 +6,7 @@
 # include			"MenuSettings.hpp"
 # include			"MenuPause.hpp"
 # include			"MenuScore.hpp"
+# include			"MenuSave.hpp"
 # include			"MenuEnd.hpp"
 
 # include			"IGUI.hpp"
@@ -17,11 +18,15 @@ enum				eMenuEvent
   {
     LAUNCH = 1,
     RESUME = 2,
-    SAVE = 3,
-    LOADGAME = 4,
-    MAIN = 5,
-    EXIT = 6,
-    NOTHING = 7
+    SAVESLOT1 = 3,
+    SAVESLOT2 = 4,
+    SAVESLOT3 = 5,
+    LOADSLOT1 = 6,
+    LOADSLOT2 = 7,
+    LOADSLOT3 = 8,
+    MAIN = 9,
+    EXIT = 10,
+    NOTHING = 11
   };
 
 enum				eMenu
@@ -36,7 +41,7 @@ enum				eMenu
     LOSE = 8
   };
 
-template <class T>
+template <typename T>
 class				MenuManager
 {
 public:
@@ -47,8 +52,10 @@ public:
 
 private:
 
+  int				stringToInt(const std::string & nb);
   std::string			getString(int result);
   int				getNumber(int min, int max, int current);
+  void				fillScoreFile();
 
   eMenuEvent			callIntro();
   eMenuEvent			callStart();
@@ -58,6 +65,7 @@ private:
   eMenuEvent			callWin();
   eMenuEvent			callLose();
   eMenuEvent			callScore();
+  eMenuEvent			callSave();
   eMenuEvent			callEnd(int index);
 
   typedef eMenuEvent (MenuManager<T>::*callMenuFct)();
@@ -73,6 +81,7 @@ private:
   MenuPause			_menuPause;
   MenuEnd			_menuEnd;
   MenuScore			_menuScore;
+  MenuSave			_menuSave;
 };
 
 # include			"MenuManager.tpp"

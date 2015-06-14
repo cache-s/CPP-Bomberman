@@ -1,9 +1,19 @@
+//
+// Speed.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:33:29 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:33:30 2015 Jordan Chazottes
+//
+
 #ifndef				SPEED_HPP_
 # define			SPEED_HPP_
 
 # include			"IBonus.hpp"
 
-template <class T>
+template <typename T>
 class				Speed : public IBonus<T>
 {
 public:
@@ -15,7 +25,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 Speed<T>::Speed(double x, double y)
 {
   this->setPosX(x);
@@ -28,18 +38,18 @@ Speed<T>::Speed(double x, double y)
   this->setIsCrossable(true);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Speed<T>::getType() const
 {
   return (BSPEED);
 }
 
-template <class T>
+template <typename T>
 Speed<T>::~Speed()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Speed<T>::clone(double x, double y)
 {
   Speed<T> *speed = new Speed<T>(*this);
@@ -54,7 +64,7 @@ IEntity<T>				*Speed<T>::clone(double x, double y)
   return (speed);
 }
 
-template <class T>
+template <typename T>
 Speed<T>::Speed(Speed const &other)
 {
   this->setPosX(other.getPosX());

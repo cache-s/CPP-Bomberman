@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sun Jun 14 21:35:12 2015 Martin Porrès
+// Last update Sun Jun 14 21:52:09 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -28,27 +28,11 @@
 #include	"SoundManager.hpp"
 #include	"Settings.hpp"
 
-template <class T>
+template <typename T>
 class IGUI;
 
-template <class T>
+template <typename T>
 class AInt;
-
-// enum		eKey
-//   {
-//     UP1 = 200,
-//     DOWN1 = 201,
-//     LEFT1 = 202,
-//     RIGHT1 = 203,
-//     BOMB1 = 204,
-//     UP2 = 205,
-//     DOWN2 = 206,
-//     LEFT2 = 207,
-//     RIGHT2 = 208,
-//     BOMB2 = 209,
-//     QUIT = 210,
-//     NONE = 211,
-//   };
 
 template <typename T>
 class		EventManager

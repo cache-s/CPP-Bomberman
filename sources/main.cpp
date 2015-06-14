@@ -1,7 +1,5 @@
-#include		"Bomberman.hpp"
-#include		"Factory.hpp"
 #include		"Core.hpp"
-#include		"SoundManager.hpp"
+
 
 int			main()
 {

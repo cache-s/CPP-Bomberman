@@ -1,10 +1,20 @@
+//
+// AEntity.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman/includes
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:24:34 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:24:36 2015 Jordan Chazottes
+//
+
 #ifndef				AENTITY_HPP_
 # define			AENTITY_HPP_
 
 # include			<Texture.hh>
 # include			"IEntity.hpp"
 
-template<class T>
+template<typename T>
 class				AEntity : public IEntity<T>
 {
 public:
@@ -46,7 +56,7 @@ private:
   bool				_isCrossable;
 };
 
-template <class T>
+template <typename T>
 AEntity<T>::AEntity(double x, double y)
 {
   this->_x = x;
@@ -54,122 +64,122 @@ AEntity<T>::AEntity(double x, double y)
   this->_isDraw = false;
 }
 
-template <class T>
+template <typename T>
 bool				AEntity<T>::isDraw() const
 {
   return (_isDraw);
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setIsDraw(bool isDraw) 
 {
   _isDraw = isDraw;
 }
 
-template <class T>
+template <typename T>
 bool				AEntity<T>::isCrossable() const
 {
   return (_isCrossable);
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setIsCrossable(bool isCrossable) 
 {
   _isCrossable = isCrossable;
 }
 
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setHitboxSize(double hitbox)
 {
   _hitboxSize = hitbox;
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setIsBreakable(bool breakable)
 {
   _isBreakable = breakable;
 }
 
-template <class T> 
+template <typename T> 
 void				AEntity<T>::setPosition(const T &pos)
 {
   _position = pos;
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setRotation(const T &pos)
 {
   _rotation = pos;
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setScale(const T &pos)
 {
   _scale = pos;
 }
 
-template <class T>
+template <typename T>
 double				AEntity<T>::getHitboxSize() const
 {
   return (_hitboxSize);
 }
 
-template <class T>
+template <typename T>
 bool				AEntity<T>::isBreakable() const
 {
   return (_isBreakable);
 }
 
-template <class T>
+template <typename T>
 T				AEntity<T>::getPosition() const
 {
   return (_position);
 }
 
-template <class T>
+template <typename T>
 T				AEntity<T>::getRotation() const
 {
   return (_rotation);
 }
 
-template <class T>
+template <typename T>
 T				AEntity<T>::getScale() const
 {
   return (_scale);
 }
 
-template <class T>
+template <typename T>
 double				AEntity<T>::getPosX() const
 {
   return (_x);
 }
 
-template <class T>
+template <typename T>
 double				AEntity<T>::getPosY() const
 {
   return (_y);
 }
 
-template <class T>
+template <typename T>
 float				AEntity<T>::getSpeed() const
 {
   return (_speed);
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setPosX(double x)
 {
   this->_x = x;
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setPosY(double y)
 {
   this->_y = y;
 }
 
-template <class T>
+template <typename T>
 void				AEntity<T>::setSpeed(float speed)
 {
   this->_speed = speed;

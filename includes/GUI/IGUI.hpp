@@ -29,6 +29,7 @@ public:
   virtual void rotate(T const &axis, float angle, IEntity<T> &ent) const = 0;
   virtual void menuLoadTexture(const std::vector<std::string> & images) = 0;
   virtual gdl::SdlContext getContext() const = 0;
+  virtual void getHighScore(int index, std::string & score, std::string & name) = 0;
 
   virtual void draw() = 0;
   virtual void drawBomb(IEntity<T> &ent) = 0;

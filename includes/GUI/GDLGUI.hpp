@@ -1,3 +1,13 @@
+//
+// GDLGUI.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:30:48 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:30:50 2015 Jordan Chazottes
+//
+
 #ifndef		GDLGUI_HPP_
 # define	GDLGUI_HPP_
 

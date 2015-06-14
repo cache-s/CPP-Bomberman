@@ -1,9 +1,19 @@
+//
+// Floor.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:50 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:51 2015 Jordan Chazottes
+//
+
 #ifndef				FLOOR_HPP_
 # define			FLOOR_HPP_
 
 # include			"IFloor.hpp"
 
-template <class T>
+template <typename T>
 class				Floor : public IFloor<T>
 {
 public:
@@ -15,7 +25,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 IEntity<T>			*Floor<T>::clone(double x, double y)
 {
   Floor<T> *floor = new Floor<T>(*this);
@@ -29,7 +39,7 @@ IEntity<T>			*Floor<T>::clone(double x, double y)
    return (floor);
 }
 
-template <class T>
+template <typename T>
 Floor<T>::Floor(Floor const&other)
 {
   this->setPosX(other.getPosX());
@@ -42,7 +52,7 @@ Floor<T>::Floor(Floor const&other)
   this->setIsCrossable(true);
 }
 
-template <class T>
+template <typename T>
 Floor<T>::Floor(double x, double y)
 {
   this->setPosX(x);
@@ -54,13 +64,13 @@ Floor<T>::Floor(double x, double y)
   this->setIsCrossable(true);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Floor<T>::getType() const
 {
   return (FLOOR);
 }
 
-template <class T>
+template <typename T>
 Floor<T>::~Floor()
 {
 }

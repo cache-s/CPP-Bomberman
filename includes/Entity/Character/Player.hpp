@@ -1,9 +1,19 @@
+//
+// Player.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:29:17 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:29:18 2015 Jordan Chazottes
+//
+
 #ifndef				PLAYER_HPP_
 # define			PLAYER_HPP_
 
 # include			"IPlayer.hpp"
 
-template <class T>
+template <typename T>
 class				Player : public IPlayer<T>
 {
 public:
@@ -21,7 +31,7 @@ private:
   int				_radius;
 };
 
-template <class T>
+template <typename T>
 Player<T>::Player(double x, double y) : _bombStock(1), _radius(2)
 {
   this->setPosX(x);
@@ -34,7 +44,7 @@ Player<T>::Player(double x, double y) : _bombStock(1), _radius(2)
   this->setSpeed(1.0f);
 }
 
-template <class T>
+template <typename T>
 Player<T>::Player(Player const &other) : _bombStock(other._bombStock), _radius(other._radius)
 {
   this->setPosX(other.getPosX());
@@ -47,19 +57,19 @@ Player<T>::Player(Player const &other) : _bombStock(other._bombStock), _radius(o
   this->setSpeed(other.getSpeed());
 }
 
-template <class T>
+template <typename T>
 eEntityType				Player<T>::getType() const
 {
   return (PLAYER);
 }
 
-template <class T>
+template <typename T>
 Player<T>::~Player()
 {
 
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Player<T>::clone(double x, double y)
 {
   Player<T> *player = new Player<T>(*this);
@@ -77,25 +87,25 @@ IEntity<T>				*Player<T>::clone(double x, double y)
   return (player);
 }
 
-template <class T>
+template <typename T>
 int		Player<T>::getBombStock() const
 {
   return (_bombStock);
 }
 
-template <class T>
+template <typename T>
 void		Player<T>::setBombStock(int nb)
 {
   _bombStock = nb;
 }
 
-template <class T>
+template <typename T>
 int		Player<T>::getRadius() const
 {
   return (_radius);
 }
 
-template <class T>
+template <typename T>
 void		Player<T>::setRadius(int nb)
 {
   _radius = nb;

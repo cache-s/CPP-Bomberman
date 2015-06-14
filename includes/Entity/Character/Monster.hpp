@@ -1,9 +1,19 @@
+//
+// Monster.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:29:10 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:29:11 2015 Jordan Chazottes
+//
+
 #ifndef				MONSTER_HPP_
 # define			MONSTER_HPP_
 
 # include			"IMonster.hpp"
 
-template <class T>
+template <typename T>
 class				Monster : public IMonster<T>
 {
 public:
@@ -14,7 +24,7 @@ public:
   eEntityType   getType() const;
 };
 
-template <class T>
+template <typename T>
 Monster<T>::Monster(double x, double y)
 {
   this->setPosX(x);
@@ -22,18 +32,18 @@ Monster<T>::Monster(double x, double y)
   this->setIsBreakable(true);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Monster<T>::getType() const
 {
   return (MONSTER);
 }
 
-template <class T>
+template <typename T>
 Monster<T>::~Monster()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Monster<T>::clone(double x, double y)
 {
   Monster<T> *monster = new Monster<T>(*this);
@@ -42,7 +52,7 @@ IEntity<T>				*Monster<T>::clone(double x, double y)
   return (monster);
 }
 
-template <class T>
+template <typename T>
 Monster<T>::Monster(Monster const &other)
 {
   this->setPosX(other.getPosX());

@@ -30,7 +30,7 @@ void		AssetsManager::init()
     std::cerr << "error loading grass" << std::endl;
   _textures[BRKWALL] = &_texture[2];
   
-  if (_texture[3].load("./assets/test.tga") == false)
+  if (_texture[3].load("./assets/netherbrick.tga") == false)
     std::cerr << "error loading grass" << std::endl;  
   _textures[UBRKWALL] = &_texture[3];
   

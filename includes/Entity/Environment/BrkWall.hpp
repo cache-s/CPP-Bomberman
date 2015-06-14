@@ -1,9 +1,19 @@
+//
+// BrkWall.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:40 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:41 2015 Jordan Chazottes
+//
+
 #ifndef					BRKWALL_HPP_
 # define				BRKWALL_HPP_
 
 # include				"IWall.hpp"
 
-template <class T>
+template <typename T>
 class					BrkWall : public IWall<T>
 {
 public:
@@ -15,7 +25,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 IEntity<T>				*BrkWall<T>::clone(double x, double y)
 {
   BrkWall<T> *brkwall = new BrkWall<T>(*this);
@@ -30,7 +40,7 @@ IEntity<T>				*BrkWall<T>::clone(double x, double y)
   return (brkwall);
 }
 
-template <class T>
+template <typename T>
 BrkWall<T>::BrkWall(BrkWall const &other)
 {
   this->setPosX(other.getPosX());
@@ -43,7 +53,7 @@ BrkWall<T>::BrkWall(BrkWall const &other)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 BrkWall<T>::BrkWall(double x, double y)
 {
   this->setPosX(x);
@@ -56,13 +66,13 @@ BrkWall<T>::BrkWall(double x, double y)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 eEntityType			BrkWall<T>::getType() const
 {
   return (BRKWALL);
 }
 
-template <class T>
+template <typename T>
 BrkWall<T>::~BrkWall()
 {
 }

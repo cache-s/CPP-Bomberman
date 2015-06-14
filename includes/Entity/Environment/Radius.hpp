@@ -1,9 +1,19 @@
+//
+// Radius.hpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:33:25 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:33:26 2015 Jordan Chazottes
+//
+
 #ifndef				RADIUS_HPP_
 # define			RADIUS_HPP_
 
 # include			"IBonus.hpp"
 
-template <class T>
+template <typename T>
 class				Radius : public IBonus<T>
 {
 public:
@@ -15,7 +25,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 Radius<T>::Radius(double x, double y)
 {
   this->setPosX(x);
@@ -28,18 +38,18 @@ Radius<T>::Radius(double x, double y)
   this->setHitboxSize(1);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Radius<T>::getType() const
 {
   return (BRADIUS);
 }
 
-template <class T>
+template <typename T>
 Radius<T>::~Radius()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Radius<T>::clone(double x, double y)
 {
   Radius<T> *radius = new Radius<T>(*this);
@@ -53,7 +63,7 @@ IEntity<T>				*Radius<T>::clone(double x, double y)
   return (radius);
 }
 
-template <class T>
+template <typename T>
 Radius<T>::Radius(Radius const &other)
 {
   this->setPosX(other.getPosX());

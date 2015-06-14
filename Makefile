@@ -5,7 +5,7 @@
 ## Login   <cache-_s@epitech.net>
 ## 
 ## Started on  Wed May 13 11:07:19 2015 Sebastien Cache-Delanos
-## Last update Sun Jun 14 11:51:01 2015 Sebastien Cache-Delanos
+## Last update Sun Jun 14 21:26:56 2015 Jordan Chazottes
 ##
 
 NAME	= bomberman
@@ -19,6 +19,7 @@ SRCS	= ./sources/main.cpp				\
 	  ./sources/Menu/MenuStart.cpp			\
 	  ./sources/Menu/MenuSettings.cpp		\
 	  ./sources/Menu/MenuLoad.cpp			\
+	  ./sources/Menu/MenuSave.cpp			\
 	  ./sources/Menu/MenuPause.cpp			\
 	  ./sources/Menu/MenuScore.cpp			\
 	  ./sources/Menu/MenuEnd.cpp			\
@@ -26,7 +27,7 @@ SRCS	= ./sources/main.cpp				\
 
 OBJS	= $(SRCS:.cpp=.o)
 
-INCS	+= -Iincludes -Iincludes/Thread/ -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Menu -Iincludes/Audio -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Iincludes/Core -Iincludes/Manager -Wl,-rpath=./includes/LibBomberman/libs/
+INCS	+= -Iincludes -Iincludes/Thread/ -Iincludes/Entity/Environment/ -Iincludes/Entity/Character/ -Iincludes/GUI -Iincludes/Factory -Iincludes/AI -Iincludes/Menu -Iincludes/Entity -Iincludes/LibBomberman/includes -Iincludes/Thread -Lincludes/LibBomberman/libs -Iincludes/Lua -Iincludes/Core -Iincludes/Manager -Wl,-rpath=./includes/LibBomberman/libs/
 
 CXXFLAGS	+= -W -Wall -Wextra -Werror -Wno-uninitialized $(INCS)
 

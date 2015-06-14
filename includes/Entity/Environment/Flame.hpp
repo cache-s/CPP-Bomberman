@@ -1,9 +1,19 @@
+//
+// Flame.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:45 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:46 2015 Jordan Chazottes
+//
+
 #ifndef				FLAME_HPP_
 # define			FLAME_HPP_
 
 #include			"IFlame.hpp"
 
-template <class T>
+template <typename T>
 class				Flame : public IFlame<T>
 {
 public:
@@ -18,19 +28,19 @@ private:
   bool			_drop;
 };
 
-template<class T>
+template<typename T>
 void		Flame<T>::setDrop(bool drop)
 {
   _drop = drop;
 }
 
-template<class T>
+template<typename T>
 bool		Flame<T>::isDrop() const
 {
   return (_drop);
 }
 
-template <class T>
+template <typename T>
 Flame<T>::Flame(double x, double y)
 {
   this->setPosX(x);
@@ -44,18 +54,18 @@ Flame<T>::Flame(double x, double y)
   _drop = false;
 }
 
-template <class T>
+template <typename T>
 eEntityType			Flame<T>::getType() const
 {
   return (FLAME);
 }
 
-template <class T>
+template <typename T>
 Flame<T>::~Flame()
 {
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*Flame<T>::clone(double x, double y)
 {
   Flame<T> *flame = new Flame<T>(*this);
@@ -71,7 +81,7 @@ IEntity<T>				*Flame<T>::clone(double x, double y)
   return (flame);
 }
 
-template <class T>
+template <typename T>
 Flame<T>::Flame(Flame const &other)
 {
   this->setPosX(other.getPosX());

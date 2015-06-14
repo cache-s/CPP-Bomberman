@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Fri Jun 12 23:53:50 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:15:29 2015 Pierre Charie
 //
 
 template <typename T>
@@ -48,7 +48,7 @@ std::map<std::pair<int, int>, IEntity<T> *> MapGen<T>::getPMap() const
 }
 
 template <typename T>
-std::string MapGen<T>::luaMapLoad(std::string fileLoad, std::string functionName)
+std::string MapGen<T>::luaMapLoad(std::string const &fileLoad, std::string const &functionName) const
 {
   lua_State*            L = luaL_newstate();
   std::string           map;
@@ -89,6 +89,7 @@ std::map<std::pair<int, int>, IEntity<T> *> MapGen<T>::mapGenerate(int width, in
   _width = width;
   _height = height;
 
+
   mapLua = luaMapLoad("./sources/Scripts/map/maprandom.lua", "serializeMap");
 
     while (mapLua[i])
@@ -122,7 +123,7 @@ std::map<std::pair<int, int>, IEntity<T> *>	MapGen<T>::playerMapGenerate(int pla
   std::map<std::pair<int, int>, IEntity<T> *>	playerMap;
 
   if (playerNbr > (_width * _height / 15))
-    throw std::range_error("too many player for this size of map") ;
+    throw std::range_error("too many player for the map") ;
 
   _playerNbr = playerNbr;
 
@@ -201,6 +202,7 @@ void                                                     MapGen<T>::spawnPlayer(
 template <typename T>
 void                                                     MapGen<T>::spawnRandomPlayer(int playerNbr)
 {
+  static int playerCheck = 0;
   bool	good;
   int	posX, posY;
 
@@ -210,11 +212,14 @@ void                                                     MapGen<T>::spawnRandomP
       good = false;
       while (good != true)
 	{
+	  playerCheck++;
+	  if (playerCheck > 150)
+	    throw std::range_error("too many player for the map");
 	  good = true;
 	  posX = rand() % (_width - 1)  + 1;
 	  posY = rand() % (_height - 1)  + 1;
 	  try{
-	    checkPlayerZone(posX, posY, _width / playerNbr, _height / playerNbr);
+	    checkPlayerZone(posX, posY, 3, 3);
 	  }catch (const std::range_error& e){
 	    good = false;
 	  }
@@ -225,44 +230,23 @@ void                                                     MapGen<T>::spawnRandomP
 }
 
 template <typename T>
-void MapGen<T>::checkPlayerZone(int posX, int posY, int sizeX, int sizeY) //TODO verifier le bon fonctionnement
+void MapGen<T>::checkPlayerZone(int posX, int posY, int sizeX, int sizeY)
 {
 
-  int	tmpX;
-  int	tmpY = posY;
-  int	tmpSizeX = sizeX;
+  int	x = 0;
+  int	y = 0;
 
-  while (tmpY > posY - sizeY && tmpY > 0)
+  while (y < _height)
     {
-      tmpX = posX - sizeX;
-      if (tmpX < 0)
-	tmpX = 0;
-      while (tmpX < posX + sizeX && tmpX < _width)
+      while (x < _width)
 	{
-	  if (_pMap[std::make_pair(tmpX, tmpY)] != NULL)
-	    throw std::range_error("zone already occupied");
-	  tmpX++;
+	  if (_pMap[std::make_pair(x, y)] != NULL)
+	    if ((std::abs(posX - x) < sizeX) || (std::abs(posY - y) < sizeY))
+	      throw std::range_error("zone already occupied");
+	  x++;
 	}
-      sizeX--;
-      tmpY--;
-    }
-
-  sizeX = tmpSizeX;
-  tmpY = posY;
-
-  while (tmpY < (posY + sizeY) && tmpY < _height)
-    {
-      tmpX = posX - sizeX;
-      if (tmpX < 0)
-        tmpX = 0;
-      while (tmpX < posX + sizeX && tmpX < _width)
-        {
-          if (_pMap[std::make_pair(tmpX, tmpY)] != NULL)
-            throw std::range_error("zone already occupied");
-          tmpX++;
-        }
-      sizeX--;
-      tmpY++;
+      y++;
+      x = 0;
     }
 }
 
@@ -296,7 +280,6 @@ void                                                          MapGen<T>::spawnFo
 template <typename T>
 void                                                          MapGen<T>::spawnFivePlayer()
 {
-  std::cout << "TEEEEST\n";
   spawnPlayer(1, _height - 1);
   spawnPlayer(_width - 1, 1);
   spawnPlayer(1, 1);

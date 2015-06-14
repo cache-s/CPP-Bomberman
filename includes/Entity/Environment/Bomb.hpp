@@ -1,10 +1,20 @@
+//
+// Bomb.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:28 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:29 2015 Jordan Chazottes
+//
+
 #ifndef				BOMB_HPP_
 # define			BOMB_HPP_
 
 #include			"IBomb.hpp"
 
-template <class T>
-class				Bomb : public IBomb<T>
+template <typename T>
+class			Bomb : public IBomb<T>
 {
 public:
   Bomb(double x = 0, double y = 0);
@@ -18,7 +28,7 @@ private:
   int				_radius;
 };
 
-template <class T>
+template <typename T>
 IEntity<T>				*Bomb<T>::clone(double x, double y)
 {
   Bomb<T> *bomb = new Bomb<T>(*this);
@@ -34,7 +44,7 @@ IEntity<T>				*Bomb<T>::clone(double x, double y)
 
 }
 
-template <class T>
+template <typename T>
 Bomb<T>::Bomb(Bomb const &other)
 {
   this->setPosX(other.getPosX());
@@ -47,7 +57,7 @@ Bomb<T>::Bomb(Bomb const &other)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 Bomb<T>::Bomb(double x, double y)
 {
   this->setPosX(x);
@@ -60,24 +70,24 @@ Bomb<T>::Bomb(double x, double y)
   this->setIsCrossable(false);
 }
 
-template <class T>
+template <typename T>
 eEntityType			Bomb<T>::getType() const
 {
   return (BOMB);
 }
 
-template <class T>
+template <typename T>
 Bomb<T>::~Bomb()
 {
 }
 
-template <class T>
+template <typename T>
 int             Bomb<T>::getRadius() const
 {
   return (_radius);
 }
 
-template <class T>
+template <typename T>
 void            Bomb<T>::setRadius(int nb)
 {
   _radius = nb;

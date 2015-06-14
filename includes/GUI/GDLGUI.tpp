@@ -1,3 +1,13 @@
+//
+// GDLGUI.tpp for bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:00 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:56:01 2015 Martin Porrès
+//
+
 template <typename T>
 GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap, Settings &settings) : _settings(settings), _drawQueue(drawQueue), _charMap(characterMap), _entMap(entityMap)
 {
@@ -64,7 +74,7 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _inputFct[3] = &GDLGUI<T>::inputDown;
   _inputFct[4] = &GDLGUI<T>::inputLeft;
   _inputFct[5] = &GDLGUI<T>::inputBomb;
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   initialize();
   _context.flush();
 }
@@ -204,10 +214,8 @@ GDLGUI<T>::~GDLGUI()
   delete _floor;
   delete _cube;
   delete _factory;
-  std::cout << "AAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
   _updateCondVar->broadcast();
   delete _updateCondVar;
-  std::cout << "AAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 }
 
 template <class T>
@@ -694,7 +702,7 @@ void    GDLGUI<T>::drawHighScore()
       geometryNumber3.pushUv(glm::vec2(0.0f, 1.0f));
       geometryNumber3.build();
 
-      if (texture.load(_numbers[score[2]]) == false)
+      if (texture.load(_numbers[score[0]]) == false)
         exit(0);//throw
       texture.bind();
       geometryNumber1.draw(_shader, transform, GL_QUADS);
@@ -702,7 +710,7 @@ void    GDLGUI<T>::drawHighScore()
         exit(0);//throw
       texture.bind();
       geometryNumber2.draw(_shader, transform, GL_QUADS);
-      if (texture.load(_numbers[score[0]]) == false)
+      if (texture.load(_numbers[score[2]]) == false)
         exit(0);//throw
       texture.bind();
       geometryNumber3.draw(_shader, transform, GL_QUADS);
@@ -938,10 +946,10 @@ void	GDLGUI<T>::drawMap(int p)
   it_e = _entMap.begin();
   for (it_e = _entMap.begin(); it_e != _entMap.end(); it_e++)
     {
-      if (it_e->second != NULL && checkRadius(-p, *it_e->second, 7) == true)
+      if (it_e->second != NULL && checkRadius(-p, *it_e->second, _settings.getMapSize() / 2) == true)
 	(this->*_drawFct[it_e->second->getType()])(*it_e->second);
       else
-	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), 7))
+	if (checkRadius(-p, std::get<0>(it_e->first), std::get<1>(it_e->first), _settings.getMapSize() / 2))
 	  (this->*_drawFct[FLOOR])(*(_factory->createEntity(FLOOR, std::get<0>(it_e->first), std::get<1>(it_e->first))));
     }
   it_p = _charMap.begin();

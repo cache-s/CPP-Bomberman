@@ -19,7 +19,6 @@ std::string     AInt<T>::mapMerge()
 {
   int   tmp;
   std::string result;
-
   int x = 0, y = 0;
 
   while (y < _height)
@@ -85,45 +84,40 @@ std::string     AInt<T>::mapMerge()
       y++;
       x = 0;
     }
+
   std::size_t found = result.find("7");
   int i = 0;
 
-
   while (found != std::string::npos)
     {
-      if (found > 0)
-	result[found] = '6';
-      if (found - 1 > 0)
-	result[found - 1] = '6';
-      if (found - 2 > 0)
-	result[found - 2] = '6';
-      if (found - 3 > 0)
-	result[found - 3] = '6';
+      if (found < (_width * _height))
+	{
+	  this->checkMapPos(result, found);
+	  this->checkMapPos(result, found - 1);
+	  this->checkMapPos(result, found - 2);
+	  this->checkMapPos(result, found - 3);
+	  this->checkMapPos(result, found - _width);
+	  this->checkMapPos(result, found - (2 * _width));
+	  this->checkMapPos(result, found - (3 * _width));
 
-      if (found - _width > 0)
-	result[found - _width] = '6';
-      if (found - (_width * 2) > 0)
-	result[found - _width * 2] = '6';
-      if (found - (_width * 3) > 0)
-	result[found - _width * 3] = '6';
-
-      if (found + 1 != 3)
-	result[found + 1] = '6';
-      if (found + 1 != 3 && found + 2 != 3)
-	result[found + 2] = '6';
-      if (found + 1 != 3 && found + 2 != 3 && found + 3 != 3)
-      result[found + 3] = '6';
-
-      if (found + _width != 3)
-	result[found + _width] = '6';
-      if (found + _width != 3 && found + (2 * _width) != 3)
-	result[found + _width * 2] = '6';
-      if (found + _width != 3 && found + (2 * _width) != 3 && found + (3 * _width) != 3)
-	result[found + _width * 3] = '6';
-      i++;
-      found = result.find("7", i);
+	  this->checkMapPos(result, found + 1);
+	  this->checkMapPos(result, found + 2);
+	  this->checkMapPos(result, found + 3);
+	  this->checkMapPos(result, found + _width);
+	  this->checkMapPos(result, found + (2 * _width));
+	  this->checkMapPos(result, found + (3 * _width));
+	}
+	i++;
+	found = result.find("7", i);
     }
   return result;
+}
+
+template <typename T>
+void	AInt<T>::checkMapPos(std::string &map, int pos)
+{
+  if (pos > 0 && map[pos] && map[pos] != '3')
+    map[pos] = '6';
 }
 
 template <typename T>

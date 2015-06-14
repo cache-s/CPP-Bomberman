@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Fri Jun 12 17:02:21 2015 Pierre Charie
+// Last update Sun Jun 14 21:27:19 2015 Jordan Chazottes
 //
 
 #ifndef		MAPGEN_HPP_
@@ -18,9 +18,8 @@ extern "C"
 #include "lauxlib.h"
 }
 
-# include	<stdlib.h>     /* srand, rand */
-
-# include	"Bomberman.hpp"
+# include	<complex>
+# include	<stdlib.h>
 # include	"AEntity.hpp"
 # include	"Factory.hpp"
 # include	"IEntity.hpp"
@@ -31,7 +30,7 @@ class MapGen
 public:
   MapGen();
   ~MapGen();
-  std::string							luaMapLoad(std::string fileLoad, std::string functionName);
+  std::string							luaMapLoad(std::string const &fileLoad, std::string  const &functionName) const;
   std::map<std::pair<int, int>, IEntity<T> *>		mapGenerate(int width, int height);
   std::map<std::pair<int, int>, IEntity<T> *>		playerMapGenerate(int playerNbr);
   std::map<std::pair<int, int>, IEntity<T> *>		getMap() const;

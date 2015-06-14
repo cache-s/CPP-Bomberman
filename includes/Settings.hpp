@@ -1,3 +1,13 @@
+//
+// Settings.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman/includes
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:24:06 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:24:07 2015 Jordan Chazottes
+//
+
 #ifndef			SETTINGS_HPP_
 # define		SETTINGS_HPP_
 

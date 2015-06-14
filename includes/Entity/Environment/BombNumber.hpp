@@ -1,9 +1,19 @@
+//
+// BombNumber.hpp for Bomberman in /home/chazot_a/rendu/cpp_bomberman
+// 
+// Made by Jordan Chazottes
+// Login   <chazot_a@epitech.net>
+// 
+// Started on  Sun Jun 14 21:31:35 2015 Jordan Chazottes
+// Last update Sun Jun 14 21:31:36 2015 Jordan Chazottes
+//
+
 #ifndef				BOMBNUMBER_HPP_
 # define			BOMBNUMBER_HPP_
 
 # include			"IBonus.hpp"
 
-template <class T>
+template <typename T>
 class				BombNumber : public IBonus<T>
 {
 public:
@@ -15,7 +25,7 @@ public:
 private:
 };
 
-template <class T>
+template <typename T>
 BombNumber<T>::BombNumber(double x, double y)
 {
   this->setPosX(x);
@@ -27,7 +37,7 @@ BombNumber<T>::BombNumber(double x, double y)
   this->setIsBreakable(true);
 }
 
-template <class T>
+template <typename T>
 IEntity<T>				*BombNumber<T>::clone(double x, double y)
 {
   BombNumber<T> *bomb = new BombNumber<T>(*this);
@@ -41,7 +51,7 @@ IEntity<T>				*BombNumber<T>::clone(double x, double y)
   return (bomb);
 }
 
-template <class T>
+template <typename T>
 BombNumber<T>::BombNumber(BombNumber const &other)
 {
   this->setPosX(other.getPosX());
@@ -53,13 +63,13 @@ BombNumber<T>::BombNumber(BombNumber const &other)
   this->setScale(other.getScale());
 }
 
-template <class T>
+template <typename T>
 eEntityType			BombNumber<T>::getType() const
 {
   return (BBOMBNUMBER);
 }
 
-template <class T>
+template <typename T>
 BombNumber<T>::~BombNumber()
 {
 }

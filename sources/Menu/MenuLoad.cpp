@@ -4,10 +4,10 @@ MenuLoad::MenuLoad()
 {
   _index = 0;
 
-  _scene.push_back("./assets/menu/Start_Play.tga");
-  _scene.push_back("./assets/menu/Start_Load.tga");
-  _scene.push_back("./assets/menu/Start_Settings.tga");
-  _scene.push_back("./assets/menu/Start_Exit.tga");
+  _scene.push_back("./assets/menu/Load_Slot1.tga");
+  _scene.push_back("./assets/menu/Load_Slot2.tga");
+  _scene.push_back("./assets/menu/Load_Slot3.tga");
+  _scene.push_back("./assets/menu/Load_Back.tga");
 }
 
 MenuLoad::~MenuLoad()
