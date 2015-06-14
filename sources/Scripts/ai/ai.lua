@@ -13,7 +13,10 @@ function move(sMap, width, height, selfx, selfy)
    
    local map = {}
    local chara
-   pos = (selfx * selfy) + selfx
+   local pos
+
+   pos = (width * selfy) + selfx + 1
+   print("pos = "..pos)
 
    -- print(map)
    for i = 1, string.len(sMap) do
@@ -26,8 +29,13 @@ function move(sMap, width, height, selfx, selfy)
 
    -- print("pos = "..pos)
 
-   print("map = "..map[pos])
+   print("case = "..map[pos])
    if (map[pos] == 6) then --Survie de l'IA
+      print("DANGER ZONE, GTFO")
+      print("au dessus : ".. map[pos + width])
+      print("a gauche : ".. map[pos - 1])
+      print("a droite : ".. map[pos + 1])
+      print("au dessous : ".. map[pos - width])
       if (map[pos + width] == 0 or (map[pos + width] == 4)) then
 	 return(104)
       elseif (map[pos + 1] == 0 or (map[pos + 1] == 4)) then
@@ -37,8 +45,12 @@ function move(sMap, width, height, selfx, selfy)
       elseif (map[pos - width] == 0 or (map[pos - width] == 4)) then
 	 return(105)	 -- go bot
       end
+      ret = math.floor((math.random()* 4) + 104)
+      print("ret = "..ret)
+      return (ret)
    end -- Survie
-   
+
+
    --posage de bombe
    if (map[pos + (width)]) then 
       print("EN MAP!")
@@ -181,16 +193,16 @@ function move(sMap, width, height, selfx, selfy)
    closestDistance = 0
    closest = -1
    
-   -- for i = 0, (width * height) do
-   --    if (map[i] > 19 and map[i] < 30) then
-   -- 	 delta = math.abs(pos - i)
-   -- 	 distance = ((delta / width) - 2 + (delta % width) )
-   -- 	 if (closest = -1 or distance < closestDistance) then
-   -- 	    closestDistance = distance
-   -- 	    closest = i
-   -- 	 end
-   --    end
-   -- end
+   for i = 0, (width * height) do
+      if (map[i] == 5 and i ~= pos) then
+   	 delta = math.abs(pos - i)
+   	 distance = ((delta / width) - 2 + (delta % width) )
+   	 if (closest == -1 or distance < closestDistance) then
+   	    closestDistance = distance
+   	    closest = i
+   	 end
+      end
+   end
    
    if (pos - closest > 0) then -- au dessus ou a gauche
       if (pos - closest) then
