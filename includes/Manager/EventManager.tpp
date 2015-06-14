@@ -3,17 +3,15 @@ template	<typename T>
 EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
 			      std::map<std::pair<int, int>, IEntity<T> *> &entityMap,
 			      std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-			      Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory), _sM(sM)
+			      Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM, Settings &settings) : _gui(gui), _drawQueue(drawQueue), _entityMap(entityMap), _characterMap(characterMap), _factory(factory), _AICondVar(AICondVar), _sM(sM), _settings(settings)
 {
   _end = false;
   _eventCondVar = new CondVar(_eventMutex);
   _eventQueue = new SafeQueue<std::pair<EventManager<T>::eEvent, IEntity<T> *> >();
   _pollEventThread = new Thread();
   _pollEventThread->create(&poll_event<T>, reinterpret_cast<void *>(this));
-  _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
-  (void)AICondVar;
-  _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
   srand(time(NULL));
+  _AIPool = NULL;
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
   _eventPtr[EventManager<T>::FLAMEDESTRUCTION] = &EventManager<T>::flameDestruction;
@@ -46,10 +44,41 @@ template	<typename T>
 EventManager<T>::~EventManager(void)
 {
   _end = true;
-  delete _AIPool;
+  if (_AIPool != NULL)
+    delete _AIPool;
   delete _eventCondVar;
   delete _eventQueue;
   delete _pollEventThread;
+}
+
+template	<typename T>
+void		EventManager<T>::init()
+{
+  int nb = 0;
+  int x = 0;
+  int y = 0;
+
+  _AIPool = new ThreadPool<AInt<T>, T>(_settings.getAINumber()); // nb AI
+  if (_settings.getPlayerNumber() == 1 && _settings.getAINumber() > 0)
+    {
+      _AIPool->addTask(new AInt<T>(_settings.getMapSize(), _settings.getMapSize(), _characterMap, _entityMap, _characterMap[std::make_pair(-2, -2)], *_eventQueue, *_eventCondVar, _AICondVar));
+      nb++;
+    }
+  while (nb < _settings.getAINumber())
+    {
+      while (_characterMap[std::make_pair(x, y)] == NULL)
+	{
+	  if (y == _settings.getMapSize())
+	    {
+	      y = 0;
+	      x++;
+	    }
+	  else
+	    y++;
+	}
+      _AIPool->addTask(new AInt<T>(_settings.getMapSize(), _settings.getMapSize(), _characterMap, _entityMap, _characterMap[std::make_pair(x, y)], *_eventQueue, *_eventCondVar, _AICondVar));
+      nb++;
+    }
 }
 
 template	<typename T>
@@ -101,7 +130,7 @@ void		EventManager<T>::pollEvent(void)
   while (!_end)
     {
       key = _gui.pollEvent();
-      if (key != NONE)
+      if (key != NONE || (key >= UP2 && key <= BOMB2 && _settings.getPlayerNumber() == 2))
 	{
 	  if (key == QUIT)
 	    _end = true;
@@ -111,8 +140,8 @@ void		EventManager<T>::pollEvent(void)
 	    _eventQueue->push(std::make_pair(_keyMap[key], _characterMap[std::make_pair(-2, -2)]));
 	  _eventCondVar->signal();
 	}
+      _eventCondVar->signal();
     }
-  _eventCondVar->signal();
 }
 
 template	<typename T>

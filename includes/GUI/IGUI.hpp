@@ -13,6 +13,7 @@ template <typename T>
 class IGUI
 {
 public:
+  virtual void init() = 0;
   virtual void windowInit() = 0;
   virtual void cameraInit() = 0;
   virtual void shaderInit() = 0;

@@ -5,7 +5,7 @@
 // Login   <porres_m@epitech.net>
 // 
 // Started on  Sun May 24 18:14:35 2015 Martin Porrès
-// Last update Sun Jun 14 12:49:03 2015 Martin Porrès
+// Last update Sun Jun 14 14:56:31 2015 Martin Porrès
 //
 
 #ifndef		_EVENTMANAGER_HPP_
@@ -26,6 +26,7 @@
 #include        "AInt.hpp"
 #include	"eKey.hpp"
 #include	"SoundManager.hpp"
+#include	"Settings.hpp"
 
 template <class T>
 class IGUI;
@@ -67,7 +68,7 @@ public:
     };
   EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue, std::map<std::pair<int, int>,
 	       IEntity<T> *> &entityMap, std::map<std::pair<int, int>, IEntity<T> *> &characterMap,
-	       Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM);
+	       Factory<T> &factory, ICondVar &AICondVar, SoundManager &sM, Settings &settings);
   ~EventManager(void);
   bool		update(void);
   bool		timeCheck(void);
@@ -82,7 +83,6 @@ public:
   void		increaseBombStock(IEntity<T> *player);
   void		itemDrop(IEntity<T> *player, IEntity<T> *item);
   void		burn(int bombX, int bombY, int toX, int toY, double time, int bombRadius);
-  //void		burn(int x, int y, double time);
   void		burnEntity(int x, int y, double time);
   void		flameCreation(int x, int y, double time, bool drop);
   bool		isEnd() const;
@@ -92,6 +92,7 @@ public:
   void		itemBombNumber(IEntity<T> *player);
   void		itemSpeed(IEntity<T> *player);
   void		itemRadius(IEntity<T> *player);
+  void		init();
 private:
   IGUI<T>							&_gui;
   ISafeQueue<IEntity<T> *>					&_drawQueue;
@@ -110,7 +111,9 @@ private:
   Factory<T>							&_factory;
   IThreadPool<AInt<T>, T>					*_AIPool;
   bool								_end;
+  ICondVar							&_AICondVar;
   SoundManager							&_sM;
+  Settings							&_settings;
 };
 
 template <typename T>

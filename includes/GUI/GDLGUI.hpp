@@ -32,6 +32,7 @@ public:
   GDLGUI(ISafeQueue<IEntity <T> *> &_drawQueue, std::map<std::pair<int, int>, IEntity<T> *> &_entityMap, std::map<std::pair<int, int>, IEntity<T> *> &_characterMap);
   ~GDLGUI();
 
+  void init();
   void windowInit();
   void cameraInit();
   void shaderInit();

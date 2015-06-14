@@ -64,13 +64,22 @@ GDLGUI<T>::GDLGUI(ISafeQueue<IEntity <T> *> &drawQueue, std::map<std::pair<int, 
   _inputFct[3] = &GDLGUI<T>::inputDown;
   _inputFct[4] = &GDLGUI<T>::inputLeft;
   _inputFct[5] = &GDLGUI<T>::inputBomb;
-  _p1 = characterMap[std::make_pair(-1, -1)];
-  _p2 = characterMap[std::make_pair(-2, -2)];
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
   initialize();
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  drawMap();
   _context.flush();
+  //drawMap();
 }
+
+template	<typename T>
+void		GDLGUI<T>::init()
+{
+  _p1 = _charMap[std::make_pair(-1, -1)];
+  _p2 = _charMap[std::make_pair(-2, -2)];
+  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
+  cameraInit();
+  draw();
+}
+
 template <typename T>
 bool	GDLGUI<T>::getMenuKey()
 {
@@ -310,7 +319,6 @@ template <typename T>
 void	GDLGUI<T>::cameraInit()
 {
   _camProj = glm::perspective(60.0f, 1280.0f / 720.0f, 0.1f, 2000.0f);
-  _camTransf = glm::lookAt(glm::vec3((_p1->getPosition().x*10)+1, (_p1->getPosition().y*10)+100, _p1->getPosition().z*10-50), glm::vec3(_p1->getPosition().x * 10+0, _p1->getPosition().y, _p1->getPosition().z * 10), glm::vec3(0, 1, 0));
   _shader.bind();
   _shader.setUniform("view", _camTransf);
   _shader.setUniform("projection", _camProj);
