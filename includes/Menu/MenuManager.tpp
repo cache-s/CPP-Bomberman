@@ -228,7 +228,7 @@ eMenuEvent			MenuManager<T>::callSave()
 	{
 	  _lastMenu = SAVE;
           if (_menuSave.getIndex() == 3)
-            return (callStart());
+            return (callPause());
           else
 	    {
 	      if (_menuSave.getIndex() == 0)
