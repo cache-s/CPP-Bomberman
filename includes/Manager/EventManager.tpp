@@ -12,7 +12,7 @@ EventManager<T>::EventManager(IGUI<T> &gui, ISafeQueue<IEntity<T> *> &drawQueue,
   _pollEventThread->create(&poll_event<T>, reinterpret_cast<void *>(this));
   _AIPool = new ThreadPool<AInt<T>, T>(3); // nb AI
   (void)AICondVar;
-  // _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
+  _AIPool->addTask(new AInt<T>(10, 10, _characterMap, _entityMap, /*IEntity*/_characterMap[std::make_pair(-1, -1)], *_eventQueue, *_eventCondVar, AICondVar));
   _eventPtr[EventManager<T>::BOMBCREATION] = &EventManager<T>::bombCreation;
   _eventPtr[EventManager<T>::BOMBDESTRUCTION] = &EventManager<T>::bombDestruction;
   _eventPtr[EventManager<T>::FLAMEDESTRUCTION] = &EventManager<T>::flameDestruction;
