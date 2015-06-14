@@ -6,7 +6,7 @@
 
 //
 // Started on  Wed May 27 11:31:12 2015 Pierre Charie
-// Last update Sun Jun 14 21:01:12 2015 Pierre Charie
+// Last update Sun Jun 14 21:15:29 2015 Pierre Charie
 //
 
 template <typename T>
@@ -48,7 +48,7 @@ std::map<std::pair<int, int>, IEntity<T> *> MapGen<T>::getPMap() const
 }
 
 template <typename T>
-std::string MapGen<T>::luaMapLoad(std::string fileLoad, std::string functionName)
+std::string MapGen<T>::luaMapLoad(std::string const &fileLoad, std::string const &functionName) const
 {
   lua_State*            L = luaL_newstate();
   std::string           map;

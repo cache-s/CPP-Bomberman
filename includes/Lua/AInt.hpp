@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 10 17:13:21 2015 Pierre Charie
-// Last update Sun Jun 14 19:25:15 2015 Pierre Charie
+// Last update Sun Jun 14 21:09:47 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -13,14 +13,16 @@
 
 extern "C"
 {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+#include	"lua.h"
+#include	"lualib.h"
+#include	"lauxlib.h"
 }
 
 #include	<sstream>
 
-# include       "Bomberman.hpp"
+# include       <iostream>
+# include       <stdexcept>
+# include       <map>
 # include	"IEntity.hpp"
 # include	"EventManager.hpp"
 

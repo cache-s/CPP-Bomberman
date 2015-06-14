@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed May 27 11:40:48 2015 Pierre Charie
-// Last update Sun Jun 14 20:40:17 2015 Pierre Charie
+// Last update Sun Jun 14 21:15:17 2015 Pierre Charie
 //
 
 #ifndef		MAPGEN_HPP_
@@ -32,7 +32,7 @@ class MapGen
 public:
   MapGen();
   ~MapGen();
-  std::string							luaMapLoad(std::string fileLoad, std::string functionName);
+  std::string							luaMapLoad(std::string const &fileLoad, std::string  const &functionName) const;
   std::map<std::pair<int, int>, IEntity<T> *>		mapGenerate(int width, int height);
   std::map<std::pair<int, int>, IEntity<T> *>		playerMapGenerate(int playerNbr);
   std::map<std::pair<int, int>, IEntity<T> *>		getMap() const;
