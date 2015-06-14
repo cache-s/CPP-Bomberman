@@ -46,8 +46,8 @@ void		Core<T>::gameLoop(void)
   if (loadMenu() != EXIT)
     {
       _soundManager->playSound(S_GAME, true);
-      _gui->draw();
       _gui->cameraInit();
+      _gui->draw();
       while(!(_eventManager->isEnd()))
 	{
 	  if (_eventManager->update())
@@ -58,10 +58,7 @@ void		Core<T>::gameLoop(void)
 	}
     }
   else
-    {
-      std::cout << "toto" << std::endl;
-      exit (0);
-    }
+    exit (0);
 }
 
 template <typename T>

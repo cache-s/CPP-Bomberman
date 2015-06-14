@@ -165,10 +165,10 @@ bool		EventManager<T>::collider(IEntity<T> *p, IEntity<T> *obj, double toX, doub
 template	<typename T>
 void		EventManager<T>::moveUp(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() + 0.3))], 0, 0.3) == true)
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() + 1))], 0, 1) == true)
     {
       player->setRotation(T(0, 0, 0));
-      player->setPosY(player->getPosY() + 0.3);
+      player->setPosY(player->getPosY() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
   _drawQueue.push(player);
@@ -177,10 +177,10 @@ void		EventManager<T>::moveUp(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::moveDown(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() - 0.3))], 0, 0.3) == true)
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX()), static_cast<int>(player->getPosY() - 1))], 0, 1) == true)
     {
       player->setRotation(T(0, 180, 0));
-      player->setPosY(player->getPosY() - 0.3);
+      player->setPosY(player->getPosY() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
   _drawQueue.push(player);
@@ -189,10 +189,10 @@ void		EventManager<T>::moveDown(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::moveLeft(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() + 0.3), static_cast<int>(player->getPosY()))], 0.3, 0) == true)
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() + 1), static_cast<int>(player->getPosY()))], 1, 0) == true)
     {
       player->setRotation(T(0, 90, 0));
-      player->setPosX(player->getPosX() + 0.3);
+      player->setPosX(player->getPosX() + 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
       _drawQueue.push(player);
@@ -201,10 +201,10 @@ void		EventManager<T>::moveLeft(IEntity<T> *player)
 template	<typename T>
 void		EventManager<T>::moveRight(IEntity<T> *player)
 {
-  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() - 0.3), static_cast<int>(player->getPosY()))], 0.3, 0) == true)
+  if (collider(player, _entityMap[std::make_pair(static_cast<int>(player->getPosX() - 1), static_cast<int>(player->getPosY()))], 1, 0) == true)
     {
       player->setRotation(T(0, 270, 0));
-      player->setPosX(player->getPosX() - 0.3);
+      player->setPosX(player->getPosX() - 1);
       player->setPosition(glm::vec3(player->getPosX(), 0, player->getPosY()));
     }
   _drawQueue.push(player);

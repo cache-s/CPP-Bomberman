@@ -28,7 +28,7 @@ Player<T>::Player(double x, double y) : _bombStock(1)
   this->setRotation(T(0, 180, 0));
   this->setIsBreakable(true);
   this->setHitboxSize(0.2);
-  this->setSpeed(10.0f);
+  this->setSpeed(1.0f);
 }
 
 template <class T>
@@ -67,7 +67,7 @@ IEntity<T>				*Player<T>::clone(double x, double y)
   player->setPosition(T(x, 0, y));
   player->setRotation(T(0, 180, 0));
   player->setIsBreakable(true);
-  player->setSpeed(10.0f);
+  player->setSpeed(1.0f);
   player->setHitboxSize(0.2);
   player->_bombStock = 1;
   return (player);
