@@ -5,7 +5,7 @@
 // Login   <chazot_a@epitech.net>
 // 
 // Started on  Fri May  8 17:14:47 2015 Jordan Chazottes
-// Last update Sun Jun 14 01:04:56 2015 Mathieu Bourmaud
+// Last update Sun Jun 14 02:13:30 2015 Mathieu Bourmaud
 //
 
 #include	"Character.hh"
@@ -28,7 +28,7 @@ Character::~Character()
 bool	Character::initialize()
 {
   _speed = 10.0f;
-  if (_model.load("./potion.dae") == false)
+  if (_model.load("./try.fbx") == false)
     {
       std::cerr << "Cannot load the character texture" << std::endl;
       return false;

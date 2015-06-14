@@ -38,15 +38,15 @@ void		AssetsManager::init()
     std::cerr << "error loading fdp" << std::endl;
   _textures[FLAME] = &_texture[4];
 
-  if (_texture[5].load("./assets/lava.tga") == false)
+  if (_texture[5].load("./assets/SpeedBonus.tga") == false)
     std::cerr << "error loading fdp" << std::endl;
   _textures[BSPEED] = &_texture[5];
 
-  if (_texture[6].load("./assets/lava.tga") == false)
+  if (_texture[6].load("./assets/BonusBomb.tga") == false)
     std::cerr << "error loading fdp" << std::endl;
   _textures[BBOMBNUMBER] = &_texture[6];
 
-  if (_texture[7].load("./assets/lava.tga") == false)
+  if (_texture[7].load("./assets/RadiusBonus.tga") == false)
     std::cerr << "error loading fdp" << std::endl;
   _textures[BRADIUS] = &_texture[7];
 }
