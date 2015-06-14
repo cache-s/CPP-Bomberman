@@ -68,6 +68,7 @@ void		EventManager<T>::init()
     {
       while (_characterMap[std::make_pair(x, y)] == NULL)
 	{
+	  std::cout << "boucle infinie?\n";
 	  y++;
 	  if (y == _settings.getMapSize())
 	    {
